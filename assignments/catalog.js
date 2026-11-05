@@ -5,6 +5,18 @@
      parts    = one entry per part page; stages = number of stages on that page */
 window.CATALOG = [
   {
+    id: "restaurant-abstract",
+    title: "שדרוג המסעדה: מחלקה מופשטת וממשקים",
+    course: "תכנות מונחה עצמים",
+    blurb: "מטלת המשך למסעדה במסוף: MenuItem הופכת למופשטת, כל פריט נשלח לעמדה שלו, התפריט ממוין לפי מחיר, ומשקאות וקינוחים מקבלים מחיר של שעה שמחה.",
+    tags: ["מחלקה מופשטת", "פעולה מופשטת", "ממשקים", "רב-צורתיות", "IComparable", "List<T>", "Console"],
+    requires: "oop-restaurant",
+    parts: [
+      { title: "מחלקה מופשטת", href: "restaurant-abstract/part-1.html", min: 60, stages: 3 },
+      { title: "ממשקים", href: "restaurant-abstract/part-2.html", min: 65, stages: 3 }
+    ]
+  },
+  {
     id: "wpf-restaurant",
     title: "מסעדה בחלון WPF",
     course: "תכנות מונחה עצמים",

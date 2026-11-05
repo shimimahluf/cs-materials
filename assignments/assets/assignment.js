@@ -50,7 +50,8 @@
             "base this override virtual abstract using namespace true false null get set value const bool int double string " +
             "char object out break continue switch case default").split(" ");
   var TY = ("MenuItem Dish Drink Dessert Order Table Billing List Console Program MainWindow Window MessageBox " +
-            "RoutedEventArgs SelectionChangedEventArgs InvalidCastException NullReferenceException Math").split(" ");
+            "RoutedEventArgs SelectionChangedEventArgs InvalidCastException NullReferenceException Math " +
+            "Side IDiscountable IComparable InvalidOperationException").split(" ");
   function highlightCs(src) {
     var re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)')|([A-Za-z_][A-Za-z0-9_]*)/g;
     var out = "", last = 0, m;

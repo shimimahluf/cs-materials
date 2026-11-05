@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שדרוג המסעדה, חלק 2: ממשקים</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="2">
+<script type="application/json" id="series">{"id":"restaurant-abstract","title":"שדרוג המסעדה: מחלקה מופשטת וממשקים","parts":[{"title":"מחלקה מופשטת","href":"part-1.html"},{"title":"ממשקים","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>שדרוג המסעדה, חלק 2: ממשקים</h1>
+    <p class="lead">בחלק הזה המסעדה לומדת שתי יכולות חדשות דרך ממשקים: למיין את התפריט לפי מחיר, ולתת מחיר של שעה שמחה רק למשקאות ולקינוחים. בסוף מחברים הכול לתוכנית של המלצר.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> קובץ <code>Program.cs</code> (או תיקיית הפרויקט מכווצת) ב-Classroom</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<div class="start-box">
+  <h3>ממשיכים מחלק 1</h3>
+  <p>פתחו את הפרויקט מחלק 1. לפני שממשיכים, ודאו שיש בו:</p>
+  <ul>
+    <li>המחלקה <code>MenuItem</code> מופשטת, עם הפעולה המופשטת <code>GetStation()</code> והפעולה <code>GetTicketLine()</code></li>
+    <li>ארבע מחלקות יורשות: <code>Dish</code>, <code>Drink</code>, <code>Dessert</code> ו-<code>Side</code></li>
+    <li>ב-<code>Order</code>: הפעולה <code>PrintTickets()</code></li>
+    <li>ב-<code>Main</code>: התפריט עם עשרה פריטים</li>
+  </ul>
+  <p>חסר משהו? חזרו ל<a href="part-1.html">חלק 1</a> והשלימו לפני שממשיכים.</p>
+</div>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="10" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <p class="part-sub">התזכורות מחלק 1: <a href="part-1.html#c-abstract">מחלקה מופשטת</a>, <a href="part-1.html#c-absmethod">פעולה מופשטת</a>.</p>
+  <div class="concepts">
+    <div class="concept" id="c-iface">
+      <span class="badge" aria-hidden="true">3</span>
+      <div>
+        <h3>ממשק <span class="en">(Interface)</span></h3>
+        <p>חוזה שמגדיר רשימה של פעולות: רק חתימות, בלי גוף ובלי תכונות. מחלקה שמממשת את הממשק מתחייבת לממש את כל הפעולות שבו, כ-<code>public</code>. ירושה עונה על השאלה "מה העצם <b>הוא</b>", וממשק על "מה העצם <b>יודע לעשות</b>". למחלקה יש מחלקת בסיס אחת בלבד, אבל היא יכולה לממש כמה ממשקים.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Example</span></div>
+<pre><code class="cs">interface IDiscountable
+{
+    double GetHappyHourPrice();   // a signature only
+}
+
+// one base class, then the interfaces, separated by commas
+class Drink : MenuItem, IDiscountable
+{
+    // ...
+    public double GetHappyHourPrice()
+    {
+        return GetPrice() - 5;
+    }
+}</code></pre></div>
+      </div>
+    </div>
+    <div class="concept" id="c-is">
+      <span class="badge" aria-hidden="true">4</span>
+      <div>
+        <h3>בדיקה עם <code>is</code> והמרה</h3>
+        <p>ברשימה <code>List&lt;MenuItem&gt;</code> חלק מהפריטים מממשים את הממשק וחלק לא. האופרטור <code>is</code> שואל את העצם האמיתי: "אתה מממש את זה?". רק אחרי שהתשובה היא כן, ממירים כדי להגיע לפעולה של הממשק.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Example</span></div>
+<pre><code class="cs">foreach (MenuItem item in menu)
+{
+    if (item is IDiscountable)
+    {
+        IDiscountable deal = (IDiscountable)item;
+        Console.WriteLine(item.Name + ": " + deal.GetHappyHourPrice());
+    }
+}</code></pre></div>
+        <p>אפשר גם בשורה אחת: <code>if (item is IDiscountable deal)</code>. שתי הצורות עושות אותו דבר.</p>
+      </div>
+    </div>
+    <div class="concept" id="c-icomp">
+      <span class="badge" aria-hidden="true">5</span>
+      <div>
+        <h3>ממשק מובנה: <code>IComparable&lt;T&gt;</code></h3>
+        <p>הפעולה <code>Sort()</code> של רשימה לא מכירה את <code>MenuItem</code>. היא מכירה רק את החוזה "אני יודע להשוות את עצמי לאחר". מחלקה שמממשת את <code>IComparable&lt;MenuItem&gt;</code> כותבת פעולה אחת, <code>CompareTo</code>, שמחזירה מספר שלילי (אני קודם), 0 (שווים) או מספר חיובי (האחר קודם).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl"><table class="map">
+    <thead><tr><th></th><th>מחלקה מופשטת</th><th>ממשק</th></tr></thead>
+    <tbody>
+      <tr><td>עונה על השאלה</td><td>מה העצם הוא?</td><td>מה העצם יודע לעשות?</td></tr>
+      <tr><td>תכונות ובנאי</td><td>כן</td><td>לא</td></tr>
+      <tr><td>פעולות עם גוף</td><td>כן, לצד פעולות מופשטות</td><td>לא, רק חתימות</td></tr>
+      <tr><td>כמה אפשר לכל מחלקה</td><td>מחלקת בסיס אחת</td><td>כמה ממשקים</td></tr>
+      <tr><td>אפשר ליצור עצם עם <code>new</code>?</td><td>לא</td><td>לא</td></tr>
+      <tr><td>במסעדה</td><td><code>MenuItem</code></td><td><code>IDiscountable</code>, <code>IComparable</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"רק משקאות וקינוחים מקבלים הנחה בשעה שמחה. למה לא להוסיף את `GetHappyHourPrice()` ל-`MenuItem`?",
+     "a":["כי אסור להוסיף פעולות למחלקה מופשטת","כי אז כל פריט, גם מנה ותוספת, יקבל את הפעולה, ולמנה אין הנחה","כי פעולה שמחזירה `double` חייבת להיות בממשק","אין סיבה, שתי הדרכים זהות לגמרי"],"c":1,
+     "h":"מה קורה לכל המחלקות היורשות כשמוסיפים פעולה למחלקת הבסיס?",
+     "ex":"פעולה במחלקת הבסיס עוברת בירושה לכל הפריטים. ממשק מאפשר לתת את היכולת רק למחלקות שבאמת יודעות לעשות אותה."},
+    {"q":"`Drink` מממשת את `IDiscountable`, ו-`Dish` לא. איזו שורה מתקמפלת?",
+     "a":["`IDiscountable a = new Dish(\"Pasta\", 52, true);`","`IDiscountable b = new IDiscountable();`","`IDiscountable c = new Drink(\"Cola\", 12, false);`","`Drink d = new IDiscountable();`"],"c":2,
+     "h":"אפשר ליצור עצם מממשק? ואיזו מחלקה חתמה על החוזה?",
+     "ex":"משתנה מטיפוס ממשק יכול להחזיק כל עצם שמממש אותו. `Dish` לא מממשת את `IDiscountable`, ואת הממשק עצמו אי אפשר ליצור עם `new`."},
+    {"q":"`CompareTo` מחזירה מספר שלילי כשהמחיר שלי נמוך יותר. אחרי `Sort()`, איפה יהיה הפריט הזול ביותר?",
+     "a":["בתחילת הרשימה","בסוף הרשימה","באמצע הרשימה","הסדר לא ישתנה"],"c":0,
+     "h":"מספר שלילי פירושו \"אני קודם\".",
+     "ex":"מספר שלילי אומר ש-`this` בא לפני `other`. לכן הפריטים הזולים יופיעו ראשונים, והמיון יהיה מהזול ליקר."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 4 ---------- -->
+  <div class="stage" id="stage4" data-stage="4" data-title="מיון לפי מחיר" data-min="15" data-done="סיימתי את שלב 4, והתפריט ממוין">
+    <div class="stage-head"><span class="badge">4</span><h3>מיון התפריט לפי מחיר</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: ממשק מובנה</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר להדפיס את התפריט מהזול ליקר בעזרת <code>Sort()</code>, והתפריט המקורי נשאר באותו סדר (המלצר בוחר פריטים לפי המספרים שלו).</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-icomp">IComparable</a><a class="ref" href="#c-iface">ממשק</a></div>
+
+    <div class="predict" data-key="sort">
+      <h4>לפני שמשנים: נחשו</h4>
+      <p>עוד לא מימשתם שום ממשק. מה יקרה אם תכתבו עכשיו את הקוד הזה ותריצו אותו?</p>
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">List&lt;MenuItem&gt; sorted = new List&lt;MenuItem&gt;(menu);
+sorted.Sort();</code></pre></div>
+      <div class="col-guess" data-label="מה יקרה">
+        <label><input type="checkbox" value="שגיאת קומפילציה"> שגיאת קומפילציה, הקוד לא ירוץ</label>
+        <label><input type="checkbox" value="ממוין לפי מחיר"> הוא ירוץ וימיין לפי מחיר</label>
+        <label><input type="checkbox" value="ממוין לפי שם"> הוא ירוץ וימיין לפי שם</label>
+        <label><input type="checkbox" value="נפילה בזמן ריצה" data-correct> הוא יתקמפל, אבל התוכנית תיפול בזמן ריצה</label>
+      </div>
+      <button class="btn" type="button">הצגת התשובה</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Unhandled exception</span></div>
+<pre>System.InvalidOperationException: Failed to compare two elements in the array.</pre></div>
+      <div class="note aha">
+        <p><b>הקוד מתקמפל, ונופל רק כשהוא רץ.</b> <code>Sort()</code> קיימת לכל רשימה, ולכן הקומפיילר לא מתלונן. אבל כשהיא מנסה להשוות שני פריטים, היא מגלה ש-<code>MenuItem</code> לא חתמה על החוזה "אני יודע להשוות את עצמי". היא לא יודעת אם להשוות לפי מחיר, לפי שם או לפי משהו אחר. את זה אתם מגדירים עכשיו.</p>
+      </div>
+    </div>
+
+    <ol class="req">
+      <li><code>MenuItem</code> מממשת את <code>IComparable&lt;MenuItem&gt;</code>: הוסיפו את זה אחרי שם המחלקה, עם נקודתיים.</li>
+      <li>כתבו ב-<code>MenuItem</code> את הפעולה <code>public int CompareTo(MenuItem other)</code>: אם המחיר שלי (<code>GetPrice()</code>) קטן מהמחיר של <code>other</code>, מחזירים <code>-1</code>. אם הוא גדול, מחזירים <code>1</code>. אם הם שווים, מחזירים <code>0</code>.</li>
+      <li>במחלקה <code>Program</code> כתבו פעולה סטטית <code>PrintMenuByPrice(List&lt;MenuItem&gt; menu)</code>: היא יוצרת <b>עותק</b> של הרשימה, ממיינת את העותק, ומדפיסה כותרת <code>------ MENU BY PRICE ------</code> ואחריה את הפריטים (בלי מספור).</li>
+    </ol>
+    <h4>בדיקה ב-Main</h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">PrintMenuByPrice(menu);
+Console.WriteLine();
+Console.WriteLine("First on the menu: " + menu[0].Name);</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>------ MENU BY PRICE ------
+[Side] Rice - 12 NIS
+[Drink] Lemonade (Small) - 14 NIS
+[Drink] Lemonade (Large) - 18 NIS
+[Drink] Iced Coffee (Large) - 20 NIS
+[Side] Fries - 22 NIS
+[Dessert] Chocolate Cake - 32 NIS
+[Dessert] Apple Pie - 34 NIS + ice cream
+[Dish] Greek Salad - 44 NIS (V)
+[Dish] Mushroom Pasta - 52 NIS (V)
+[Dish] Schnitzel - 58 NIS
+
+First on the menu: Schnitzel</pre></div>
+    <details class="think"><summary>שאלה למחשבה: למה ממיינים עותק ולא את <code>menu</code> עצמה?</summary><div class="inner">
+      <p>המלצר מוסיף פריטים להזמנה לפי המספר שלהם בתפריט (<code>menu[num - 1]</code>). אם נמיין את <code>menu</code> עצמה, השניצל כבר לא יהיה פריט 1, והמלצר יזמין את הפריט הלא נכון.</p>
+      <p>שימו לב: העותק הוא רשימה חדשה, אבל הפריטים בה הם אותם עצמים בדיוק. אין שניצל שני בזיכרון, יש שתי רשימות שמצביעות על אותו שניצל (כמו בצבירה).</p>
+    </div></details>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>ההגדרה של המחלקה נראית כך: <code>abstract class MenuItem : IComparable&lt;MenuItem&gt;</code>.</p>
+      <p>עותק של רשימה יוצרים כך: <code>List&lt;MenuItem&gt; sorted = new List&lt;MenuItem&gt;(menu);</code>. אחר כך <code>sorted.Sort();</code> ולולאת <code>foreach</code> להדפסה.</p>
+      <p>שימו לב להשוות את <code>GetPrice()</code> ולא את <code>BasePrice</code>: משקה גדול עולה 18, לא 14.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">CompareTo skeleton</span></div>
+<pre><code class="cs">public int CompareTo(MenuItem other)
+{
+    if (GetPrice() &lt; other.GetPrice())
+        return -1;   // me first
+    // TODO: the other two cases
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 5 ---------- -->
+  <div class="stage" id="stage5" data-stage="5" data-title="שעה שמחה" data-min="20" data-done="סיימתי את שלב 5, והקבלה תואמת">
+    <div class="stage-head"><span class="badge">5</span><h3>שעה שמחה: הממשק <code>IDiscountable</code></h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: ממשק משלכם</span>
+    <p class="goal"><b>בסוף השלב:</b> משקאות וקינוחים יודעים לתת מחיר של שעה שמחה, מנות ותוספות לא. ההזמנה יודעת לחשב סכום של שעה שמחה ולהדפיס עליו קבלה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-iface">ממשק</a><a class="ref" href="#c-is">בדיקה עם is</a></div>
+    <ol class="req">
+      <li>הגדירו ממשק <code>IDiscountable</code> עם פעולה אחת: <code>double GetHappyHourPrice();</code>.</li>
+      <li><code>Drink</code> מממשת אותו: בשעה שמחה משקה זול ב-5 ש"ח מהמחיר שלו (<code>GetPrice()</code>, כולל התוספת לגודל).</li>
+      <li><code>Dessert</code> מממשת אותו: קינוח זול ב-8 ש"ח מהמחיר שלו.</li>
+      <li><code>Dish</code> ו-<code>Side</code> <b>לא</b> מממשות אותו.</li>
+      <li>ב-<code>Order</code> כתבו <code>double GetHappyHourTotal()</code>: לכל פריט, אם הוא מממש את <code>IDiscountable</code>, מוסיפים את המחיר של שעה שמחה, ואחרת את <code>GetPrice()</code> הרגיל.</li>
+      <li>ב-<code>Order</code> כתבו <code>void PrintHappyHourReceipt()</code> שמדפיסה קבלה בדיוק בפורמט שבפלט לדוגמה: ליד פריט עם הנחה מופיע <code>-&gt;</code> ואחריו המחיר החדש, ובסוף שלוש שורות סכום.</li>
+    </ol>
+    <h4>בדיקה ב-Main</h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Order order = new Order(3);
+order.AddItem(menu[0]);   // Schnitzel
+order.AddItem(menu[4]);   // Lemonade (Large)
+order.AddItem(menu[7]);   // Apple Pie
+order.AddItem(menu[8]);   // Fries
+Console.WriteLine("Total: " + order.GetTotal());
+Console.WriteLine("Happy hour: " + order.GetHappyHourTotal());
+Console.WriteLine();
+order.PrintHappyHourReceipt();</code></pre></div>
+
+    <div class="predict" data-key="happy">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>שניצל 58, לימונדה גדולה 18, עוגת תפוחים עם גלידה 34, צ'יפס 22. מה יהיה הסכום של שעה שמחה?</p>
+      <div class="guess">
+        <label for="gHappy">הסכום של שעה שמחה:</label>
+        <span><input id="gHappy" type="number" inputmode="numeric" min="0" data-answer="119" data-label="סכום של שעה שמחה"> NIS</span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Total: 132
+Happy hour: 119
+
+====== HAPPY HOUR RECEIPT - Order #3 ======
+1. [Dish] Schnitzel - 58 NIS
+2. [Drink] Lemonade (Large) - 18 NIS  -&gt; 13 NIS
+3. [Dessert] Apple Pie - 34 NIS + ice cream  -&gt; 26 NIS
+4. [Side] Fries - 22 NIS
+----------------------------------------
+Regular total: 132 NIS
+Happy hour total: 119 NIS
+You saved: 13 NIS
+========================================</pre></div>
+      <div class="note aha">
+        <p><b>רק שני פריטים קיבלו הנחה:</b> לימונדה גדולה (18 פחות 5) ועוגת תפוחים (34 פחות 8). השניצל והצ'יפס נשארו במחיר מלא, כי <code>Dish</code> ו-<code>Side</code> לא חתמו על החוזה. ההנחה מחושבת מ-<code>GetPrice()</code>, ולכן היא כבר כוללת את התוספת לגודל ולגלידה.</p>
+      </div>
+    </div>
+
+    <details class="think"><summary>שאלה למחשבה: האם מימוש של ממשק הוא דריסה?</summary><div class="inner">
+      <p>ב-<code>GetStation()</code> כתבתם <code>override</code>, כי יש פעולה במחלקת הבסיס שמחליפים. ב-<code>GetHappyHourPrice()</code> לא כותבים <code>override</code>: בממשק אין גוף שאפשר להחליף, יש רק התחייבות. המחלקה כותבת את הפעולה בפעם הראשונה.</p>
+    </div></details>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>המחלקה יורשת ממחלקה אחת ומממשת ממשק, עם פסיק ביניהם: <code>class Drink : MenuItem, IDiscountable</code>. מחלקת הבסיס תמיד כתובה ראשונה.</p>
+      <p>ב-<code>GetHappyHourTotal()</code> השתמשו בתבנית מהתזכורת: <code>if (item is IDiscountable)</code>, ואז המרה <code>(IDiscountable)item</code>.</p>
+      <p>בקבלה, הנחה של <code>GetTotal() - GetHappyHourTotal()</code> היא השורה <code>You saved</code>.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Order.GetHappyHourTotal skeleton</span></div>
+<pre><code class="cs">public double GetHappyHourTotal()
+{
+    double total = 0;
+    foreach (MenuItem item in items)
+    {
+        if (item is IDiscountable)
+        {
+            IDiscountable deal = (IDiscountable)item;
+            // TODO
+        }
+        else
+        {
+            // TODO
+        }
+    }
+    return total;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 6 ---------- -->
+  <div class="stage" id="stage6" data-stage="6" data-title="המלצר והגשה" data-min="20" data-done="סיימתי את שלב 6 והגשתי">
+    <div class="stage-head"><span class="badge">6</span><h3>שתי אפשרויות חדשות למלצר, והגשה</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">חיבור כל החלקים</span>
+    <p class="goal"><b>בסוף השלב:</b> התוכנית של המלצר עובדת שוב, עם שתי אפשרויות חדשות: תפריט ממוין לפי מחיר, וסגירת הזמנה במחירי שעה שמחה. בסגירה של הזמנה מודפסים גם הכרטיסים לעמדות.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="../oop-restaurant/part-2.html#stage5">התוכנית של המלצר (מהמטלה הקודמת)</a></div>
+    <ol class="req">
+      <li>מחקו את קוד הבדיקה של השלבים הקודמים, והחזירו את הקוד של המלצר (הוציאו אותו מההערה). התפריט נשאר עם עשרה פריטים.</li>
+      <li>הוסיפו לרשימת האפשרויות <code>6) Show menu sorted by price</code>, שקוראת ל-<code>PrintMenuByPrice</code>.</li>
+      <li>הוסיפו <code>7) Close order with happy hour prices</code>: בדיוק כמו אפשרות 5, אבל מדפיסה את הקבלה של שעה שמחה. גם כאן אי אפשר לסגור הזמנה ריקה.</li>
+      <li>באפשרויות 5 ו-7, אחרי הקבלה ולפני פתיחת ההזמנה החדשה, הדפיסו את הכרטיסים לעמדות (<code>PrintTickets()</code>).</li>
+      <li>אם בבונוס של המטלה הקודמת כבר השתמשתם במספר 6, תנו לאפשרויות החדשות מספרים פנויים.</li>
+    </ol>
+    <h4>דוגמת הרצה (מקוצרת)</h4>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Sample run</span></div>
+<pre>Order #1 | items: 3 | total: 98 NIS
+1) Show menu
+2) Add item to order
+3) Remove item from order
+4) Show current order
+5) Close order and print receipt
+6) Show menu sorted by price
+7) Close order with happy hour prices
+0) Exit
+Choice: 4
+1. [Drink] Lemonade (Large) - 18 NIS
+2. [Dish] Schnitzel - 58 NIS
+3. [Side] Fries - 22 NIS
+...
+Choice: 7
+====== HAPPY HOUR RECEIPT - Order #1 ======
+1. [Drink] Lemonade (Large) - 18 NIS  -&gt; 13 NIS
+2. [Dish] Schnitzel - 58 NIS
+3. [Side] Fries - 22 NIS
+----------------------------------------
+Regular total: 98 NIS
+Happy hour total: 93 NIS
+You saved: 5 NIS
+========================================
+Order #1 tickets:
+  [Bar] Lemonade
+  [Kitchen] Schnitzel
+  [Kitchen] Fries
+New order #2 opened.</pre></div>
+    <h4>בדקו שהתוכנית מתמודדת עם המקרים האלה</h4>
+    <ul class="req">
+      <li>אפשרות 7 על הזמנה ריקה מדפיסה <code>Cannot close an empty order.</code></li>
+      <li>אחרי אפשרות 6, מספרי הפריטים באפשרות 1 לא השתנו (השניצל עדיין 1)</li>
+      <li>הזמנה של מנות ותוספות בלבד: הסכום של שעה שמחה שווה לסכום הרגיל</li>
+    </ul>
+    <h4>הערת סיכום בראש הקובץ</h4>
+    <p>הוסיפו להערה מהמטלה הקודמת שתי שורות, לכל אחת משפט או שניים עם שם המחלקה והפעולה הרלוונטיות:</p>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Top of Program.cs</span></div>
+<pre><code class="cs">/*
+ * ... the four principles from the previous assignment ...
+ *
+ * Abstraction: which class is abstract, and which method must every class write?
+ * Interfaces:  which interfaces did I implement, and why not in MenuItem?
+ */</code></pre></div>
+    <h4>הגשה</h4>
+    <p>העלו ל-Classroom את הקובץ <code>Program.cs</code>, או את כל תיקיית הפרויקט מכווצת ל-zip אם פיצלתם לכמה קבצים.</p>
+  </div>
+
+  <!-- ---------- BONUS ---------- -->
+  <div class="stage" id="bonus">
+    <div class="stage-head"><span class="badge">+</span><h3>משימות בונוס, למי שסיים מוקדם</h3></div>
+    <ol class="req">
+      <li><b>מיון לפי שם:</b> אפשרות נוספת שמדפיסה את התפריט לפי סדר אלפביתי, בלי לשנות את <code>CompareTo</code> של המחיר. רמז: כתבו מחלקה <code>NameComparer</code> שמממשת ממשק מובנה אחר, <code>IComparer&lt;MenuItem&gt;</code>, עם הפעולה <code>int Compare(MenuItem a, MenuItem b)</code>. למחרוזות כבר יש <code>CompareTo</code> משלהן. ממיינים כך: <code>sorted.Sort(new NameComparer());</code></li>
+      <li><b>ממשק נוסף:</b> ממשק <code>IVegetarianInfo</code> עם <code>bool IsVegetarianItem()</code>, שכל המחלקות מממשות (משקאות, קינוחים ותוספות הם תמיד צמחוניים). הוסיפו אפשרות שמדפיסה רק את הפריטים הצמחוניים.</li>
+      <li><b>שובר מתנה:</b> מחלקה <code>GiftVoucher</code> שהיא <b>לא</b> פריט בתפריט, אבל מממשת את <code>IDiscountable</code>. הסבירו בהערה למה ממשק מאפשר את זה, וירושה מ-<code>MenuItem</code> לא הייתה מתאימה.</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מטלת המשך: מחלקה מופשטת וממשקים | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>
