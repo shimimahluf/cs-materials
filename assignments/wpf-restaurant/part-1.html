@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסעדה בחלון, חלק 1: מכינים את החלון</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="1">
+<script type="application/json" id="series">{"id":"wpf-restaurant","title":"מסעדה בחלון WPF","parts":[{"title":"מכינים את החלון","href":"part-1.html"},{"title":"ההזמנה בחלון","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>מסעדה בחלון, חלק 1: מכינים את החלון</h1>
+    <p class="lead">את המחלקות של המסעדה כבר כתבתם. בחלק הזה מעדכנים אותן לעבודה עם חלון, בונים חלון WPF, ומציגים בו את התפריט ואת פרטי הפריט שנבחר.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>טכנולוגיה:</b> WPF, C#</li>
+      <li><b>הגשה:</b> בסוף חלק 2</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+<section id="overview">
+  <h2>מה בונים בשני החלקים</h2>
+  <p>את המחלקות של המסעדה כתבתם ב<a href="../oop-restaurant/part-1.html">מטלה הקודמת</a>. עכשיו מחברים אותן לחלון WPF אחד: תפריט בטבלה, הזמנה ברשימה, כפתורים, והוספת פריטים חדשים לתפריט. בחלק הזה מכינים את המחלקות, בונים את החלון, ומציגים בו את התפריט.</p>
+  <h3>החלון שבונים</h3>
+  <p>השמות הכחולים הם ה-<code>x:Name</code> של כל פקד. השתמשו בדיוק בשמות האלה, כי הקוד בדף מתייחס אליהם.</p>
+  <div class="diagram mock">
+    <svg viewBox="0 0 900 560" role="img" aria-labelledby="mockTitle" direction="ltr">
+      <title id="mockTitle">שרטוט החלון: טבלת תפריט משמאל, רשימת הזמנה מימין, כפתורים מתחת, ואזור הוספת פריט חדש בתחתית.</title>
+      <g font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#24262B">
+        <!-- frame -->
+        <rect x="1" y="1" width="898" height="558" rx="8" fill="#fff" stroke="#9AA1B2"/>
+        <path d="M1 9 a8 8 0 0 1 8 -8 h882 a8 8 0 0 1 8 8 v29 h-898 z" fill="#F2F3F7"/>
+        <line x1="1" y1="38" x2="899" y2="38" stroke="#D9DCE6"/>
+        <text x="16" y="25" font-size="13">OOP Bistro</text>
+        <text x="800" y="25" font-size="13" fill="#5B6478">—</text>
+        <rect x="834" y="15" width="11" height="10" fill="none" stroke="#5B6478"/>
+        <text x="870" y="26" font-size="14" fill="#5B6478">✕</text>
+
+        <!-- titles -->
+        <text x="20" y="66" font-size="18" font-weight="bold">Menu</text>
+        <text x="540" y="66" font-size="18" font-weight="bold">Order #1</text>
+        <text x="620" y="66" class="tag">orderTitle</text>
+
+        <!-- DataGrid -->
+        <rect x="20" y="80" width="500" height="240" fill="#fff" stroke="#9AA1B2"/>
+        <rect x="21" y="81" width="498" height="26" fill="#F2F3F7"/>
+        <text x="270" y="99" text-anchor="middle" font-size="13" fill="#5B6478" font-style="italic">columns: stage 2</text>
+        <g fill="#E8EAF2">
+          <rect x="32" y="118" width="200" height="10" rx="3"/><rect x="32" y="144" width="160" height="10" rx="3"/>
+          <rect x="32" y="170" width="180" height="10" rx="3"/><rect x="32" y="196" width="140" height="10" rx="3"/>
+          <rect x="32" y="222" width="190" height="10" rx="3"/><rect x="32" y="248" width="150" height="10" rx="3"/>
+        </g>
+        <text x="510" y="312" text-anchor="end" class="tag">menuGrid (DataGrid)</text>
+
+        <!-- ListBox -->
+        <rect x="540" y="80" width="340" height="240" fill="#fff" stroke="#9AA1B2"/>
+        <text x="550" y="102" font-size="13">[Dish] Schnitzel - 58 NIS</text>
+        <rect x="541" y="111" width="338" height="22" fill="#CCE0FB"/>
+        <text x="550" y="127" font-size="13">[Drink] Lemonade (Large) - 18 NIS</text>
+        <text x="870" y="312" text-anchor="end" class="tag">orderList (ListBox)</text>
+
+        <!-- row 2 -->
+        <text x="20" y="346" font-size="13">Select an item to see its details.</text>
+        <text x="510" y="346" text-anchor="end" class="tag">detailsText</text>
+        <rect x="20" y="358" width="140" height="28" rx="3" fill="#F2F3F7" stroke="#9AA1B2"/>
+        <text x="90" y="377" text-anchor="middle" font-size="13">Add to order</text>
+        <text x="170" y="377" class="tag">addToOrderButton</text>
+
+        <text x="540" y="346" font-size="13" font-weight="bold">Items: 2    Total: 76 NIS</text>
+        <text x="870" y="346" text-anchor="end" class="tag">totalText</text>
+        <rect x="540" y="358" width="130" height="28" rx="3" fill="#F2F3F7" stroke="#9AA1B2"/>
+        <text x="605" y="377" text-anchor="middle" font-size="13">Remove selected</text>
+        <rect x="680" y="358" width="100" height="28" rx="3" fill="#F2F3F7" stroke="#9AA1B2"/>
+        <text x="730" y="377" text-anchor="middle" font-size="13">Close order</text>
+        <text x="540" y="404" class="tag">removeButton</text>
+        <text x="680" y="404" class="tag">closeOrderButton</text>
+
+        <!-- GroupBox -->
+        <rect x="20" y="428" width="860" height="110" rx="4" fill="none" stroke="#9AA1B2"/>
+        <rect x="32" y="418" width="112" height="20" fill="#fff"/>
+        <text x="38" y="433" font-size="13">New menu item</text>
+        <text x="36" y="475" font-size="13">Name:</text>
+        <rect x="82" y="458" width="150" height="26" fill="#fff" stroke="#9AA1B2"/>
+        <text x="246" y="475" font-size="13">Base price:</text>
+        <rect x="318" y="458" width="60" height="26" fill="#fff" stroke="#9AA1B2"/>
+        <rect x="392" y="458" width="100" height="26" fill="#F2F3F7" stroke="#9AA1B2"/>
+        <text x="402" y="476" font-size="13">Dish</text><text x="478" y="476" font-size="11" fill="#5B6478">▼</text>
+        <rect x="506" y="464" width="14" height="14" fill="#fff" stroke="#5B6478"/>
+        <text x="526" y="476" font-size="13">Vegetarian</text>
+        <rect x="620" y="457" width="110" height="28" rx="3" fill="#F2F3F7" stroke="#9AA1B2"/>
+        <text x="675" y="476" text-anchor="middle" font-size="13">Add to menu</text>
+        <text x="82" y="510" class="tag">nameBox</text>
+        <text x="318" y="510" class="tag">priceBox</text>
+        <text x="392" y="510" class="tag">typeCombo</text>
+        <text x="506" y="510" class="tag">extraCheck</text>
+        <text x="620" y="510" class="tag">addToMenuButton</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="note"><b>שפת הממשק:</b> הטקסטים בחלון באנגלית, כמו בגרסת המסוף, כדי שתוכלו להשוות לדוגמאות בדף אחד-לאחד. אם תרצו חלון בעברית, אפשר בסוף (משימת בונוס).</div>
+
+</section>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="10" data-title="תזכורת ובוחן">
+  <h2>תזכורת</h2>
+  <p class="part-sub">קראו, ואז ענו על הבוחן הקצר שבסוף. בשלבים יש קישורים חזרה לכאן.</p>
+
+  <h3 id="c-cast">המרת טיפוסים: למעלה ולמטה</h3>
+  <p>עצם מטיפוס <code>Drink</code> הוא גם <code>MenuItem</code>, ולכן אפשר להחזיק אותו במשתנה מטיפוס <code>MenuItem</code>. השאלה היא תמיד דרך איזה "משקפיים" הקומפיילר מסתכל על העצם: הוא מכיר רק את מה שיש בטיפוס של <b>המשתנה</b>.</p>
+
+  <div class="tbl"><table class="map">
+    <thead><tr><th></th><th>המרה כלפי מעלה (Up-casting)</th><th>המרה כלפי מטה (Down-casting)</th></tr></thead>
+    <tbody>
+      <tr><td><b>כיוון</b></td><td>ממחלקה יורשת למחלקת הבסיס</td><td>ממחלקת הבסיס למחלקה יורשת</td></tr>
+      <tr><td><b>איך כותבים</b></td><td>אוטומטי, בלי סוגריים</td><td>צריך המרה מפורשת: <code>(Drink)item</code></td></tr>
+      <tr><td><b>בטוח?</b></td><td>תמיד. כל משקה הוא פריט בתפריט</td><td>רק אם העצם באמת מהטיפוס הזה. אחרת: שגיאת ריצה <code>InvalidCastException</code></td></tr>
+      <tr><td><b>מה מאבדים / מרוויחים</b></td><td>הקומפיילר כבר לא "רואה" את <code>IsLarge</code></td><td>מקבלים בחזרה גישה ל-<code>IsLarge</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Casting reminder</span></div>
+<pre><code class="cs">// Up-casting: automatic and always safe
+MenuItem item = new Drink("Lemonade", 14, true);
+
+Console.WriteLine(item.GetPrice());   // 18 - virtual, so Drink's version runs
+// Console.WriteLine(item.IsLarge);   // compile error: item is a MenuItem variable
+
+// Safe down-casting: check with "is", and only then cast
+if (item is Drink)
+{
+    Drink drink = (Drink)item;
+    Console.WriteLine(drink.IsLarge);  // true
+}
+
+// Unsafe down-casting: compiles, but crashes when the program runs
+Dish dish = (Dish)item;                // InvalidCastException</code></pre></div>
+  <div class="note"><b>שימו לב:</b> כדי לקרוא לפעולה וירטואלית כמו <code>GetPrice()</code> לא צריך להמיר. ההמרה למטה נחוצה רק כשרוצים להגיע למשהו שקיים <b>רק</b> במחלקה היורשת, כמו <code>IsLarge</code>.</div>
+  <p>ב-C# אפשר גם לבדוק ולהמיר בשורה אחת: <code>if (item is Drink drink)</code>. מותר להשתמש בצורה הזו, אבל במטלה נכתוב את הצורה המלאה כדי שהשלבים יהיו ברורים.</p>
+
+  <h3 id="c-selected">איפה זה פוגש אותנו ב-WPF</h3>
+  <p>כשבוחרים שורה ב-<code>DataGrid</code>, המאפיין <code>SelectedItem</code> מחזיר את העצם שנבחר, אבל הטיפוס שלו הוא <code>object</code>. הטבלה לא יודעת שהיא מציגה פריטים של מסעדה. לכן תמיד בודקים ואז ממירים:</p>
+  <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">SelectedItem</span></div>
+<pre><code class="cs">if (menuGrid.SelectedItem is MenuItem)
+{
+    MenuItem item = (MenuItem)menuGrid.SelectedItem;
+    // ... use item
+}</code></pre></div>
+  <p>יתרון נוסף: כששום שורה לא נבחרה, <code>SelectedItem</code> הוא <code>null</code>, ו-<code>is</code> מחזיר <code>false</code> עבור <code>null</code>. בדיקה אחת מגינה משני המקרים.</p>
+
+  <h3 id="c-wpf">תזכורת WPF קצרה</h3>
+  <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">WPF reminder</span></div>
+<pre><code class="cs">menuGrid.ItemsSource = menu;            // show a list in a DataGrid or a ListBox
+menuGrid.Items.Refresh();               // after adding to the list, redraw
+
+MessageBox.Show("Some text");           // message to the user
+
+string name = nameBox.Text;             // read a TextBox
+
+double price;                           // text -&gt; number, without crashing
+if (double.TryParse(priceBox.Text, out price))
+{
+    // price holds the number
+}
+
+bool on = extraCheck.IsChecked == true; // IsChecked is bool? (true / false / null)
+int index = typeCombo.SelectedIndex;    // -1 when nothing is selected</code></pre></div>
+  <p>אירוע לחיצה: לחיצה כפולה על כפתור במעצב יוצרת פעולה כמו <code>addToOrderButton_Click</code> בקובץ <code>MainWindow.xaml.cs</code>. אפשר גם לכתוב ב-XAML <code>Click="addToOrderButton_Click"</code> ולתת ל-Visual Studio ליצור את הפעולה.</p>
+
+  <h3>בוחן בדיקה עצמית</h3>
+  <p>בכל השאלות, השורה הראשונה היא:</p>
+  <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Quiz</span></div>
+<pre><code class="cs">MenuItem item = new Dessert("Apple Pie", 28, true);</code></pre></div>
+  <div class="quiz"><script type="application/json">[
+ {
+  "q": "מה קורה בשורה `MenuItem item = new Dessert(\"Apple Pie\", 28, true);`?",
+  "a": [
+   "המרה כלפי מעלה, אוטומטית ובטוחה",
+   "המרה כלפי מטה, שחסרים בה סוגריים",
+   "שגיאת קומפילציה, כי הטיפוסים שונים",
+   "נוצר עצם מטיפוס `MenuItem` ולא `Dessert`"
+  ],
+  "c": 0,
+  "h": "לאיזה כיוון בעץ הירושה עוברים: מהיורשת לבסיס, או הפוך?",
+  "ex": "מ-`Dessert` ל-`MenuItem` זו המרה כלפי מעלה. היא תמיד בטוחה, ולכן אוטומטית. העצם עצמו נשאר `Dessert`."
+ },
+ {
+  "q": "מה יקרה בשורה `Console.WriteLine(item.WithIceCream);`?",
+  "a": [
+   "יודפס `true`",
+   "יודפס `false`",
+   "שגיאת קומפילציה",
+   "שגיאה בזמן ריצה"
+  ],
+  "c": 2,
+  "h": "את מה הקומפיילר מכיר: את הטיפוס של המשתנה, או את הטיפוס של העצם?",
+  "ex": "הקומפיילר מכיר רק את מה שיש ב-`MenuItem`, הטיפוס של המשתנה. כדי להגיע ל-`WithIceCream` צריך קודם להמיר כלפי מטה."
+ },
+ {
+  "q": "מה ידפיס `Console.WriteLine(item.GetPrice());`?",
+  "a": [
+   "`28`",
+   "`34`",
+   "שגיאת קומפילציה, צריך להמיר קודם",
+   "`0`"
+  ],
+  "c": 1,
+  "h": "`GetPrice` היא `virtual`. מה קובע איזו גרסה רצה?",
+  "ex": "`GetPrice` קיימת ב-`MenuItem`, אז אין צורך בהמרה. היא וירטואלית, ולכן רצה הגרסה של `Dessert`: 28 ועוד 6 על הגלידה."
+ },
+ {
+  "q": "מה יקרה בשורה `Drink drink = (Drink)item;`?",
+  "a": [
+   "שגיאת קומפילציה",
+   "הקוד עובר קומפילציה, אבל נופל בזמן ריצה",
+   "`drink` יקבל `null`",
+   "`drink` יהיה משקה במחיר 28"
+  ],
+  "c": 1,
+  "h": "האם `MenuItem` יכול להיות `Drink`? ומה העצם הזה בפועל?",
+  "ex": "הקומפיילר מסכים, כי `MenuItem` יכול להיות `Drink`. בזמן ריצה מתגלה שהעצם הוא `Dessert`, ונזרקת `InvalidCastException`."
+ },
+ {
+  "q": "הטיפוס של `menuGrid.SelectedItem` הוא `object`. למה כותבים `if (menuGrid.SelectedItem is MenuItem)` לפני ההמרה?",
+  "a": [
+   "בלי זה הקוד לא עובר קומפילציה",
+   "הבדיקה מוודאת את הטיפוס, וגם מגינה כשלא נבחרה שורה",
+   "`is` הופך את העצם ל-`MenuItem`",
+   "זה מהיר יותר מהמרה רגילה"
+  ],
+  "c": 1,
+  "h": "מה מחזיר `SelectedItem` כשלא נבחר כלום, ומה `is` מחזיר במקרה כזה?",
+  "ex": "`is` בודק את הטיפוס בלי להמיר, ומחזיר `false` גם עבור `null`. כך בדיקה אחת מגינה גם מטיפוס לא נכון וגם ממצב שלא נבחר כלום."
+ }
+]</script></div>
+</section>
+
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 0 ---------- -->
+  <div class="stage" id="stage0" data-stage="0" data-title="עדכון המחלקות" data-min="15" data-done="סיימתי את שלב 0, והפרויקט עובר קומפילציה">
+    <div class="stage-head"><span class="badge">0</span><h3>מעבירים ומעדכנים את המחלקות</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: כימוס</span>
+    <p class="goal"><b>בסוף השלב:</b> הפרויקט החדש עובר קומפילציה עם המחלקות שלכם, והמחלקות כבר לא מדפיסות כלום בעצמן.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="../oop-restaurant/part-1.html#c-encap">כימוס</a></div>
+    <h4>פרויקט חדש</h4>
+    <ol class="req">
+      <li>צרו פרויקט חדש מסוג WPF Application.</li>
+      <li>הוסיפו לפרויקט את המחלקות מהמטלה הקודמת (<bdi dir="ltr">Project &gt; Add &gt; Class</bdi>), והעתיקו אליהן את הקוד שלכם.</li>
+      <li>בכל קובץ מחלקה, שנו את שורת ה-<code>namespace</code> כך שתהיה זהה ל-<code>namespace</code> שמופיע ב-<code>MainWindow.xaml.cs</code>.</li>
+    </ol>
+    <div class="note"><b>למה ה-namespace חשוב כאן:</b> ל-WPF יש מחלקה משלה בשם <code>MenuItem</code> (פריט בתפריט נפתח של חלון). אם המחלקות שלכם יישארו ב-<code>namespace</code> אחר, הקומפיילר לא יידע לאיזה <code>MenuItem</code> התכוונתם ויציג שגיאה. כשהן באותו <code>namespace</code> כמו החלון, שלכם מנצחת.</div>
+
+    <h4>מחיר: שלושה חברים, שלושה תפקידים</h4>
+    <p>שלושה חברים במחלקה קשורים למחיר, ולכל אחד תפקיד אחר. השם של כל אחד מסביר מה הוא עושה:</p>
+    <div class="tbl"><table class="map">
+      <thead><tr><th>חבר במחלקה</th><th>מה זה</th><th>תפקיד</th></tr></thead>
+      <tbody>
+        <tr><td><code>BasePrice</code></td><td>מאפיין עם <code>get</code> ו-<code>set</code>, <b>לא</b> וירטואלי</td><td>המחיר הבסיסי שנשמר. ה-<code>set</code> שומר רק ערך חיובי (כימוס)</td></tr>
+        <tr><td><code>GetPrice()</code></td><td>פעולה <b>וירטואלית</b>, נדרסת ב-<code>Drink</code> וב-<code>Dessert</code></td><td>מחשבת את המחיר הסופי, כל סוג בדרך שלו (רב-צורתיות)</td></tr>
+        <tr><td><code>FinalPrice</code></td><td>מאפיין לקריאה בלבד, <b>לא</b> וירטואלי</td><td>מחזיר את <code>GetPrice()</code>. קיים רק כדי שהטבלה תוכל להציג אותו, נבין למה בשלב 2</td></tr>
+      </tbody>
+    </table></div>
+    <ol class="req">
+      <li>אם במטלה הקודמת המאפיין נקרא <code>Price</code>, שנו את השם שלו ל-<code>BasePrice</code>. הכי בטוח: קליק ימני על השם ובחירה ב-<bdi dir="ltr">Rename</bdi>, כך שכל המקומות שמשתמשים בו יתעדכנו.</li>
+      <li>ודאו ש-<code>GetPrice()</code> מוגדרת <code>virtual</code> ב-<code>MenuItem</code>, ונדרסת ב-<code>Drink</code> וב-<code>Dessert</code>. זה החבר הווירטואלי היחיד שקשור למחיר.</li>
+      <li>הוסיפו ל-<code>MenuItem</code> את המאפיין <code>FinalPrice</code> (קוד בהמשך).</li>
+    </ol>
+    <div class="note"><b>מי שהגדיר במטלה הקודמת את המאפיין כ-<code>virtual</code>:</b> ב-C# גם מאפיין יכול להיות וירטואלי, אז זה עבד. אבל שני חברים שאפשר לדרוס לאותו דבר זה מתכון לבלבול. בוחרים מקום אחד לחישוב, <code>GetPrice()</code>, ומוחקים את <code>virtual</code> ו-<code>override</code> מהמאפיין <code>BasePrice</code>.</div>
+
+    <h4>בלי <code>Console</code> בתוך המחלקות</h4>
+    <p>בתוכנית עם חלון אין מסוף, ולכן כל <code>Console.WriteLine</code> בתוך המחלקות פשוט לא יוצג. העיקרון: <b>המחלקות שומרות על הנתונים ועל הכללים, והחלון מחליט איך לדבר עם המשתמש.</b></p>
+    <ol class="req">
+      <li>ב-<code>set</code> של <code>BasePrice</code>: ערך לא תקין פשוט לא נשמר. בלי הדפסה.</li>
+      <li>ב-<code>AddItem</code> וב-<code>RemoveItem</code>: בלי הדפסות. הן כבר מחזירות <code>false</code> כשמשהו לא בסדר, והחלון יבדוק את זה.</li>
+      <li>מחקו את <code>PrintItems()</code> ואת <code>PrintReceipt()</code>, והוסיפו במקומן שתי פעולות:
+        <code>GetItems()</code> שמחזירה <b>עותק</b> של רשימת הפריטים, ו-<code>GetReceipt()</code> שמחזירה את הקבלה כמחרוזת.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">New members</span></div>
+<pre><code class="cs">// in MenuItem
+public double FinalPrice
+{
+    get { return GetPrice(); }
+}
+
+// in Order
+public List&lt;MenuItem&gt; GetItems()
+{
+    return new List&lt;MenuItem&gt;(items);   // a NEW list with the same items
+}</code></pre></div>
+    <p>את <code>GetReceipt()</code> כתבו לבד. היא מחזירה מחרוזת בפורמט הזה (<code>"\n"</code> הוא ירידת שורה):</p>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">GetReceipt() result</span></div>
+<pre>Order #1
+
+1. [Dish] Schnitzel - 58 NIS
+2. [Drink] Lemonade (Large) - 18 NIS
+3. [Dessert] Apple Pie - 34 NIS + ice cream
+
+Items: 3    Total: 110 NIS</pre></div>
+    <details><summary>רמז: שלד ל-GetReceipt</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">GetReceipt skeleton</span></div>
+<pre><code class="cs">public string GetReceipt()
+{
+    string text = "Order #" + orderNumber + "\n\n";
+    int i = 1;
+    foreach (MenuItem item in items)
+    {
+        // TODO: add a numbered line, like PrintItems used to print
+    }
+    // TODO: empty line + "Items: ...    Total: ... NIS"
+    return text;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 1 ---------- -->
+  <div class="stage" id="stage1" data-stage="1" data-title="בניית החלון" data-min="15" data-done="סיימתי את שלב 1, והחלון נפתח ונראה כמו בשרטוט">
+    <div class="stage-head"><span class="badge">1</span><h3>בונים את החלון</h3><span class="time">כ-15 דקות</span></div>
+    <p class="goal"><b>בסוף השלב:</b> החלון נפתח ונראה כמו בשרטוט. הכפתורים עוד לא עושים כלום, וזה בסדר.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-wpf">WPF</a></div>
+    <p>בנו ב-<code>MainWindow.xaml</code> חלון לפי השרטוט. אין צורך בדיוק בפיקסלים, אבל כל הפקדים והשמות חייבים להיות.</p>
+    <div class="tbl"><table class="map">
+      <thead><tr><th><code>x:Name</code></th><th>פקד</th><th>הערות</th></tr></thead>
+      <tbody>
+        <tr><td><code>menuGrid</code></td><td><code>DataGrid</code></td><td><code>IsReadOnly="True"</code>, <code>SelectionMode="Single"</code>, אירוע <code>SelectionChanged</code></td></tr>
+        <tr><td><code>orderTitle</code></td><td><code>TextBlock</code></td><td>הטקסט <code>Order #1</code></td></tr>
+        <tr><td><code>orderList</code></td><td><code>ListBox</code></td><td></td></tr>
+        <tr><td><code>detailsText</code></td><td><code>TextBlock</code></td><td></td></tr>
+        <tr><td><code>totalText</code></td><td><code>TextBlock</code></td><td></td></tr>
+        <tr><td><code>addToOrderButton</code>, <code>removeButton</code>, <code>closeOrderButton</code></td><td><code>Button</code></td><td>אירוע <code>Click</code> לכל אחד</td></tr>
+        <tr><td><code>nameBox</code>, <code>priceBox</code></td><td><code>TextBox</code></td><td></td></tr>
+        <tr><td><code>typeCombo</code></td><td><code>ComboBox</code></td><td>שלושה <code>ComboBoxItem</code>: <code>Dish</code>, <code>Drink</code>, <code>Dessert</code>. אירוע <code>SelectionChanged</code>. <b>אל תבחרו פריט ברירת מחדל ב-XAML</b>, נעשה את זה בקוד בחלק 2 (שלב 6)</td></tr>
+        <tr><td><code>extraCheck</code></td><td><code>CheckBox</code></td><td>הטקסט <code>Vegetarian</code></td></tr>
+        <tr><td><code>addToMenuButton</code></td><td><code>Button</code></td><td>אירוע <code>Click</code></td></tr>
+      </tbody>
+    </table></div>
+    <p>בלי <code>IsReadOnly="True"</code> הטבלה מוסיפה בסוף שורה ריקה לעריכה, ואנחנו לא רוצים שיוסיפו פריטים דרכה.</p>
+    <details><summary>רמז 1: חלוקת ה-Grid</summary><div class="inner">
+      <p>שתי עמודות (התפריט רחב יותר) וארבע שורות: כותרות, טבלה ורשימה, פרטים וכפתורים, ואזור פריט חדש.</p>
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MainWindow.xaml</span></div>
+<pre><code class="xml">&lt;Grid Margin="12"&gt;
+    &lt;Grid.ColumnDefinitions&gt;
+        &lt;ColumnDefinition Width="3*"/&gt;
+        &lt;ColumnDefinition Width="2*"/&gt;
+    &lt;/Grid.ColumnDefinitions&gt;
+    &lt;Grid.RowDefinitions&gt;
+        &lt;RowDefinition Height="Auto"/&gt;   &lt;!-- titles --&gt;
+        &lt;RowDefinition Height="*"/&gt;      &lt;!-- grid + list, takes the free space --&gt;
+        &lt;RowDefinition Height="Auto"/&gt;   &lt;!-- details + buttons --&gt;
+        &lt;RowDefinition Height="Auto"/&gt;   &lt;!-- new menu item --&gt;
+    &lt;/Grid.RowDefinitions&gt;
+
+    &lt;DataGrid Grid.Row="1" Grid.Column="0" x:Name="menuGrid"
+              IsReadOnly="True" SelectionMode="Single"
+              SelectionChanged="menuGrid_SelectionChanged"/&gt;
+    &lt;!-- ... --&gt;
+&lt;/Grid&gt;</code></pre></div>
+    </div></details>
+    <details><summary>רמז 2: כמה פקדים באותו תא</summary><div class="inner">
+      <p>תא ב-<code>Grid</code> מחזיק פקד אחד. כדי לשים בו כמה פקדים, עוטפים אותם ב-<code>StackPanel</code> (אחד מתחת לשני, או אחד ליד השני עם <code>Orientation="Horizontal"</code>). את אזור הפריט החדש שימו ב-<code>GroupBox</code> שמשתרע על שתי העמודות:</p>
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MainWindow.xaml</span></div>
+<pre><code class="xml">&lt;GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Header="New menu item"&gt;
+    &lt;StackPanel Orientation="Horizontal"&gt;
+        &lt;TextBlock Text="Name:"/&gt;
+        &lt;TextBox x:Name="nameBox" Width="150"/&gt;
+        &lt;!-- ... --&gt;
+    &lt;/StackPanel&gt;
+&lt;/GroupBox&gt;</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 2 ---------- -->
+  <div class="stage" id="stage2" data-stage="2" data-title="התפריט בטבלה" data-min="10" data-done="סיימתי את שלב 2, והטבלה מציגה את התפריט">
+    <div class="stage-head"><span class="badge">2</span><h3>התפריט בטבלה</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">עיקרון: רב-צורתיות, והמרה כלפי מעלה</span>
+    <p class="goal"><b>בסוף השלב:</b> כשהחלון נפתח, טבלת התפריט מציגה את שמונת הפריטים.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-cast">המרה כלפי מעלה</a><a class="ref" href="#c-wpf">WPF</a></div>
+    <ol class="req">
+      <li>הוסיפו ל-<code>MainWindow</code> שלוש תכונות פרטיות: <code>menu</code> מטיפוס <code>List&lt;MenuItem&gt;</code>, <code>order</code> מטיפוס <code>Order</code>, ו-<code>nextOrderNumber</code> מטיפוס <code>int</code>.</li>
+      <li>בפעולה הבונה, <b>אחרי</b> <code>InitializeComponent()</code>: צרו את התפריט עם אותם שמונה פריטים מהמטלה הקודמת, וחברו אותו לטבלה.</li>
+      <li>אתחלו את <code>nextOrderNumber</code> ל-1, ופתחו את ההזמנה הראשונה.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MainWindow.xaml.cs</span></div>
+<pre><code class="cs">public partial class MainWindow : Window
+{
+    private List&lt;MenuItem&gt; menu;
+    private Order order;
+    private int nextOrderNumber;
+
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        menu = new List&lt;MenuItem&gt;();
+        menu.Add(new Dish("Schnitzel", 58, false));
+        menu.Add(new Dish("Mushroom Pasta", 52, true));
+        menu.Add(new Dish("Greek Salad", 44, true));
+        menu.Add(new Drink("Lemonade", 14, false));
+        menu.Add(new Drink("Lemonade", 14, true));
+        menu.Add(new Drink("Iced Coffee", 16, true));
+        menu.Add(new Dessert("Chocolate Cake", 32, false));
+        menu.Add(new Dessert("Apple Pie", 28, true));
+        menuGrid.ItemsSource = menu;
+
+        // TODO: nextOrderNumber and the first order
+    }
+}</code></pre></div>
+    <p>אם <code>List</code> מסומן באדום, הוסיפו בראש הקובץ <code>using System.Collections.Generic;</code>.</p>
+
+    <div class="predict" data-key="cols">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>ה-<code>DataGrid</code> בונה עמודות לבד, עמודה לכל <b>מאפיין</b>. אילו עמודות יופיעו בטבלה? סמנו את כל מה שלדעתכם יופיע.</p>
+      <div class="col-guess" data-label="העמודות בטבלה">
+        <label><input type="checkbox" value="Name" data-correct> <code>Name</code></label>
+        <label><input type="checkbox" value="BasePrice" data-correct> <code>BasePrice</code></label>
+        <label><input type="checkbox" value="FinalPrice" data-correct> <code>FinalPrice</code></label>
+        <label><input type="checkbox" value="IsVegetarian"> <code>IsVegetarian</code></label>
+        <label><input type="checkbox" value="IsLarge"> <code>IsLarge</code></label>
+        <label><input type="checkbox" value="WithIceCream"> <code>WithIceCream</code></label>
+      </div>
+      <div class="guess">
+        <label for="gPie">מה יופיע בעמודה <code>FinalPrice</code> של <code>Apple Pie</code>?</label>
+        <span><input id="gPie" type="number" inputmode="numeric" min="0" data-answer="34" data-label="`FinalPrice` של עוגת התפוחים"> NIS</span>
+      </div>
+      <button class="btn" type="button">הצגת הטבלה הצפויה</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="dgrid-wrap">
+        <table class="dgrid">
+          <thead><tr><th>Name</th><th>BasePrice</th><th>FinalPrice</th></tr></thead>
+          <tbody>
+            <tr><td>Schnitzel</td><td>58</td><td>58</td></tr>
+            <tr><td>Mushroom Pasta</td><td>52</td><td>52</td></tr>
+            <tr><td>Greek Salad</td><td>44</td><td>44</td></tr>
+            <tr><td>Lemonade</td><td>14</td><td>14</td></tr>
+            <tr class="hl"><td>Lemonade</td><td>14</td><td>18</td></tr>
+            <tr><td>Iced Coffee</td><td>16</td><td>20</td></tr>
+            <tr><td>Chocolate Cake</td><td>32</td><td>32</td></tr>
+            <tr class="hl"><td>Apple Pie</td><td>28</td><td>34</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note aha">
+        <p><b>למה אין עמודה <code>IsLarge</code>?</b> הרשימה היא <code>List&lt;MenuItem&gt;</code>. כל משקה שהוכנס אליה עבר המרה כלפי מעלה ל-<code>MenuItem</code>, והטבלה מסתכלת על כל השורות דרך "המשקפיים" של <code>MenuItem</code>. היא מכירה רק את המאפיינים שלו. <code>IsLarge</code> עדיין קיים בעצם, בדיוק כמו בשאלה 2 בבוחן, אבל לא נראה דרך הפניה מטיפוס <code>MenuItem</code>.</p>
+        <p><b>למה צריך את <code>FinalPrice</code>?</b> הטבלה מציגה רק מאפיינים, לא פעולות, ולכן את <code>GetPrice()</code> היא לא הייתה מציגה. <code>FinalPrice</code> עצמו לא וירטואלי, אבל הוא קורא ל-<code>GetPrice()</code> שכן וירטואלית, ולכן עוגת התפוחים מקבלת 34 והלימונדה הגדולה 18.</p>
+        <p><b>ושימו לב לשתי הלימונדות:</b> בטבלה אי אפשר לדעת מה ההבדל ביניהן חוץ מהמחיר. את זה נפתור בשלב הבא.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- STAGE 3 ---------- -->
+  <div class="stage" id="stage3" data-stage="3" data-title="פרטי פריט" data-min="15" data-done="סיימתי את שלב 3, והפרטים מתאימים לכל סוג">
+    <div class="stage-head"><span class="badge">3</span><h3>פרטי הפריט שנבחר</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">המרה כלפי מטה, בצורה בטוחה</span>
+    <p class="goal"><b>בסוף השלב:</b> בחירת שורה בטבלה מציגה מתחת לטבלה את פרטי הפריט, כולל מה שקיים רק בסוג שלו.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-cast">המרה כלפי מטה</a><a class="ref" href="#c-selected">SelectedItem</a></div>
+    <p>כשהמלצר בוחר שורה בטבלה, <code>detailsText</code> מציג את פרטי הפריט, כולל המידע שקיים רק בסוג שלו. כתבו את הפעולה <code>menuGrid_SelectionChanged</code>:</p>
+    <ol class="req">
+      <li>אם <code>SelectedItem</code> אינו <code>MenuItem</code> (כולל המקרה שלא נבחר כלום), הציגו <code>Select an item to see its details.</code> וצאו מהפעולה.</li>
+      <li>אחרת, המירו ל-<code>MenuItem</code> והתחילו מחרוזת: השם, המחיר הבסיסי והמחיר הסופי (ראו פלט לדוגמה).</li>
+      <li>הוסיפו לפי הסוג: למנה <code>vegetarian: yes/no</code>, למשקה <code>size: large/small</code>, לקינוח <code>ice cream: yes/no</code>.</li>
+      <li>לפני <b>כל</b> המרה כלפי מטה בודקים עם <code>is</code>.</li>
+    </ol>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">detailsText, for three different rows</span></div>
+<pre>Schnitzel | base 58 NIS | final 58 NIS | vegetarian: no
+Lemonade | base 14 NIS | final 18 NIS | size: large
+Apple Pie | base 28 NIS | final 34 NIS | ice cream: yes</pre></div>
+    <details class="think"><summary>שאלה למחשבה: מה יקרה בלי הבדיקה?</summary><div class="inner">
+      <p>נסו לרגע לכתוב רק <code>Drink drink = (Drink)item;</code> בלי <code>if (item is Drink)</code>, הריצו ובחרו את השניצל.</p>
+      <p>התוכנית תיפול עם <code>InvalidCastException</code>. הקומפיילר הסכים, כי <code>MenuItem</code> <b>יכול</b> להיות <code>Drink</code>. רק בזמן הריצה מתגלה שהעצם הזה הוא בכלל <code>Dish</code>. בגלל זה בודקים לפני כל המרה כלפי מטה. אחרי הניסוי החזירו את הבדיקה.</p>
+    </div></details>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">menuGrid_SelectionChanged skeleton</span></div>
+<pre><code class="cs">private void menuGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+{
+    if (!(menuGrid.SelectedItem is MenuItem))
+    {
+        detailsText.Text = "Select an item to see its details.";
+        return;
+    }
+
+    MenuItem item = (MenuItem)menuGrid.SelectedItem;
+    string details = item.Name + " | base " + item.BasePrice + " NIS | final " + item.GetPrice() + " NIS";
+
+    if (item is Dish)
+    {
+        Dish dish = (Dish)item;
+        details += " | vegetarian: " + (dish.IsVegetarian ? "yes" : "no");
+    }
+    // TODO: Drink, Dessert
+
+    detailsText.Text = details;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+
+  <div class="start-box">
+    <h3>סוף חלק 1</h3>
+    <p>אם החלון מציג את התפריט, ובחירת שורה מציגה את פרטי הפריט, אתם מוכנים לחלק 2. שמרו את הפרויקט: בחלק 2 ממשיכים מאותו קוד, ומחברים את ההזמנה לחלון.</p>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מטלת המשך תכנות מונחה עצמים: WPF | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

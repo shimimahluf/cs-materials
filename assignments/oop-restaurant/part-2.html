@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסעדה, חלק 2: ההזמנה והתוכנית</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="2">
+<script type="application/json" id="series">{"id":"oop-restaurant","title":"מסעדה: מערכת הזמנות במסוף","parts":[{"title":"פריטי התפריט","href":"part-1.html"},{"title":"ההזמנה והתוכנית","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>מסעדה, חלק 2: ההזמנה והתוכנית</h1>
+    <p class="lead">התפריט מוכן. עכשיו בונים את ההזמנה, שמחזיקה פריטים מהתפריט, ואת התוכנית שהמלצר משתמש בה: הוספה, מחיקה, וקבלה עם סכום לתשלום.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> קובץ <code>Program.cs</code> (או תיקיית הפרויקט מכווצת) ב-Classroom</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<div class="start-box">
+  <h3>ממשיכים מחלק 1</h3>
+  <p>פתחו את הפרויקט מחלק 1. לפני שממשיכים, ודאו שיש בו:</p>
+  <ul>
+    <li>המחלקה <code>MenuItem</code> עם <code>BasePrice</code> ועם <code>GetPrice()</code> וירטואלית</li>
+    <li>המחלקות <code>Dish</code>, <code>Drink</code> ו-<code>Dessert</code>, ו-<code>GetPrice()</code> נדרסת במשקה ובקינוח</li>
+    <li>ב-<code>Main</code>: הרשימה <code>menu</code> עם שמונת הפריטים, שמודפסת עם המחירים הנכונים</li>
+  </ul>
+  <p>חסר משהו? חזרו ל<a href="part-1.html">חלק 1</a> והשלימו לפני שממשיכים.</p>
+</div>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="5" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <p class="part-sub">עיקרון אחד חדש בחלק הזה. התזכורות מחלק 1: <a href="part-1.html#c-encap">כימוס</a>, <a href="part-1.html#c-inherit">ירושה</a>, <a href="part-1.html#c-poly">רב-צורתיות</a>, <a href="part-1.html#c-list">List&lt;T&gt;</a>.</p>
+  <div class="concepts">
+    <div class="concept" id="c-agg">
+      <span class="badge" aria-hidden="true">4</span>
+      <div>
+        <h3>צבירה <span class="en">(Aggregation)</span></h3>
+        <p>עצם אחד מחזיק הפניות לעצמים אחרים שקיימים בפני עצמם. הזמנה מחזיקה פריטים מהתפריט, אבל היא לא יצרה אותם, והם ממשיכים להתקיים גם אחרי שההזמנה נסגרת. זה ההבדל מהרכבה (Composition), שבה העצם המוכל נוצר בתוך העצם המכיל ו"שייך" רק לו.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Example</span></div>
+<pre><code class="cs">MenuItem schnitzel = new Dish("Schnitzel", 58, false);  // lives on the menu
+
+Order order = new Order(1);
+order.AddItem(schnitzel);   // the order only points at the existing object</code></pre></div>
+        <div class="refs"><span class="lbl">להרחבה:</span><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"הזמנה מחזיקה הפניות לפריטים מהתפריט. כשההזמנה נסגרת, הפריטים נשארים בתפריט. איזה קשר זה?",
+     "a":["ירושה","הרכבה (Composition)","צבירה (Aggregation)","כימוס"],"c":2,
+     "h":"האם הפריטים ממשיכים להתקיים בלי ההזמנה?",
+     "ex":"הפריטים קיימים באופן עצמאי, וההזמנה רק מצביעה עליהם, ולכן זו צבירה."},
+    {"q":"כתבנו פעמיים `order.AddItem(menu[0]);`. כמה עצמים של שניצל קיימים עכשיו בזיכרון?",
+     "a":["אחד, וההזמנה מחזיקה שתי הפניות אליו","שניים, אחד לכל הוספה","שלושה: אחד בתפריט ושניים בהזמנה","אפס, ההזמנה מחזיקה רק את השם"],"c":0,
+     "h":"האם `AddItem` יוצרת עצם חדש עם `new`, או מקבלת עצם שכבר קיים?",
+     "ex":"`AddItem` מקבלת הפניה לעצם שכבר קיים ברשימה `menu`. שתי ההוספות מצביעות על אותו עצם, והוא נספר פעמיים בסכום."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 4 ---------- -->
+  <div class="stage" id="stage4" data-stage="4" data-title="Order" data-min="25" data-done="סיימתי את שלב 4, והפלט תואם">
+    <div class="stage-head"><span class="badge">4</span><h3>המחלקה <code>Order</code></h3><span class="time">כ-25 דקות</span></div>
+    <span class="principle">עיקרון: צבירה (וגם כימוס)</span>
+    <p class="goal"><b>בסוף השלב:</b> יש לכם הזמנה שאפשר להוסיף אליה פריטים מהתפריט ולמחוק מהם, שיודעת לחשב סכום ולהדפיס קבלה, ושלא מסכימה להשתנות אחרי שנסגרה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-agg">צבירה</a><a class="ref" href="part-1.html#c-list">List&lt;T&gt;</a><a class="ref" href="part-1.html#c-encap">כימוס</a></div>
+    <p>הזמנה מחזיקה רשימה של פריטים מהתפריט. היא לא יוצרת פריטים חדשים, רק מקבלת הפניות לפריטים שכבר קיימים ברשימה <code>menu</code>.</p>
+    <ol class="req">
+      <li>תכונות פרטיות: <code>orderNumber</code> (שלם), <code>items</code> מטיפוס <code>List&lt;MenuItem&gt;</code>, ו-<code>isClosed</code> (bool).</li>
+      <li>בנאי שמקבל מספר הזמנה, יוצר רשימה ריקה, ומגדיר שההזמנה פתוחה.</li>
+      <li>מאפיינים לקריאה בלבד: <code>OrderNumber</code>, <code>IsClosed</code>, ו-<code>Count</code> (כמה פריטים בהזמנה).</li>
+      <li><code>bool AddItem(MenuItem item)</code>: מוסיפה את הפריט ומחזירה <code>true</code>. אם ההזמנה סגורה, מדפיסה <code>Order is closed - cannot add items.</code> ומחזירה <code>false</code>.</li>
+      <li><code>bool RemoveItem(int position)</code>: מוחקת לפי מיקום שמתחיל ב-1 (כמו שהמלצר רואה במסך). אם ההזמנה סגורה, מדפיסה <code>Order is closed - cannot remove items.</code>. אם אין פריט במיקום הזה, מדפיסה <code>No item at position X.</code> (במקום X המיקום). בשני המקרים מחזירה <code>false</code>.</li>
+      <li><code>double GetTotal()</code>: סכום המחירים, בלולאת <code>foreach</code> שקוראת ל-<code>GetPrice()</code> של כל פריט.</li>
+      <li><code>void PrintItems()</code>: מדפיסה את הפריטים ממוספרים מ-1. אם ההזמנה ריקה, מדפיסה <code>(order is empty)</code>.</li>
+      <li><code>void Close()</code>: סוגרת את ההזמנה.</li>
+      <li><code>void PrintReceipt()</code>: מדפיסה קבלה בדיוק בפורמט שבפלט לדוגמה.</li>
+    </ol>
+    <h4>בדיקה ב-Main (אחרי יצירת התפריט)</h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Order order = new Order(1);
+order.AddItem(menu[0]);   // Schnitzel
+order.AddItem(menu[4]);   // Large lemonade
+order.AddItem(menu[6]);   // Chocolate cake
+order.PrintReceipt();
+
+order.Close();
+order.AddItem(menu[1]);   // should be refused</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>========== RECEIPT - Order #1 ==========
+1. [Dish] Schnitzel - 58 NIS
+2. [Drink] Lemonade (Large) - 18 NIS
+3. [Dessert] Chocolate Cake - 32 NIS
+----------------------------------------
+Items: 3   Total: 108 NIS
+========================================
+Order is closed - cannot add items.</pre></div>
+    <details class="think"><summary>שאלה למחשבה: מה יקרה אם נעלה מחיר אחרי שהפריט כבר בהזמנה?</summary><div class="inner">
+      <p>נסו: אחרי שהוספתם את <code>menu[0]</code> להזמנה, כתבו <code>menu[0].BasePrice = 60;</code> ורק אז הדפיסו קבלה. איזה מחיר יופיע לשניצל?</p>
+      <p>יופיע 60. ההזמנה לא שמרה עותק של השניצל אלא הפניה לאותו עצם בדיוק שנמצא בתפריט, וזו המשמעות של צבירה. במסעדה אמיתית הייתם שומרים בהזמנה את המחיר ברגע ההזמנה, אבל זה כבר עיצוב מתקדם יותר.</p>
+    </div></details>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>המיקום שהמשתמש רואה מתחיל ב-1, והאינדקס ברשימה מתחיל ב-0. מיקום תקין הוא בין <code>1</code> ל-<code>items.Count</code>, ומוחקים את <code>items.RemoveAt(position - 1)</code>.</p>
+      <p>ב-<code>PrintItems</code> כתבו <code>Console.WriteLine(i + ". " + item);</code> ו-C# יקרא לבד ל-<code>ToString()</code> הנכונה של כל פריט.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Order skeleton</span></div>
+<pre><code class="cs">class Order
+{
+    private int orderNumber;
+    private List&lt;MenuItem&gt; items;
+    private bool isClosed;
+
+    public Order(int orderNumber)
+    {
+        // TODO
+    }
+
+    public int Count
+    {
+        get { return items.Count; }
+    }
+
+    public bool AddItem(MenuItem item)
+    {
+        if (isClosed)
+        {
+            Console.WriteLine("Order is closed - cannot add items.");
+            return false;
+        }
+        // TODO
+    }
+
+    public double GetTotal()
+    {
+        double total = 0;
+        foreach (MenuItem item in items)
+        {
+            // TODO
+        }
+        return total;
+    }
+
+    public void PrintReceipt()
+    {
+        Console.WriteLine("========== RECEIPT - Order #" + orderNumber + " ==========");
+        PrintItems();
+        Console.WriteLine("----------------------------------------");
+        // TODO: Items / Total line
+        Console.WriteLine("========================================");
+    }
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 5 ---------- -->
+  <div class="stage" id="stage5" data-stage="5" data-title="תפריט פעולות" data-min="25" data-done="סיימתי את שלב 5, והתוכנית רצה מההתחלה ועד הסוף">
+    <div class="stage-head"><span class="badge">5</span><h3>התוכנית הראשית: תפריט פעולות למלצר</h3><span class="time">כ-25 דקות</span></div>
+    <span class="principle">חיבור כל החלקים</span>
+    <p class="goal"><b>בסוף השלב:</b> התוכנית מציגה למלצר רשימת אפשרויות בלולאה, והוא יכול להוסיף, למחוק, להציג ולסגור הזמנות עד שהוא בוחר לצאת.</p>
+    <p>מחקו את קוד הבדיקה של שלב 4 (את יצירת התפריט השאירו), וכתבו לולאה שמציגה למלצר תפריט פעולות עד שהוא בוחר 0.</p>
+    <ol class="req">
+      <li>כתבו פעולה סטטית <code>PrintMenu(List&lt;MenuItem&gt; menu)</code> במחלקה <code>Program</code>, שמדפיסה את הכותרת <code>---------- MENU ----------</code> ואחריה את הפריטים ממוספרים.</li>
+      <li>פתחו הזמנה מספר 1 לפני הלולאה.</li>
+      <li>בתחילת כל סיבוב הדפיסו שורת מצב: מספר ההזמנה, כמה פריטים יש בה, והסכום הנוכחי. אחריה הדפיסו את האפשרויות.</li>
+      <li><b>1</b> מציגה את התפריט. <b>2</b> מציגה את התפריט, שואלת מספר פריט ומוסיפה אותו להזמנה (מספר לא קיים: <code>Invalid item number.</code>). <b>3</b> מציגה את פריטי ההזמנה ושואלת איזה מיקום למחוק. <b>4</b> מציגה את ההזמנה.</li>
+      <li><b>5</b> סוגרת את ההזמנה, מדפיסה קבלה, ופותחת הזמנה חדשה עם המספר הבא. אי אפשר לסגור הזמנה ריקה (<code>Cannot close an empty order.</code>).</li>
+      <li><b>0</b> יוצאת ומדפיסה <code>Goodbye!</code>. כל מספר אחר: <code>Unknown option.</code></li>
+    </ol>
+    <h4>דוגמת הרצה (מקוצרת)</h4>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Sample run</span></div>
+<pre>Welcome to OOP Bistro!
+
+Order #1 | items: 2 | total: 76 NIS
+1) Show menu
+2) Add item to order
+3) Remove item from order
+4) Show current order
+5) Close order and print receipt
+0) Exit
+Choice: 3
+1. [Dish] Schnitzel - 58 NIS
+2. [Drink] Lemonade (Large) - 18 NIS
+Position to remove: 2
+Removed.
+
+Order #1 | items: 1 | total: 58 NIS
+...
+Choice: 5
+========== RECEIPT - Order #1 ==========
+1. [Dish] Schnitzel - 58 NIS
+----------------------------------------
+Items: 1   Total: 58 NIS
+========================================
+New order #2 opened.</pre></div>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>קריאת מספר מהמשתמש: <code>int choice = int.Parse(Console.ReadLine());</code>. הגדירו את <code>choice</code> לפני הלולאה עם ערך התחלתי שאינו 0, ואז <code>while (choice != 0)</code>.</p>
+      <p>כדי להוסיף פריט, העבירו להזמנה את העצם מהתפריט: <code>order.AddItem(menu[num - 1]);</code>. לא יוצרים כאן <code>new</code>.</p>
+      <p>"פתיחת הזמנה חדשה" היא פשוט <code>order = new Order(nextOrderNumber);</code>. ההזמנה הישנה כבר הודפסה ונסגרה.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main skeleton</span></div>
+<pre><code class="cs">int nextOrderNumber = 1;
+Order order = new Order(nextOrderNumber);
+int choice = -1;
+
+Console.WriteLine("Welcome to OOP Bistro!");
+
+while (choice != 0)
+{
+    Console.WriteLine();
+    // TODO: status line + options
+    Console.Write("Choice: ");
+    choice = int.Parse(Console.ReadLine());
+
+    if (choice == 1)
+    {
+        PrintMenu(menu);
+    }
+    else if (choice == 2)
+    {
+        // TODO
+    }
+    // TODO: 3, 4, 5, unknown option
+}
+
+Console.WriteLine("Goodbye!");</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 6 ---------- -->
+  <div class="stage" id="stage6" data-stage="6" data-title="בדיקות והגשה" data-min="10" data-done="הגשתי">
+    <div class="stage-head"><span class="badge">6</span><h3>בדיקות, סיכום והגשה</h3><span class="time">כ-10 דקות</span></div>
+    <p class="goal"><b>בסוף השלב:</b> התוכנית לא נופלת גם כשמשתמשים בה לא נכון, ובראש הקובץ כתוב איפה השתמשתם בכל עיקרון.</p>
+    <h4>בדקו שהתוכנית מתמודדת עם המקרים האלה</h4>
+    <ul class="checklist">
+      <li><input type="checkbox" id="c1"><label for="c1">בחירת פריט שלא קיים בתפריט (למשל 9) מדפיסה <code>Invalid item number.</code></label></li>
+      <li><input type="checkbox" id="c2"><label for="c2">מחיקה מהזמנה ריקה מדפיסה <code>No item at position 1.</code></label></li>
+      <li><input type="checkbox" id="c3"><label for="c3">סגירת הזמנה ריקה מדפיסה <code>Cannot close an empty order.</code></label></li>
+      <li><input type="checkbox" id="c4"><label for="c4">אחרי סגירה, ההזמנה החדשה מתחילה מ-0 פריטים ומספר ההזמנה עולה ב-1</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5">הוספת אותו פריט פעמיים נספרת פעמיים בסכום</label></li>
+    </ul>
+    <h4>הערת סיכום בראש הקובץ</h4>
+    <p>בראש <code>Program.cs</code> כתבו הערה (בעברית או באנגלית) שעונה על ארבע השאלות, לכל עיקרון משפט אחד או שניים עם שם המחלקה והפעולה הרלוונטיות:</p>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Top of Program.cs</span></div>
+<pre><code class="cs">/*
+ * Name: ______________
+ *
+ * Encapsulation: where did I hide data and protect it?
+ * Inheritance:   which classes inherit, and what do they add?
+ * Polymorphism:  where does the same call run different code?
+ * Aggregation:   which object holds references to others it did not create?
+ */</code></pre></div>
+    <h4>הגשה</h4>
+    <p>העלו ל-Classroom את הקובץ <code>Program.cs</code>, או את כל תיקיית הפרויקט מכווצת ל-zip אם פיצלתם לכמה קבצים.</p>
+  </div>
+
+  <!-- ---------- BONUS ---------- -->
+  <div class="stage" id="bonus">
+    <div class="stage-head"><span class="badge">+</span><h3>משימות בונוס, למי שסיים מוקדם</h3></div>
+    <ol class="req">
+      <li><b>שולחנות:</b> מחלקה <code>Table</code> עם מספר שולחן, מספר מקומות, והפניה להזמנה הנוכחית (או <code>null</code> אם השולחן פנוי). הוסיפו לתוכנית רשימת שולחנות, ואפשרות להושיב לקוחות בשולחן פנוי ולפנות שולחן אחרי תשלום.</li>
+      <li><b>הנחה:</b> הזמנה מעל 200 ש"ח מקבלת 10% הנחה. הדפיסו בקבלה גם את הסכום לפני ההנחה וגם אחריה.</li>
+      <li><b>טיפ:</b> לפני סגירה שאלו את המלצר כמה אחוז טיפ להוסיף, והדפיסו את הסכום הסופי.</li>
+      <li><b>ניהול תפריט:</b> אפשרות 6 שמשנה את <code>BasePrice</code> של פריט בתפריט. בדקו מה קורה להזמנה פתוחה שכבר מכילה את הפריט, והסבירו בהערה למה זה קורה.</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מטלת סיכום תכנות מונחה עצמים | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

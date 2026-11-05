@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסעדה, חלק 1: פריטי התפריט</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="1">
+<script type="application/json" id="series">{"id":"oop-restaurant","title":"מסעדה: מערכת הזמנות במסוף","parts":[{"title":"פריטי התפריט","href":"part-1.html"},{"title":"ההזמנה והתוכנית","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>מסעדה, חלק 1: פריטי התפריט</h1>
+    <p class="lead">במטלה הזו תבנו מאפס אפליקציית מסוף ב-C# שמנהלת הזמנות במסעדה. בחלק הראשון בונים את פריטי התפריט: מחלקת בסיס, שלושה סוגי פריטים, ומחיר שכל סוג מחשב בדרך שלו.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> בסוף חלק 2</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<section id="overview">
+  <h2>מה בונים בשני החלקים</h2>
+  <p>מערכת שמלצר משתמש בה: הוא רואה את התפריט, מוסיף פריטים להזמנה, מוחק פריט שהוזמן בטעות, וסוגר את ההזמנה עם קבלה וסכום לתשלום. בחלק הזה בונים את המחלקות שמסומנות בקו מלא בתרשים. את <code>Order</code> (במקווקו) ואת התוכנית הראשית בונים בחלק 2.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 640 300" role="img" aria-labelledby="dgTitle">
+      <title id="dgTitle">תרשים מחלקות: Dish, Drink ו-Dessert יורשות מ-MenuItem. Order מחזיקה רשימה של MenuItem (צבירה).</title>
+      <defs>
+        <marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto">
+          <path d="M1 1 L11 6 L1 11 Z" fill="#fff" stroke="#2A3363" stroke-width="1.5"/>
+        </marker>
+        <marker id="dia" viewBox="0 0 16 10" refX="1" refY="5" markerWidth="16" markerHeight="10" orient="auto">
+          <path d="M1 5 L8 1 L15 5 L8 9 Z" fill="#fff" stroke="#2A3363" stroke-width="1.5"/>
+        </marker>
+      </defs>
+      <g font-family="Courier New, monospace" font-size="15" fill="#24262B">
+        <rect x="185" y="18" width="190" height="78" rx="6" fill="#E8EAF2" stroke="#2A3363" stroke-width="1.5"/>
+        <text x="280" y="40" text-anchor="middle" font-weight="bold" fill="#2A3363">MenuItem</text>
+        <line x1="185" y1="50" x2="375" y2="50" stroke="#2A3363"/>
+        <text x="195" y="68" font-size="13">- name, - basePrice</text>
+        <text x="195" y="86" font-size="13">+ GetPrice() virtual</text>
+        <rect x="20" y="200" width="150" height="62" rx="6" fill="#F2F3F7" stroke="#2A3363" stroke-width="1.5"/>
+        <text x="95" y="222" text-anchor="middle" font-weight="bold" fill="#2A3363">Dish</text>
+        <text x="30" y="248" font-size="13">- isVegetarian</text>
+        <rect x="205" y="200" width="150" height="62" rx="6" fill="#F2F3F7" stroke="#2A3363" stroke-width="1.5"/>
+        <text x="280" y="222" text-anchor="middle" font-weight="bold" fill="#2A3363">Drink</text>
+        <text x="215" y="248" font-size="13">- isLarge</text>
+        <rect x="390" y="200" width="150" height="62" rx="6" fill="#F2F3F7" stroke="#2A3363" stroke-width="1.5"/>
+        <text x="465" y="222" text-anchor="middle" font-weight="bold" fill="#2A3363">Dessert</text>
+        <text x="400" y="248" font-size="13">- withIceCream</text>
+        <path d="M95 200 V150 H250 V97" fill="none" stroke="#2A3363" stroke-width="1.5" marker-end="url(#tri)"/>
+        <path d="M280 200 V97" fill="none" stroke="#2A3363" stroke-width="1.5" marker-end="url(#tri)"/>
+        <path d="M465 200 V150 H310 V97" fill="none" stroke="#2A3363" stroke-width="1.5" marker-end="url(#tri)"/>
+        <rect x="470" y="18" width="150" height="78" rx="6" fill="#fff" stroke="#9AA1B2" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="545" y="40" text-anchor="middle" font-weight="bold" fill="#5B6478">Order</text>
+        <line x1="470" y1="50" x2="620" y2="50" stroke="#9AA1B2"/>
+        <text x="480" y="68" font-size="13" fill="#5B6478">- items: List</text>
+        <text x="480" y="86" font-size="13" fill="#5B6478">+ GetTotal()</text>
+        <line x1="470" y1="57" x2="376" y2="57" stroke="#9AA1B2" stroke-width="1.5" marker-start="url(#dia)"/>
+        <text x="384" y="50" font-size="13" fill="#5B6478">0..*</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span>חץ עם משולש ריק: ירושה</span>
+      <span>קו עם מעוין ריק: צבירה (ההזמנה מחזיקה פריטים)</span>
+      <span>מקווקו: נבנה בחלק 2</span>
+    </div>
+  </div>
+  <div class="note"><b>שפת הפלט:</b> את כל ההדפסות למסוף כתבו באנגלית. מסוף Windows מציג עברית הפוכה או כסימני שאלה, והפלט לדוגמה בדף כתוב באנגלית כדי שתוכלו להשוות אליו אחד-לאחד.</div>
+  <div class="note"><b>איך לעבוד:</b> צרו פרויקט Console App חדש. אפשר לכתוב את כל המחלקות בקובץ <code>Program.cs</code> אחד, או כל מחלקה בקובץ משלה. בכל שלב כתוב בהתחלה מה אמור לעבוד בסופו. נסו לפתור לבד, ופתחו רמז רק אחרי כמה דקות של תקיעה. אם לא ברור מה מבקשים, חזרו לתזכורת דרך הקישורים שבכל שלב.</div>
+</section>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="10" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <p class="part-sub">קראו, ואז ענו על הבוחן הקצר שבסוף. בשלבים יש קישורים חזרה לכאן.</p>
+
+  <div class="concepts">
+    <div class="concept" id="c-encap">
+      <span class="badge" aria-hidden="true">1</span>
+      <div>
+        <h3>כימוס <span class="en">(Encapsulation)</span></h3>
+        <p>התכונות של המחלקה מוסתרות (<code>private</code>), והגישה אליהן עוברת דרך מאפיינים או פעולות שהמחלקה שולטת בהם. כך אף אחד מבחוץ לא יכול לשים במחיר של מנה ערך שלילי.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MenuItem.cs</span></div>
+<pre><code class="cs">private double basePrice;
+
+public double BasePrice
+{
+    get { return basePrice; }
+    set
+    {
+        if (value &gt; 0)
+            basePrice = value;   // only valid values get in
+    }
+}</code></pre></div>
+        <div class="refs"><span class="lbl">להרחבה:</span><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a></div>
+      </div>
+    </div>
+
+    <div class="concept" id="c-inherit">
+      <span class="badge" aria-hidden="true">2</span>
+      <div>
+        <h3>ירושה <span class="en">(Inheritance)</span></h3>
+        <p>מחלקה יורשת מקבלת את כל מה שיש במחלקת הבסיס ומוסיפה משלה. משקה הוא פריט בתפריט, ויש לו גם גודל. הבנאי של המחלקה היורשת מעביר את הנתונים המשותפים לבנאי של הבסיס בעזרת <code>base</code>.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Drink.cs</span></div>
+<pre><code class="cs">class Drink : MenuItem
+{
+    private bool isLarge;
+
+    public Drink(string name, double basePrice, bool isLarge)
+        : base(name, basePrice)
+    {
+        this.isLarge = isLarge;
+    }
+}</code></pre></div>
+      </div>
+    </div>
+
+    <div class="concept" id="c-poly">
+      <span class="badge" aria-hidden="true">3</span>
+      <div>
+        <h3>רב-צורתיות <span class="en">(Polymorphism)</span></h3>
+        <p>פעולה שמוגדרת <code>virtual</code> במחלקת הבסיס יכולה להיות מוחלפת (<code>override</code>) במחלקה היורשת. כשקוראים לפעולה דרך הפניה מטיפוס הבסיס, מתבצעת הגרסה של הטיפוס האמיתי של העצם.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Example</span></div>
+<pre><code class="cs">// in MenuItem
+public virtual double GetPrice() { return basePrice; }
+
+// in Drink
+public override double GetPrice()
+{
+    if (isLarge)
+        return base.GetPrice() + 4;
+    return base.GetPrice();
+}
+
+MenuItem item = new Drink("Lemonade", 14, true);
+Console.WriteLine(item.GetPrice());   // 18 - Drink's version runs</code></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="c-list">תזכורת: <code>List&lt;T&gt;</code></h3>
+  <p>רשימה היא כמו מערך שגדל ומתכווץ לבד. נשתמש בה כדי להחזיק את התפריט.</p>
+  <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">List reminder</span></div>
+<pre><code class="cs">using System.Collections.Generic;   // needed at the top of the file
+
+List&lt;MenuItem&gt; menu = new List&lt;MenuItem&gt;();   // empty list
+
+menu.Add(new Dish("Schnitzel", 58, false));    // add to the end
+menu.Add(new Drink("Lemonade", 14, true));
+
+Console.WriteLine(menu.Count);                 // how many items: 2
+Console.WriteLine(menu[0].Name);               // access by index, like an array
+
+menu.RemoveAt(1);                              // remove by index
+
+// foreach: go over every item, no index needed
+foreach (MenuItem item in menu)
+{
+    Console.WriteLine(item);
+}
+
+// for: when you need the index (e.g. to print numbers)
+for (int i = 0; i &lt; menu.Count; i++)
+{
+    Console.WriteLine((i + 1) + ". " + menu[i]);
+}</code></pre></div>
+  <div class="note"><b>שימו לב:</b> בתוך לולאת <code>foreach</code> אסור להוסיף או להסיר פריטים מהרשימה שעליה עוברים.</div>
+  <div class="refs"><span class="lbl">להרחבה:</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
+
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"במחלקה `MenuItem` התכונה `basePrice` מוגדרת `private`, והגישה אליה עוברת דרך מאפיין שבודק שהמחיר חיובי. איזה עיקרון זה?",
+     "a":["ירושה","כימוס","רב-צורתיות","צבירה"],"c":1,
+     "h":"מי שולט במה שנכנס לתכונה?",
+     "ex":"הסתרת הנתונים ושליטה במה שנכנס אליהם היא כימוס."},
+    {"q":"הגדרנו `class Dessert : MenuItem`. למה אפשר לכתוב `dessert.Name` אף על פי שלא הגדרנו את `Name` בתוך `Dessert`?",
+     "a":["כי `Dessert` יורשת את `Name` מ-`MenuItem`","כי `Name` הוא משתנה גלובלי","כי C# יוצרת מאפיינים לבד","אי אפשר, זו שגיאת קומפילציה"],"c":0,
+     "h":"מאיפה `Dessert` מקבלת את מה שיש ב-`MenuItem`?",
+     "ex":"מחלקה יורשת מקבלת את כל המאפיינים והפעולות הציבוריים של מחלקת הבסיס."},
+    {"q":"ברשימה מטיפוס `List<MenuItem>` יש עצם מטיפוס `Drink` גדול. `GetPrice` היא `virtual` ב-`MenuItem` ו-`override` ב-`Drink`. איזו גרסה תתבצע בקריאה `item.GetPrice()` בתוך `foreach`?",
+     "a":["של `MenuItem`, כי זה טיפוס הרשימה","של `Drink`, כי זה הטיפוס האמיתי של העצם","שתיהן, אחת אחרי השנייה","תלוי בסדר ההוספה לרשימה"],"c":1,
+     "h":"מה קובע איזו גרסה תרוץ: טיפוס ההפניה או הטיפוס של העצם עצמו?",
+     "ex":"זו רב-צורתיות: מה שקובע הוא הטיפוס האמיתי של העצם, לא טיפוס ההפניה."},
+    {"q":"כתבתם `override` לפעולה `GetPrice` במחלקה `Drink`, אבל שכחתם לכתוב `virtual` ב-`MenuItem`. מה יקרה?",
+     "a":["התוכנית תרוץ ותמיד תשתמש בגרסה של `Drink`","התוכנית תרוץ ותמיד תשתמש בגרסה של `MenuItem`","שגיאת קומפילציה","אזהרה בלבד, והכול יעבוד"],"c":2,
+     "h":"מה צריך להיות בפעולה במחלקת הבסיס כדי שמותר יהיה לדרוס אותה?",
+     "ex":"ב-C# מותר לדרוס רק פעולה שמסומנת `virtual` (או `override`) במחלקת הבסיס, אחרת הקומפיילר עוצר."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 1 ---------- -->
+  <div class="stage" id="stage1" data-stage="1" data-title="MenuItem" data-min="15" data-done="סיימתי את שלב 1, והפלט תואם">
+    <div class="stage-head"><span class="badge">1</span><h3>מחלקת הבסיס <code>MenuItem</code></h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: כימוס</span>
+    <p class="goal"><b>בסוף השלב:</b> יש לכם מחלקה אחת, <code>MenuItem</code>. היא יודעת להדפיס את עצמה, והיא לא מסכימה לקבל מחיר שלילי.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-encap">כימוס</a><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a></div>
+    <ol class="req">
+      <li>שתי תכונות פרטיות: <code>name</code> (מחרוזת) ו-<code>basePrice</code> (ממשי).</li>
+      <li>בנאי שמקבל שם ומחיר בסיסי.</li>
+      <li>מאפיין <code>Name</code> לקריאה בלבד (רק <code>get</code>).</li>
+      <li>מאפיין <code>BasePrice</code> עם <code>get</code> ו-<code>set</code>. ה-<code>set</code> מקבל רק מחיר חיובי. אם הערך לא תקין, הדפיסו <code>Error: price must be positive. Price not changed.</code> ואל תשנו את המחיר.</li>
+      <li>גם הבנאי צריך לעבור דרך הבדיקה, כך שלא ייווצר פריט עם מחיר שלילי. אם המחיר שהתקבל לא תקין, המחיר יהיה 1.</li>
+      <li>פעולה <code>GetPrice()</code> שמחזירה את המחיר.</li>
+      <li>דריסה של <code>ToString()</code> שמחזירה מחרוזת בפורמט <code>Falafel - 30 NIS</code>. השתמשו ב-<code>GetPrice()</code> ולא ישירות ב-<code>basePrice</code>, זה יהיה חשוב בשלב 3.</li>
+    </ol>
+    <div class="tbl"><table class="map">
+      <thead><tr><th>חבר במחלקה</th><th>מה זה</th><th>תפקיד</th></tr></thead>
+      <tbody>
+        <tr><td><code>BasePrice</code></td><td>מאפיין</td><td>שומר את המחיר הבסיסי, ושומר עליו שיהיה חיובי</td></tr>
+        <tr><td><code>GetPrice()</code></td><td>פעולה</td><td>מחזירה את המחיר הסופי. כרגע הוא שווה למחיר הבסיסי, ובשלב 3 כל סוג פריט יחשב אותו בדרך שלו</td></tr>
+      </tbody>
+    </table></div>
+    <h4>בדיקה ב-Main</h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">MenuItem m = new MenuItem("Falafel", 30);
+Console.WriteLine(m);
+m.BasePrice = -5;
+Console.WriteLine(m.BasePrice);</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Falafel - 30 NIS
+Error: price must be positive. Price not changed.
+30</pre></div>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>כדי שהבנאי ייהנה מהבדיקה, אל תכתבו בו <code>this.basePrice = basePrice</code>. במקום זה תנו למחיר ערך ברירת מחדל 1, ואז השמו דרך המאפיין: <code>BasePrice = basePrice;</code>. אם הערך תקין, הוא ידרוס את ה-1.</p>
+      <p>למה <code>override</code> ב-<code>ToString</code>? כל מחלקה ב-C# יורשת בשקט מהמחלקה <code>object</code>, שכבר יש לה <code>ToString</code> וירטואלית. אתם מחליפים את הגרסה שלה.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MenuItem skeleton</span></div>
+<pre><code class="cs">class MenuItem
+{
+    private string name;
+    private double basePrice;
+
+    public MenuItem(string name, double basePrice)
+    {
+        this.name = name;
+        this.basePrice = 1;
+        BasePrice = basePrice;
+    }
+
+    public string Name
+    {
+        get { return name; }
+    }
+
+    public double BasePrice
+    {
+        get { return basePrice; }
+        set
+        {
+            // TODO: check value, assign or print the error
+        }
+    }
+
+    public double GetPrice()
+    {
+        // TODO
+    }
+
+    public override string ToString()
+    {
+        // TODO: name + " - " + ... + " NIS"
+    }
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 2 ---------- -->
+  <div class="stage" id="stage2" data-stage="2" data-title="שלושה סוגי פריטים" data-min="20" data-done="סיימתי את שלב 2, והפלט תואם">
+    <div class="stage-head"><span class="badge">2</span><h3>שלושה סוגי פריטים</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: ירושה</span>
+    <p class="goal"><b>בסוף השלב:</b> יש לכם שלוש מחלקות חדשות, מנה, משקה וקינוח. כל אחת יורשת מ-<code>MenuItem</code>, יש לה תכונה אחת משלה, והיא מדפיסה את עצמה בפורמט שלה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-inherit">ירושה</a></div>
+    <p>בנו שלוש מחלקות שיורשות מ-<code>MenuItem</code>. לכל אחת תכונה פרטית נוספת, בנאי שקורא ל-<code>base</code>, מאפיין לקריאה בלבד לתכונה החדשה, ודריסה של <code>ToString()</code>.</p>
+    <div class="tbl"><table class="map">
+      <thead><tr><th>מחלקה</th><th>תכונה נוספת</th><th>מה <code>ToString()</code> מחזירה</th></tr></thead>
+      <tbody>
+        <tr><td><code>Dish</code></td><td><code>isVegetarian</code> (bool)</td><td><code>[Dish]</code>, אחריו התוצאה של <code>base.ToString()</code>, ובסוף <code>(V)</code> אם המנה צמחונית</td></tr>
+        <tr><td><code>Drink</code></td><td><code>isLarge</code> (bool)</td><td><code>[Drink]</code>, השם, הגודל בסוגריים (<code>Large</code> או <code>Small</code>), ואז המחיר</td></tr>
+        <tr><td><code>Dessert</code></td><td><code>withIceCream</code> (bool)</td><td><code>[Dessert]</code>, אחריו <code>base.ToString()</code>, ובסוף <code>+ ice cream</code> אם יש גלידה</td></tr>
+      </tbody>
+    </table></div>
+    <p>ב-<code>Drink</code> אי אפשר להשתמש ב-<code>base.ToString()</code>, כי הגודל צריך להופיע באמצע. השתמשו במאפיין <code>Name</code> ובפעולה <code>GetPrice()</code>, שעברו בירושה.</p>
+    <div class="note"><b>שימו לב לפני שמריצים:</b> בשלב הזה משקה גדול עדיין עולה כמו קטן, וגם הגלידה בחינם. זה מכוון. אל תוסיפו את התוספת למחיר באף מקום, גם לא ב-<code>ToString()</code>. נטפל בזה בשלב 3, בדרך הנכונה.</div>
+    <h4>בדיקה ב-Main</h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Console.WriteLine(new Dish("Greek Salad", 44, true));
+Console.WriteLine(new Drink("Lemonade", 14, true));
+Console.WriteLine(new Dessert("Apple Pie", 28, true));</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>[Dish] Greek Salad - 44 NIS (V)
+[Drink] Lemonade (Large) - 14 NIS
+[Dessert] Apple Pie - 28 NIS + ice cream</pre></div>
+    <details><summary>רמז 1</summary><div class="inner">
+      <p>התכונות <code>name</code> ו-<code>basePrice</code> הן <code>private</code> במחלקת הבסיס, ולכן המחלקה היורשת לא יכולה לגשת אליהן ישירות. דרך הגישה היא המאפיינים הציבוריים <code>Name</code> ו-<code>BasePrice</code>.</p>
+      <p>לבחירת הגודל בשורה אחת אפשר להשתמש באופרטור התנאי: <code>string size = isLarge ? "Large" : "Small";</code></p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד ל-Dish</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Dish skeleton</span></div>
+<pre><code class="cs">class Dish : MenuItem
+{
+    private bool isVegetarian;
+
+    public Dish(string name, double basePrice, bool isVegetarian)
+        : base(name, basePrice)
+    {
+        this.isVegetarian = isVegetarian;
+    }
+
+    public bool IsVegetarian
+    {
+        get { return isVegetarian; }
+    }
+
+    public override string ToString()
+    {
+        string text = "[Dish] " + base.ToString();
+        // TODO: add " (V)" when needed
+        return text;
+    }
+}</code></pre></div>
+      <p>את <code>Drink</code> ואת <code>Dessert</code> בנו באותה תבנית.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 3 ---------- -->
+  <div class="stage" id="stage3" data-stage="3" data-title="מחיר לפי סוג" data-min="15" data-done="סיימתי את שלב 3, והתפריט מודפס נכון">
+    <div class="stage-head"><span class="badge">3</span><h3>מחיר שתלוי בסוג הפריט</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: רב-צורתיות</span>
+    <p class="goal"><b>בסוף השלב:</b> משקה גדול וקינוח עם גלידה עולים יותר, והתוכנית מדפיסה תפריט של שמונה פריטים עם המחיר הנכון לכל אחד.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-poly">רב-צורתיות</a><a class="ref" href="#c-list">List&lt;T&gt;</a></div>
+    <ol class="req">
+      <li>ב-<code>MenuItem</code> הפכו את <code>GetPrice()</code> לפעולה וירטואלית. רק את <code>GetPrice()</code>: המאפיין <code>BasePrice</code> נשאר כמו שהוא.</li>
+      <li>ב-<code>Drink</code> דרסו את <code>GetPrice()</code>: משקה גדול עולה 4 ש"ח יותר מהמחיר הבסיסי.</li>
+      <li>ב-<code>Dessert</code> דרסו את <code>GetPrice()</code>: קינוח עם גלידה עולה 6 ש"ח יותר.</li>
+      <li>ב-<code>Dish</code> לא דורסים את <code>GetPrice()</code>. מנה עולה בדיוק את המחיר הבסיסי.</li>
+      <li>החליפו את הבדיקה ב-<code>Main</code> ברשימה אחת מטיפוס <code>List&lt;MenuItem&gt;</code> שמכילה את שמונת הפריטים שבקוד למטה, והדפיסו אותה בלולאה עם מספור. את הרשימה הזו תשמרו, היא התפריט של המסעדה.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main - the menu</span></div>
+<pre><code class="cs">List&lt;MenuItem&gt; menu = new List&lt;MenuItem&gt;();
+menu.Add(new Dish("Schnitzel", 58, false));
+menu.Add(new Dish("Mushroom Pasta", 52, true));
+menu.Add(new Dish("Greek Salad", 44, true));
+menu.Add(new Drink("Lemonade", 14, false));
+menu.Add(new Drink("Lemonade", 14, true));
+menu.Add(new Drink("Iced Coffee", 16, true));
+menu.Add(new Dessert("Chocolate Cake", 32, false));
+menu.Add(new Dessert("Apple Pie", 28, true));
+
+// TODO: print the menu with numbers starting from 1</code></pre></div>
+
+    <div class="predict" data-key="prices">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>אחרי שהוספתם את <code>virtual</code> ואת שתי הדריסות, ולפני שאתם מריצים, כתבו מה לדעתכם יודפס כמחיר של שני הפריטים האלה. אין כאן ציון, המטרה היא לבדוק את ההבנה שלכם.</p>
+      <div class="guess">
+        <label for="gDrink">פריט 5, <code>Lemonade (Large)</code>:</label>
+        <span><input id="gDrink" type="number" inputmode="numeric" min="0" data-answer="18" data-label="משקה גדול"> NIS</span>
+      </div>
+      <div class="guess">
+        <label for="gPie">פריט 8, <code>Apple Pie</code> עם גלידה:</label>
+        <span><input id="gPie" type="number" inputmode="numeric" min="0" data-answer="34" data-label="עוגת תפוחים עם גלידה"> NIS</span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>1. [Dish] Schnitzel - 58 NIS
+2. [Dish] Mushroom Pasta - 52 NIS (V)
+3. [Dish] Greek Salad - 44 NIS (V)
+4. [Drink] Lemonade (Small) - 14 NIS
+5. [Drink] Lemonade (Large) - 18 NIS
+6. [Drink] Iced Coffee (Large) - 20 NIS
+7. [Dessert] Chocolate Cake - 32 NIS
+8. [Dessert] Apple Pie - 34 NIS + ice cream</pre></div>
+      <div class="note aha">
+        <p><b>מה קרה לעוגת התפוחים?</b> ב-<code>Dessert</code> לא נגעתם ב-<code>ToString()</code> בשלב הזה. היא עדיין קוראת ל-<code>base.ToString()</code>, כלומר לקוד של <code>MenuItem</code>, ובכל זאת המחיר עלה מ-28 ל-34.</p>
+        <p>הסיבה: <code>ToString()</code> של <code>MenuItem</code> קוראת ל-<code>GetPrice()</code>, ו-<code>GetPrice()</code> וירטואלית. העצם הוא בפועל <code>Dessert</code>, ולכן מתבצעת הגרסה של <code>Dessert</code>, גם כשהקריאה מגיעה מתוך קוד של מחלקת הבסיס. זו רב-צורתיות, ובגלל זה ביקשנו בשלב 1 להשתמש ב-<code>GetPrice()</code> ולא ב-<code>basePrice</code>.</p>
+      </div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Drink.GetPrice skeleton</span></div>
+<pre><code class="cs">public override double GetPrice()
+{
+    if (isLarge)
+        return base.GetPrice() + 4;
+    // TODO
+}</code></pre></div>
+      <p>אם הקומפיילר מתלונן שאין מה לדרוס, בדקו שהוספתם <code>virtual</code> ל-<code>GetPrice()</code> ב-<code>MenuItem</code>.</p>
+    </div></details>
+  </div>
+
+  <div class="start-box">
+    <h3>סוף חלק 1</h3>
+    <p>אם התפריט מודפס עם המחירים שבפלט הצפוי, אתם מוכנים לחלק 2. שמרו את הפרויקט: בחלק 2 ממשיכים מאותו קוד, ומוסיפים את ההזמנה ואת התוכנית שהמלצר משתמש בה.</p>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מטלת סיכום תכנות מונחה עצמים | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

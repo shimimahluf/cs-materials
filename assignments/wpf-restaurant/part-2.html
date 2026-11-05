@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסעדה בחלון, חלק 2: ההזמנה בחלון</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="2">
+<script type="application/json" id="series">{"id":"wpf-restaurant","title":"מסעדה בחלון WPF","parts":[{"title":"מכינים את החלון","href":"part-1.html"},{"title":"ההזמנה בחלון","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>מסעדה בחלון, חלק 2: ההזמנה בחלון</h1>
+    <p class="lead">החלון כבר מציג את התפריט. בחלק הזה מחברים אליו את ההזמנה: הוספה, מחיקה, סגירה עם קבלה, והוספת פריטים חדשים לתפריט.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>טכנולוגיה:</b> WPF, C#</li>
+      <li><b>הגשה:</b> תיקיית הפרויקט מכווצת ל-zip (בלי התיקיות <code>bin</code> ו-<code>obj</code>) ב-Classroom</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+<div class="start-box">
+  <h3>ממשיכים מחלק 1</h3>
+  <p>פתחו את פרויקט ה-WPF מחלק 1. לפני שממשיכים, ודאו שיש בו:</p>
+  <ul>
+    <li>המחלקות המעודכנות: <code>BasePrice</code>, <code>FinalPrice</code>, <code>GetItems()</code> ו-<code>GetReceipt()</code>, ובלי <code>Console</code> בתוכן</li>
+    <li>חלון עם כל הפקדים והשמות מהשרטוט</li>
+    <li>טבלה שמציגה את התפריט, ופרטי פריט שמתעדכנים כשבוחרים שורה</li>
+  </ul>
+  <p>חסר משהו? חזרו ל<a href="part-1.html">חלק 1</a>. התזכורות על <a href="part-1.html#c-cast">המרת טיפוסים</a> ועל <a href="part-1.html#c-wpf">WPF</a> נמצאות שם.</p>
+</div>
+
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 4 ---------- -->
+  <div class="stage" id="stage4" data-stage="4" data-title="הוספה והסרה" data-min="20" data-done="סיימתי את שלב 4, והסכום מתעדכן נכון">
+    <div class="stage-head"><span class="badge">4</span><h3>הוספה והסרה מההזמנה</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: צבירה (וגם כימוס)</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר להוסיף פריט מהטבלה להזמנה ולמחוק ממנה, והסכום מתעדכן.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="part-1.html#c-selected">SelectedItem</a><a class="ref" href="../oop-restaurant/part-2.html#c-agg">צבירה</a><a class="ref" href="../oop-restaurant/part-1.html#c-encap">כימוס</a></div>
+    <ol class="req">
+      <li>כתבו פעולת עזר פרטית <code>RefreshOrder()</code> שמעדכנת את כל מה שתלוי בהזמנה: <code>orderList.ItemsSource = order.GetItems();</code>, הכותרת <code>Order #1</code> לפי מספר ההזמנה, ו-<code>totalText</code> בפורמט <code>Items: 3    Total: 110 NIS</code>. קראו לה בסוף הפעולה הבונה.</li>
+      <li><code>addToOrderButton_Click</code>: אם לא נבחר פריט בטבלה, הציגו <code>Select an item in the menu first.</code>. אחרת, הוסיפו להזמנה את <b>אותו עצם</b> מהתפריט. אם <code>AddItem</code> החזירה <code>false</code>, הציגו <code>This order is closed.</code>. בסוף קראו ל-<code>RefreshOrder()</code>.</li>
+      <li><code>removeButton_Click</code>: אם <code>orderList.SelectedIndex</code> הוא <code>-1</code>, הציגו <code>Select an item in the order first.</code>. אחרת מחקו את הפריט ורעננו.</li>
+    </ol>
+    <div class="note"><b>שימו לב:</b> <code>SelectedIndex</code> מתחיל מ-0, אבל <code>RemoveItem</code> שכתבתם מקבלת מיקום שמתחיל מ-1. מה צריך להעביר לה?</div>
+    <p>ה-<code>ListBox</code> מציג כל עצם בעזרת <code>ToString()</code>, ולכן כל פריט מופיע בפורמט של הסוג שלו, בלי שתכתבו שורת קוד נוספת. גם זו רב-צורתיות.</p>
+    <p><b>בדיקה:</b> הוסיפו שניצל, לימונדה גדולה ועוגת תפוחים. ב-<code>totalText</code> צריך להופיע <code>Items: 3    Total: 110 NIS</code>. מחקו את הלימונדה, והסכום יורד ל-<code>92</code>.</p>
+    <details class="think"><summary>שאלה למחשבה: למה <code>GetItems()</code> מחזירה עותק?</summary><div class="inner">
+      <p>נניח ש-<code>GetItems()</code> הייתה מחזירה את <code>items</code> עצמה. אז החלון היה יכול לכתוב <code>order.GetItems().Add(...)</code> ולהוסיף פריט גם להזמנה סגורה, ולעקוף את הבדיקה של <code>AddItem</code>.</p>
+      <p>כשמוחזר עותק, הוספה או מחיקה בו לא משנות את ההזמנה. רק <code>Order</code> משנה את הרשימה שלה, דרך הפעולות שלה ולפי הכללים שלה. זה כימוס. שימו לב: העותק הוא של <b>הרשימה</b>, לא של הפריטים. הוא מצביע על אותם עצמים בדיוק.</p>
+    </div></details>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Stage 4 skeleton</span></div>
+<pre><code class="cs">private void RefreshOrder()
+{
+    orderList.ItemsSource = order.GetItems();
+    orderTitle.Text = "Order #" + order.OrderNumber;
+    // TODO: totalText
+}
+
+private void addToOrderButton_Click(object sender, RoutedEventArgs e)
+{
+    if (!(menuGrid.SelectedItem is MenuItem))
+    {
+        MessageBox.Show("Select an item in the menu first.");
+        return;
+    }
+    MenuItem item = (MenuItem)menuGrid.SelectedItem;
+    // TODO: AddItem, check the result, RefreshOrder
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 5 ---------- -->
+  <div class="stage" id="stage5" data-stage="5" data-title="סגירת הזמנה" data-min="10" data-done="סיימתי את שלב 5, והקבלה מוצגת">
+    <div class="stage-head"><span class="badge">5</span><h3>סגירת הזמנה</h3><span class="time">כ-10 דקות</span></div>
+    <p class="goal"><b>בסוף השלב:</b> לחיצה על <code>Close order</code> מציגה קבלה ופותחת הזמנה חדשה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="part-1.html#c-wpf">WPF</a></div>
+    <ol class="req">
+      <li><code>closeOrderButton_Click</code>: אם ההזמנה ריקה, הציגו <code>Cannot close an empty order.</code>.</li>
+      <li>אחרת: סגרו את ההזמנה, הציגו את הקבלה ב-<code>MessageBox</code> עם הכותרת <code>Receipt</code>, ופתחו הזמנה חדשה עם המספר הבא.</li>
+      <li>רעננו, כך שהרשימה תתרוקן והכותרת תציג <code>Order #2</code>.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">MessageBox with a title</span></div>
+<pre><code class="cs">MessageBox.Show(order.GetReceipt(), "Receipt");</code></pre></div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>זה אותו רצף כמו באפשרות 5 בגרסת המסוף: <code>Close()</code>, הצגת הקבלה, <code>nextOrderNumber++</code>, ואז <code>order = new Order(nextOrderNumber);</code>. ההבדל היחיד: במקום <code>Console.WriteLine</code> יש <code>MessageBox</code> וקריאה ל-<code>RefreshOrder()</code>.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 6 ---------- -->
+  <div class="stage" id="stage6" data-stage="6" data-title="פריט חדש" data-min="20" data-done="סיימתי את שלב 6, ופריט חדש מופיע בטבלה">
+    <div class="stage-head"><span class="badge">6</span><h3>פריט חדש בתפריט</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: ירושה, והמרה כלפי מעלה</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר להוסיף לתפריט מנה, משקה או קינוח חדשים, והם מופיעים בטבלה עם המחיר הנכון.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="part-1.html#c-cast">המרה כלפי מעלה</a><a class="ref" href="part-1.html#c-wpf">WPF</a><a class="ref" href="../oop-restaurant/part-1.html#c-inherit">ירושה</a></div>
+    <ol class="req">
+      <li><code>typeCombo_SelectionChanged</code>: הטקסט של <code>extraCheck</code> משתנה לפי הסוג: <code>Vegetarian</code> למנה, <code>Large</code> למשקה, <code>With ice cream</code> לקינוח.</li>
+      <li>בפעולה הבונה, אחרי <code>InitializeComponent()</code>, בחרו את הסוג הראשון: <code>typeCombo.SelectedIndex = 0;</code></li>
+      <li><code>addToMenuButton_Click</code>: אם השם ריק, הציגו <code>Enter a name.</code>. אם המחיר הוא לא מספר או לא חיובי, הציגו <code>Enter a positive number for the price.</code>.</li>
+      <li>צרו את הפריט במשתנה אחד מטיפוס <code>MenuItem</code>, ולפי הבחירה ב-<code>typeCombo</code> הציבו בו <code>Dish</code>, <code>Drink</code> או <code>Dessert</code>, עם הערך של <code>extraCheck</code>.</li>
+      <li>הוסיפו את הפריט ל-<code>menu</code>, רעננו את הטבלה עם <code>menuGrid.Items.Refresh();</code>, ונקו את השדות.</li>
+    </ol>
+    <div class="note"><b>שתי שכבות הגנה:</b> המחלקה כבר לא תשמור מחיר שלילי, אבל היא לא מספרת על זה לאף אחד. החלון בודק קודם כדי <b>להסביר</b> למשתמש מה לא בסדר. המחלקה שומרת על הנתונים, החלון מדבר עם האדם.</div>
+    <p><b>בדיקה:</b> הוסיפו משקה בשם <code>Soda</code> במחיר 10 וסמנו <code>Large</code>. בטבלה תופיע שורה חדשה עם <code>BasePrice</code> 10 ו-<code>FinalPrice</code> 14. בחרו אותה, והפרטים יציגו <code>size: large</code>.</p>
+    <details><summary>רמז 1: למה לא לבחור ברירת מחדל ב-XAML?</summary><div class="inner">
+      <p>אם תכתבו <code>IsSelected="True"</code> על <code>ComboBoxItem</code> ב-XAML, האירוע <code>SelectionChanged</code> יופעל בזמן <code>InitializeComponent()</code>, עוד לפני ש-<code>extraCheck</code> נוצר. הפעולה תנסה לשנות פקד שעדיין <code>null</code>, והחלון ייפול עם <code>NullReferenceException</code>. בפעולה הבונה, אחרי <code>InitializeComponent()</code>, כל הפקדים כבר קיימים.</p>
+    </div></details>
+    <details><summary>רמז 2: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">addToMenuButton_Click skeleton</span></div>
+<pre><code class="cs">private void addToMenuButton_Click(object sender, RoutedEventArgs e)
+{
+    string name = nameBox.Text.Trim();
+    // TODO: empty name check
+
+    double price;
+    if (!double.TryParse(priceBox.Text, out price) || price &lt;= 0)
+    {
+        MessageBox.Show("Enter a positive number for the price.");
+        return;
+    }
+
+    bool extra = extraCheck.IsChecked == true;
+
+    MenuItem item;
+    if (typeCombo.SelectedIndex == 0)
+        item = new Dish(name, price, extra);   // up-casting: Dish -&gt; MenuItem
+    // TODO: Drink, Dessert
+
+    menu.Add(item);
+    menuGrid.Items.Refresh();
+    // TODO: clear the fields
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 7 ---------- -->
+  <div class="stage" id="stage7" data-stage="7" data-title="בדיקות והגשה" data-min="5" data-done="הגשתי">
+    <div class="stage-head"><span class="badge">7</span><h3>בדיקות, סיכום והגשה</h3><span class="time">כ-5 דקות</span></div>
+    <p class="goal"><b>בסוף השלב:</b> החלון לא נופל גם כשמשתמשים בו לא נכון, והפרויקט מוגש.</p>
+    <h4>בדקו שהחלון מתמודד עם המקרים האלה, בלי ליפול</h4>
+    <ul class="checklist">
+      <li><input type="checkbox" id="c1"><label for="c1">לחיצה על <code>Add to order</code> בלי לבחור פריט בתפריט</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2">לחיצה על <code>Remove selected</code> בלי לבחור פריט בהזמנה</label></li>
+      <li><input type="checkbox" id="c3"><label for="c3">סגירת הזמנה ריקה</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4">מחיר עם אותיות, ומחיר שלילי, בפריט חדש</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5">פריט חדש שנוסף לתפריט אפשר גם להוסיף להזמנה, והמחיר שלו נכון</label></li>
+      <li><input type="checkbox" id="c6"><label for="c6">אחרי סגירה, מספר ההזמנה עולה והרשימה ריקה</label></li>
+    </ul>
+    <h4>הערת סיכום בראש <code>MainWindow.xaml.cs</code></h4>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Top of MainWindow.xaml.cs</span></div>
+<pre><code class="cs">/*
+ * Name: ______________
+ *
+ * Up-casting:    where does it happen, and why is it safe there?
+ * Down-casting:  where did I need it, and how did I make it safe?
+ * Polymorphism:  where does the window show a price or text without
+ *                knowing the item's real type?
+ * Encapsulation: why do the classes not print anything, and why
+ *                does GetItems() return a copy?
+ */</code></pre></div>
+    <h4>הגשה</h4>
+    <p>כווצו ל-zip את תיקיית הפרויקט, בלי התיקיות <code>bin</code> ו-<code>obj</code>, והעלו ל-Classroom.</p>
+  </div>
+
+  <!-- ---------- BONUS ---------- -->
+  <div class="stage" id="bonus">
+    <div class="stage-head"><span class="badge">+</span><h3>משימות בונוס, למי שסיים מוקדם</h3></div>
+    <ol class="req">
+      <li><b>סינון לפי סוג:</b> <code>ComboBox</code> מעל הטבלה עם <code>All</code>, <code>Dishes</code>, <code>Drinks</code>, <code>Desserts</code>. בנו רשימה חדשה רק עם הפריטים מהסוג שנבחר (בעזרת <code>is</code>) והציגו אותה. דאגו שגם פריט חדש שנוסף יכובד על ידי הסינון.</li>
+      <li><b>שינוי מחיר:</b> <code>TextBox</code> וכפתור <code>Update price</code> שמשנים את <code>BasePrice</code> של הפריט שנבחר בטבלה. הוסיפו את הפריט להזמנה, שנו לו את המחיר, ורעננו גם את הטבלה וגם את ההזמנה. מה קרה לסכום של ההזמנה הפתוחה? הסבירו בהערה בעזרת המילה צבירה.</li>
+      <li><b>חלון בעברית:</b> הוסיפו ל-<code>Window</code> את <code>FlowDirection="RightToLeft"</code> ותרגמו את הטקסטים בחלון. מה קורה לפריטים ב-<code>ListBox</code>, שהטקסט שלהם באנגלית?</li>
+      <li><b>הנחה:</b> הזמנה מעל 200 ש"ח מקבלת 10% הנחה. הציגו ב-<code>totalText</code> את הסכום לפני ההנחה ואחריה.</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מטלת המשך תכנות מונחה עצמים: WPF | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

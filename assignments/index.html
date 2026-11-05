@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מטלות אינטראקטיביות</title>
+<link rel="stylesheet" href="assets/assignment.css">
+<style>
+  .catalog{max-width:900px;margin:0 auto;padding:30px 24px 80px}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0;list-style:none}
+  .chip{font:14px Arial,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--navy);
+        border-radius:20px;padding:4px 14px;cursor:pointer}
+  .chip:hover{border-color:var(--navy)}
+  .chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+  .card{border-top:2px solid var(--navy);padding:20px 0 26px}
+  .card h2{font-size:24px;margin:0 0 2px}
+  .card .course{color:var(--slate);font-size:15px;margin:0 0 10px}
+  .card .blurb{margin:0 0 12px}
+  .card .tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:0;list-style:none}
+  .card .tags .chip{font-size:13px;padding:2px 10px}
+  .parts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .parts a{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;color:var(--text);
+           border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .parts a:hover{border-color:var(--navy);background:var(--panel)}
+  .parts .nm{font-weight:bold;color:var(--navy)}
+  .parts .meta{font-size:14px;color:var(--slate);white-space:nowrap}
+  .req-note{font-size:15px;color:var(--slate);margin:10px 0 0}
+  .progress{font-size:14px;color:var(--ok);font-weight:bold;margin:0 0 10px}
+  .empty{color:var(--slate)}
+  @media (max-width:520px){ .catalog{padding-left:16px;padding-right:16px} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"><a href="../">לאתר הקורס</a></nav>
+    <h1>מטלות אינטראקטיביות</h1>
+    <p class="lead">מטלות שבונים בהן תוכנית שלמה, שלב אחרי שלב. בכל שלב יש דרישות, פלט צפוי לבדיקה, ורמזים למי שנתקע. כל חלק לוקח בערך שעה.</p>
+  </div>
+</header>
+
+<main class="catalog">
+  <ul class="filters" id="filters" aria-label="סינון לפי נושא"></ul>
+  <div id="list"></div>
+</main>
+
+<footer>מדעי המחשב</footer>
+<script src="catalog.js"></script>
+<script>
+(function () {
+  var CAT = window.CATALOG || [];
+  var byId = {};
+  CAT.forEach(function (a) { byId[a.id] = a; });
+  var active = null;
+
+  function progress(a) {
+    var st = null;
+    try { st = JSON.parse(localStorage.getItem("csa:" + a.id)); } catch (e) {}
+    if (!st || !st.parts) return null;
+    var done = 0, total = 0;
+    a.parts.forEach(function (p, i) {
+      total += p.stages;
+      var d = (st.parts[String(i + 1)] || {}).done || {};
+      for (var k in d) if (k !== "r" && d[k]) done++;
+    });
+    return done ? { done: done, total: total } : null;
+  }
+
+  function chip(text, pressed) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = text;
+    b.setAttribute("aria-pressed", pressed ? "true" : "false");
+    b.addEventListener("click", function () { active = (active === text || text === "הכול") ? null : text; render(); });
+    return b;
+  }
+
+  function render() {
+    /* filter chips, most used tags first */
+    var count = {};
+    CAT.forEach(function (a) { a.tags.forEach(function (t) { count[t] = (count[t] || 0) + 1; }); });
+    var tags = Object.keys(count).sort(function (x, y) { return count[y] - count[x] || x.localeCompare(y, "he"); });
+    var f = document.getElementById("filters"); f.innerHTML = "";
+    [ "הכול" ].concat(tags).forEach(function (t) {
+      var li = document.createElement("li");
+      li.appendChild(chip(t, t === "הכול" ? active === null : active === t));
+      f.appendChild(li);
+    });
+
+    var list = document.getElementById("list"); list.innerHTML = "";
+    var shown = CAT.filter(function (a) { return !active || a.tags.indexOf(active) >= 0; });
+    if (!shown.length) { var e = document.createElement("p"); e.className = "empty"; e.textContent = "אין מטלות עם התגית הזו."; list.appendChild(e); }
+    shown.forEach(function (a) {
+      var card = document.createElement("article"); card.className = "card";
+      var h = document.createElement("h2"); h.textContent = a.title; card.appendChild(h);
+      var c = document.createElement("p"); c.className = "course";
+      var mins = a.parts.reduce(function (s, p) { return s + p.min; }, 0);
+      c.textContent = a.course + " | " + a.parts.length + " חלקים, כ-" + Math.round(mins / 60 * 2) / 2 + " שעות";
+      card.appendChild(c);
+      var pr = progress(a);
+      if (pr) { var pp = document.createElement("p"); pp.className = "progress"; pp.textContent = "סימנתם " + pr.done + " מתוך " + pr.total + " שלבים"; card.appendChild(pp); }
+      var b = document.createElement("p"); b.className = "blurb"; b.textContent = a.blurb; card.appendChild(b);
+      var tl = document.createElement("ul"); tl.className = "tags"; tl.setAttribute("aria-label", "תגיות");
+      a.tags.forEach(function (t) { var li = document.createElement("li"); li.appendChild(chip(t, active === t)); tl.appendChild(li); });
+      card.appendChild(tl);
+      var ol = document.createElement("ol"); ol.className = "parts";
+      a.parts.forEach(function (p, i) {
+        var li = document.createElement("li");
+        var link = document.createElement("a"); link.href = p.href;
+        var badge = document.createElement("span"); badge.className = "badge"; badge.textContent = String(i + 1);
+        var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = "חלק " + (i + 1) + ": " + p.title;
+        var meta = document.createElement("span"); meta.className = "meta"; meta.textContent = "כ-" + p.min + " דקות";
+        link.appendChild(badge); link.appendChild(nm); link.appendChild(meta); li.appendChild(link); ol.appendChild(li);
+      });
+      card.appendChild(ol);
+      if (a.requires && byId[a.requires]) {
+        var r = document.createElement("p"); r.className = "req-note";
+        r.appendChild(document.createTextNode("ממשיכה את המטלה: "));
+        var ra = document.createElement("a"); ra.href = byId[a.requires].parts[0].href; ra.textContent = byId[a.requires].title;
+        r.appendChild(ra); card.appendChild(r);
+      }
+      list.appendChild(card);
+    });
+  }
+  render();
+})();
+</script>
+</body>
+</html>
