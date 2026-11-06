@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בית קפה, חלק 2: ניהול התור</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="2">
+<script type="application/json" id="series">{"id":"cafe-orders","title":"מחסנית ותור: מערכת הזמנות לבית קפה","parts":[{"title":"בונים את המערכת","href":"part-1.html"},{"title":"ניהול התור","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>בית קפה, חלק 2: ניהול התור</h1>
+    <p class="lead">בחלק הזה בית הקפה לומד לבטל הזמנה, לבטל הגשה שנעשתה בטעות, להקדים הזמנה דחופה ולהפיק דוחות. בסוף מריצים בוקר עמוס שלם.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> קובץ <code>Program.cs</code> ב-Classroom</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<div class="start-box">
+  <h3>ממשיכים מחלק 1</h3>
+  <p>פתחו את הפרויקט מחלק 1. לפני שממשיכים, ודאו שיש בו:</p>
+  <ul>
+    <li>המחלקה <code>Order</code>, והמחלקה <code>Cafe</code> עם <code>AddOrder</code>, <code>CountWaiting</code>, <code>PrintWaiting</code>, <code>ServeNext</code>, <code>LastServed</code> ו-<code>TotalWaitTime</code></li>
+    <li>ב-<code>Program</code>: הפעולה <code>Build()</code> משלב 3</li>
+  </ul>
+  <p>חסר משהו? חזרו ל<a href="part-1.html">חלק 1</a>. תזכורות: <a href="part-1.html#c-api">פעולות המחסנית והתור</a>, <a href="part-1.html#c-restore">לעבור בלי להרוס</a>.</p>
+</div>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="5" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <div class="concepts">
+    <div class="concept" id="c-middle">
+      <span class="badge" aria-hidden="true">3</span>
+      <div>
+        <h3>להוציא איבר מאמצע התור</h3>
+        <p>אי אפשר להוציא ישר מהאמצע. עוברים על כל התור עם תור עזר, ופשוט <b>לא מעבירים</b> לתור העזר את האיבר שרוצים להוציא. בסוף מחזירים את תור העזר, וכל השאר שומרים על הסדר שלהם.</p>
+        <p>חשוב: לא יוצאים מהלולאה באמצע עם <code>return</code>. מה שכבר נמצא בתור העזר ילך לאיבוד. משתמשים במשתנה בוליאני (<code>found</code>) וממשיכים עד הסוף.</p>
+      </div>
+    </div>
+    <div class="concept" id="c-head">
+      <span class="badge" aria-hidden="true">4</span>
+      <div>
+        <h3>להכניס לראש התור</h3>
+        <p><code>Insert</code> מכניסה תמיד לסוף. כדי שאיבר יהיה ראשון: מכניסים אותו <b>ראשון</b> לתור עזר, אחריו מעבירים את כל התור, ובסוף מחזירים הכול.</p>
+      </div>
+    </div>
+  </div>
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"בפעולה שמבטלת הזמנה, תלמיד כתב `return true;` מיד כשמצא את ההזמנה, בתוך הלולאה. מה יקרה?",
+     "a":["כלום, הפעולה פשוט תסתיים מהר יותר","ההזמנות שכבר עברו לתור העזר ילכו לאיבוד","הפעולה תחזיר false","שגיאת קומפילציה"],"c":1,
+     "h":"מה קורה לתור העזר אם לא מגיעים ללולאה שמחזירה אותו?",
+     "ex":"תור העזר הוא משתנה מקומי. אם יוצאים לפני ההחזרה, כל מה שהועבר אליו נעלם, והתור המקורי נשאר רק עם מה שעוד לא נבדק."},
+    {"q":"מה הסיבוכיות של הכנסה לראש תור עם n איברים, בעזרת תור עזר?",
+     "a":["O(1)","O(log n)","O(n)","O(n²)"],"c":2,
+     "h":"כמה פעמים מעבירים כל איבר?",
+     "ex":"כל איבר עובר לתור העזר וחוזר: מספר קבוע של פעולות לכל איבר, ולכן O(n)."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 4 ---------- -->
+  <div class="stage" id="stage4" data-stage="4" data-title="ביטול הזמנה" data-min="15" data-done="סיימתי את שלב 4, והפלט תואם">
+    <div class="stage-head"><span class="badge">4</span><h3>ביטול הזמנה</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: הוצאה מאמצע התור</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר לבטל הזמנה שמחכה לפי המספר שלה. שאר ההזמנות שומרות על הסדר.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-middle">להוציא איבר מאמצע התור</a></div>
+    <ol class="req">
+      <li><code>bool Cancel(int id)</code>: מוציאה מהתור את ההזמנה עם המספר הזה ומחזירה <code>true</code>.</li>
+      <li>אם אין בתור הזמנה כזו, מחזירה <code>false</code> והתור לא משתנה.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Cafe c = Build();
+Console.WriteLine(c.Cancel(3));
+Console.WriteLine(c.Cancel(3));
+Console.WriteLine(c.Cancel(9));
+c.PrintWaiting();</code></pre></div>
+    <div class="predict" data-key="cancel">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>ב-Main מבטלים את הזמנה 3 <b>פעמיים</b>. מה תחזיר הקריאה השנייה?</p>
+      <div class="col-guess" data-label="הקריאה השנייה ל-Cancel(3)">
+        <label><input type="checkbox" value="True"> True</label>
+        <label><input type="checkbox" value="False" data-correct> False</label>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>True
+False
+False
+Cafe Yam - waiting:
+  #1 Latte (4 min)
+  #2 Toast (7 min)
+  #4 Latte (4 min)
+  #5 Salad (9 min)</pre></div>
+      <div class="note aha"><p><b>אחרי הביטול הראשון, הזמנה 3 כבר לא בתור.</b> לכן הקריאה השנייה לא מוצאת אותה ומחזירה False, וכך גם הזמנה 9 שמעולם לא הייתה. ב-PrintWaiting רואים שהשאר שמרו על הסדר: 1, 2, 4, 5.</p></div>
+    </div>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Skeleton</span></div>
+<pre><code class="cs">public bool Cancel(int id)
+{
+    Queue&lt;Order&gt; temp = new Queue&lt;Order&gt;();
+    bool found = false;
+    while (!waiting.IsEmpty())
+    {
+        Order o = waiting.Remove();
+        // TODO: the first order with this id is not moved to temp
+    }
+    // TODO: move temp back
+    return found;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 5 ---------- -->
+  <div class="stage" id="stage5" data-stage="5" data-title="ביטול הגשה" data-min="15" data-done="סיימתי את שלב 5, והפלט תואם">
+    <div class="stage-head"><span class="badge">5</span><h3>ביטול הגשה (Undo)</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: מחסנית לביטול, הכנסה לראש התור</span>
+    <p class="goal"><b>בסוף השלב:</b> אם הזמנה הוגשה בטעות, אפשר לבטל את ההגשה האחרונה. ההזמנה חוזרת לתור, והלקוח לא מחכה שוב מההתחלה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-head">להכניס לראש התור</a><a class="ref" href="part-1.html#c-api">פעולות המחסנית</a></div>
+    <ol class="req">
+      <li><code>bool UndoServe()</code>: ההזמנה האחרונה שהוגשה יוצאת מ-<code>served</code> וחוזרת ל<b>ראש</b> התור. מחזירה <code>true</code>.</li>
+      <li>אם לא הוגש כלום, מחזירה <code>false</code>.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Cafe c = Build();
+c.ServeNext();
+c.ServeNext();
+Console.WriteLine(c.UndoServe());
+Console.WriteLine(c.LastServed());
+c.PrintWaiting();
+c.UndoServe();
+Console.WriteLine(c.UndoServe());</code></pre></div>
+    <div class="predict" data-key="undo">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>הוגשו הזמנות 1 ו-2, ואז ביטלנו הגשה אחת. איזו הזמנה תהיה בראש התור, ואיזו תודפס כ-<code>LastServed</code>?</p>
+      <div class="guess">
+        <label for="gUndoHead">מספר ההזמנה בראש התור:</label>
+        <span><input id="gUndoHead" type="number" inputmode="numeric" data-answer="2" data-label="בראש התור"></span>
+      </div>
+      <div class="guess">
+        <label for="gUndoLast">מספר ההזמנה ב-LastServed:</label>
+        <span><input id="gUndoLast" type="number" inputmode="numeric" data-answer="1" data-label="LastServed"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>True
+#1 Latte (4 min)
+Cafe Yam - waiting:
+  #2 Toast (7 min)
+  #3 Tea (2 min)
+  #4 Latte (4 min)
+  #5 Salad (9 min)
+False</pre></div>
+      <div class="note aha"><p><b>מבטלים את האחרונה שהוגשה, הזמנה 2,</b> כי היא בראש המחסנית. היא חוזרת לראש התור, לא לסופו. ב-served נשארה רק הזמנה 1. בסוף מבטלים גם אותה, והקריאה הבאה מחזירה False כי המחסנית ריקה.</p></div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>קודם בודקים <code>served.IsEmpty()</code>. אחר כך <code>Pop()</code>, ואז הכנסה לראש התור לפי <a href="#c-head">התזכורת</a>: ההזמנה נכנסת ראשונה לתור עזר, אחריה כל התור, ובסוף מחזירים הכול.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 6 ---------- -->
+  <div class="stage" id="stage6" data-stage="6" data-title="הזמנה דחופה" data-min="10" data-done="סיימתי את שלב 6, והפלט תואם">
+    <div class="stage-head"><span class="badge">6</span><h3>הזמנה דחופה</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">עיקרון: שילוב של שתי תבניות</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר להעביר הזמנה שמחכה לראש התור, והשאר שומרים על הסדר.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-middle">הוצאה מהאמצע</a><a class="ref" href="#c-head">הכנסה לראש</a></div>
+    <ol class="req">
+      <li><code>bool MoveToFront(int id)</code>: מעבירה את ההזמנה עם המספר הזה לראש התור ומחזירה <code>true</code>.</li>
+      <li>אם אין הזמנה כזו בתור, מחזירה <code>false</code> והתור לא משתנה.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Cafe c = Build();
+Console.WriteLine(c.MoveToFront(4));
+Console.WriteLine(c.MoveToFront(8));
+c.PrintWaiting();</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>True
+False
+Cafe Yam - waiting:
+  #4 Latte (4 min)
+  #1 Latte (4 min)
+  #2 Toast (7 min)
+  #3 Tea (2 min)
+  #5 Salad (9 min)</pre></div>
+    <details class="think"><summary>שאלה למחשבה: איך זה קשור לשלבים 4 ו-5?</summary><div class="inner">
+      <p>זה ביטול (שלב 4) ומיד אחריו הכנסה לראש התור (שלב 5). אפשר לעשות את שניהם במעבר אחד: מוציאים את ההזמנה הדחופה בצד, ואז מכניסים אותה ראשונה, ואחריה את תור העזר.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 7 ---------- -->
+  <div class="stage" id="stage7" data-stage="7" data-title="דוחות" data-min="15" data-done="סיימתי את שלב 7, והפלט תואם">
+    <div class="stage-head"><span class="badge">7</span><h3>דוחות</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: מעבר על מבנה בלי להרוס</span>
+    <p class="goal"><b>בסוף השלב:</b> בית הקפה יודע כמה הזמנות יש מכל פריט, כמה זמן תחכה כל הזמנה, ומה הוגש עד עכשיו.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="part-1.html#c-restore">לעבור בלי להרוס</a></div>
+    <ol class="req">
+      <li><code>int CountItem(string item)</code>: כמה הזמנות בתור הן של הפריט הזה.</li>
+      <li><code>int WaitFor(int id)</code>: כמה דקות עד שההזמנה הזו מוכנה: הדקות שלה ועוד הדקות של כל ההזמנות שלפניה. אם היא לא בתור, <code>-1</code>.</li>
+      <li><code>void PrintServedHistory()</code>: ההזמנות שהוגשו, מהחדשה לישנה, בפורמט שבפלט. המחסנית נשארת כמו שהייתה.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Cafe c = Build();
+Console.WriteLine(c.CountItem("Latte") + " " + c.CountItem("Coffee"));
+Console.WriteLine(c.WaitFor(3) + " " + c.WaitFor(5) + " " + c.WaitFor(7));
+c.ServeNext();
+c.ServeNext();
+c.ServeNext();
+c.PrintServedHistory();</code></pre></div>
+    <div class="predict" data-key="wait">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>בתור: ‏#1 (4 דק'), ‏#2 (7), ‏#3 (2), ‏#4 (4), ‏#5 (9). מה יחזירו הקריאות?</p>
+      <div class="guess">
+        <label for="gW3"><code>WaitFor(3)</code>:</label>
+        <span><input id="gW3" type="number" inputmode="numeric" data-answer="13" data-label="WaitFor(3)"></span>
+      </div>
+      <div class="guess">
+        <label for="gW5"><code>WaitFor(5)</code>:</label>
+        <span><input id="gW5" type="number" inputmode="numeric" data-answer="26" data-label="WaitFor(5)"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>2 0
+13 26 -1
+Cafe Yam - served, newest first:
+  #3 Tea (2 min)
+  #2 Toast (7 min)
+  #1 Latte (4 min)</pre></div>
+      <div class="note aha"><p><b>הזמנה מחכה גם לכל מי שלפניה:</b> ‏#3 מוכנה אחרי 4 + 7 + 2 = 13 דקות, לא אחרי 2. ‏#5 היא האחרונה, ולכן מחכה לכל התור: 26. בהיסטוריה, ההזמנה שהוגשה אחרונה (#3) מודפסת ראשונה, כי זו מחסנית.</p></div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>ב-<code>WaitFor</code> ממשיכים לעבור על כל התור גם אחרי שמצאתם את ההזמנה, כדי להחזיר את כולו. משתנה <code>found</code> אומר אם עדיין צריך לסכום דקות.</p>
+      <p>ב-<code>PrintServedHistory</code> מחזירים את המחסנית בעזרת מחסנית עזר.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 8 ---------- -->
+  <div class="stage" id="stage8" data-stage="8" data-title="בוקר עמוס והגשה" data-min="10" data-done="סיימתי את שלב 8 והגשתי">
+    <div class="stage-head"><span class="badge">8</span><h3>בוקר עמוס, והגשה</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">חיבור כל החלקים</span>
+    <p class="goal"><b>בסוף השלב:</b> תרחיש שלם שמשתמש בכל הפעולות עובד, והפלט זהה לפלט הצפוי.</p>
+    <p>לפני ההרצה, עקבו אחרי התרחיש על הנייר: מה בתור ומה במחסנית אחרי כל שורה?</p>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Cafe c = new Cafe("Cafe Yam");
+c.AddOrder("Espresso", 2);
+c.AddOrder("Shakshuka", 12);
+c.AddOrder("Latte", 4);
+c.AddOrder("Croissant", 3);
+Console.WriteLine("Served: " + c.ServeNext());
+c.MoveToFront(4);
+c.Cancel(3);
+c.AddOrder("Tea", 2);
+Console.WriteLine("Served: " + c.ServeNext());
+Console.WriteLine("Oops, undo: " + c.UndoServe());
+c.PrintWaiting();
+Console.WriteLine("Total wait: " + c.TotalWaitTime() + " min");
+Console.WriteLine("Wait for #5: " + c.WaitFor(5) + " min");
+c.PrintServedHistory();</code></pre></div>
+    <div class="predict" data-key="morning">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>כמה דקות יחכה התור בסוף (השורה <code>Total wait</code>)?</p>
+      <div class="guess">
+        <label for="gTotal">סכום הדקות:</label>
+        <span><input id="gTotal" type="number" inputmode="numeric" data-answer="17" data-label="Total wait"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Served: #1 Espresso (2 min)
+Served: #4 Croissant (3 min)
+Oops, undo: True
+Cafe Yam - waiting:
+  #4 Croissant (3 min)
+  #2 Shakshuka (12 min)
+  #5 Tea (2 min)
+Total wait: 17 min
+Wait for #5: 17 min
+Cafe Yam - served, newest first:
+  #1 Espresso (2 min)</pre></div>
+      <div class="note aha"><p><b>מעקב:</b> הוגש Espresso. ‏Croissant (#4) הוקדם לראש, ‏Latte (#3) בוטל, ו-Tea (#5) הצטרף לסוף. הוגש Croissant, ובוטלה ההגשה, אז הוא חזר לראש. בתור: ‏3 + 12 + 2 = 17 דקות, ו-#5 האחרון מחכה לכולם.</p></div>
+    </div>
+    <details class="think"><summary>שאלה אחרונה: מה הסיבוכיות של כל פעולה?</summary><div class="inner">
+      <p>חשבו לבד, ורק אחר כך השוו. n הוא מספר ההזמנות בתור, ו-m מספר ההזמנות שהוגשו.</p>
+      <div class="tbl"><table class="map">
+        <thead><tr><th>פעולה</th><th>סיבוכיות</th><th>למה</th></tr></thead>
+        <tbody>
+          <tr><td><code>AddOrder</code>, <code>ServeNext</code>, <code>LastServed</code></td><td><code>O(1)</code></td><td>מספר קבוע של פעולות</td></tr>
+          <tr><td><code>CountWaiting</code>, <code>TotalWaitTime</code>, <code>Cancel</code>, <code>MoveToFront</code>, <code>CountItem</code>, <code>WaitFor</code></td><td><code>O(n)</code></td><td>מעבר על התור והחזרה</td></tr>
+          <tr><td><code>UndoServe</code></td><td><code>O(n)</code></td><td>הכנסה לראש התור דורשת להעביר את כולו</td></tr>
+          <tr><td><code>PrintServedHistory</code></td><td><code>O(m)</code></td><td>מעבר על המחסנית והחזרה</td></tr>
+        </tbody>
+      </table></div>
+    </div></details>
+    <h4>הגשה</h4>
+    <p>העלו ל-Classroom את הקובץ <code>Program.cs</code> עם כל המחלקות.</p>
+  </div>
+
+  <!-- ---------- BONUS ---------- -->
+  <div class="stage" id="bonus">
+    <div class="stage-head"><span class="badge">+</span><h3>משימות בונוס, למי שסיים מוקדם</h3></div>
+    <ol class="req">
+      <li><b>Redo:</b> מחסנית שנייה, <code>undone</code>. ‏<code>UndoServe</code> שומרת בה את ההזמנה, ו-<code>RedoServe()</code> מגישה אותה שוב. מה צריך לקרות למחסנית הזו כשמגישים הזמנה חדשה רגילה?</li>
+      <li><b>הפריט הפופולרי:</b> <code>string MostOrderedItem()</code>: הפריט שמופיע הכי הרבה פעמים בתור. מה הסיבוכיות של הפתרון שלכם?</li>
+      <li><b>שולחן משותף:</b> <code>int ServeAll(string item)</code>: מגישה את כל ההזמנות של הפריט הזה, לפי הסדר שלהן בתור, ומחזירה כמה הוגשו.</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מבני נתונים: סיכום מחסנית ותור | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

@@ -5,6 +5,17 @@
      parts    = one entry per part page; stages = number of stages on that page */
 window.CATALOG = [
   {
+    id: "cafe-orders",
+    title: "מחסנית ותור: מערכת הזמנות לבית קפה",
+    course: "מבני נתונים",
+    blurb: "תרגיל הסיכום של יחידת המחסנית והתור: הזמנות מחכות בתור, הזמנות שהוגשו נכנסות למחסנית, ואפשר לבטל הזמנה, לבטל הגשה, להקדים הזמנה דחופה ולהפיק דוחות.",
+    tags: ["מחסנית", "תור", "מעבר בלי להרוס", "ביטול (Undo)", "סיבוכיות", "Unit4.CollectionsLib", "Console"],
+    parts: [
+      { title: "בונים את המערכת", href: "cafe-orders/part-1.html", min: 65, stages: 4 },
+      { title: "ניהול התור", href: "cafe-orders/part-2.html", min: 70, stages: 5 }
+    ]
+  },
+  {
     id: "restaurant-abstract",
     title: "שדרוג המסעדה: מחלקה מופשטת וממשקים",
     course: "תכנות מונחה עצמים",
