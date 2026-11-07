@@ -16,7 +16,7 @@
      .checklist input[id]                       -> remembered
      .check[data-key] with input.ans[data-answer] -> "check" + "show answers" (trace tables, output lines)
          data-answer may list alternatives separated by "|"
-     .rubric[data-key] input[data-pts]          -> self-score; sums into .q-score of its stage (data-points)
+     .rubric[data-key] input[data-pts]          -> self-check list; checked / total into .q-score of its stage
      .qpick a.qcard[href="#stageId"]            -> question picker cards: done mark + self-score
    Progress lives in localStorage under "csa:<series id>" (one origin is shared
    with the rest of the site, so keys are always namespaced).
@@ -381,19 +381,21 @@
     st.querySelectorAll(".rubric input[data-pts]").forEach(function (cb) {
       if (cb.checked) { sum += Number(cb.getAttribute("data-pts")); any = true; }
     });
-    return { sum: sum, any: any, max: Number(st.getAttribute("data-points") || 0) };
+    var max = 0;
+    st.querySelectorAll(".rubric input[data-pts]").forEach(function (cb) { max += Number(cb.getAttribute("data-pts")); });
+    return { sum: sum, any: any, max: max };
   }
   function renderScores() {
     stages.forEach(function (st) {
       var sc = stageScore(st);
       var el = st.querySelector(".q-score");
-      if (el) el.textContent = sc.any ? "ציון עצמי: " + sc.sum + " / " + sc.max : "ציון עצמי: —";
+      if (el) el.textContent = sc.any ? "בדיקה עצמית: " + sc.sum + " / " + sc.max : "בדיקה עצמית: —";
       st.querySelectorAll(".rubric").forEach(function (r) {
         var s = 0, m = 0;
         r.querySelectorAll("input[data-pts]").forEach(function (cb) { var p = Number(cb.getAttribute("data-pts")); m += p; if (cb.checked) s += p; });
         var out = r.querySelector(".rubric-sum");
         if (!out) { out = document.createElement("p"); out.className = "rubric-sum"; r.appendChild(out); }
-        out.textContent = "בסעיף הזה: " + s + " מתוך " + m + " נקודות";
+        out.textContent = "סימנתם " + s + " מתוך " + m;
       });
     });
     document.querySelectorAll(".qpick a.qcard").forEach(function (card) {

@@ -13,8 +13,8 @@
   <div class="top-inner">
     <nav class="crumbs" aria-label="ניווט"></nav>
     <h1>תרגול למבחן, חלק 1: מחסנית</h1>
-    <p class="lead">שאלות בסגנון הבגרות על מחסנית: מעקב אחר פעולה, "מה מבצעת הפעולה", כתיבת פעולות חיצוניות וסיבוכיות זמן ריצה. בכל שאלה יש רמזים, פתרון מלא ומחוון לבדיקה עצמית.</p>
-    <ul class="facts"><li><b>שאלות:</b> 8 (2 מעקב, 6 כתיבת קוד)</li><li><b>ניקוד:</b> 25 נקודות לשאלה</li><li><b>בוחרים:</b> כמה שרוצים, בכל סדר</li><li><b>שפה:</b> <bdi dir="ltr">C#</bdi>, המחלקה Stack&lt;T&gt;</li></ul>
+    <p class="lead">שאלות בסגנון הבגרות על מחסנית: מעקב אחר פעולה, "מה מבצעת הפעולה", כתיבת פעולות חיצוניות וסיבוכיות זמן ריצה. בכל שאלה יש רמזים, פתרון מלא ורשימת בדיקה עצמית.</p>
+    <ul class="facts"><li><b>שאלות:</b> 8 (2 מעקב, 6 כתיבת קוד)</li><li><b>בוחרים:</b> כמה שרוצים, בכל סדר</li><li><b>שפה:</b> <bdi dir="ltr">C#</bdi>, המחלקה Stack&lt;T&gt;</li></ul>
   </div>
 </header>
 
@@ -27,7 +27,7 @@
     <li>כל שאלה בנויה כמו שאלה במבחן. <b>בחרו את השאלות שאתם רוצים</b>, אין חובה לעשות את כולן ואין סדר.</li>
     <li>רוצים לדמות מבחן? בחרו 2 שאלות מהדף הזה ו-2 שאלות מ<a href="part-2.html">חלק 2 (מחלקות)</a>, וענו עליהן ברצף, בלי רמזים.</li>
     <li>כתבו את התשובות <b>במחברת</b>, כמו במבחן. בשאלות מעקב אפשר למלא את הטבלה בדף וללחוץ "בדיקה".</li>
-    <li>בסוף כל שאלה יש פתרון מלא ומחוון. סמנו במחוון את מה שעשיתם נכון, ותקבלו ציון עצמי לשאלה.</li>
+    <li>בסוף כל שאלה יש פתרון מלא ורשימת בדיקה עצמית. סמנו בה את מה שעשיתם נכון.</li>
     <li>הזמנים הם הערכה בלבד, לא מגבלה.</li>
   </ul>
 </div>
@@ -37,7 +37,7 @@
   <ul>
     <li>כל הפעולות נכתבות בשפת <bdi dir="ltr">C#</bdi>. מותר להשתמש רק בפעולות שבממשק שלמטה, ובמחסניות עזר.</li>
     <li>"בסיום הפעולה המחסנית צריכה להיות כמו בהתחלה" = אותם איברים, באותו סדר. אם כתוב "אין צורך לשמור על התוכן", מותר להרוס את המחסנית.</li>
-    <li>בשאלות על סיבוכיות יש לבטא את הסיבוכיות כתלות ב-n (מספר האיברים) <b>ולנמק</b>. בלי נימוק אין ניקוד מלא.</li>
+    <li>בשאלות על סיבוכיות יש לבטא את הסיבוכיות כתלות ב-n (מספר האיברים) <b>ולנמק</b>. בלי נימוק התשובה לא מלאה.</li>
     <li>בדוגמאות, מחסנית נכתבת מהראש אל הבסיס: <code>(top) 4, 6, 3 (bottom)</code>.</li>
   </ul>
   <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th><th>סיבוכיות</th></tr></thead><tbody>
@@ -52,18 +52,18 @@
 <section class="qpick" id="pick"><h2>בחרו שאלה</h2>
 <div class="qfilter" role="group" aria-label="סינון שאלות"><button type="button" data-f="all" aria-pressed="true">הכול</button><button type="button" data-f="trace" aria-pressed="false">מעקב</button><button type="button" data-f="write" aria-pressed="false">כתיבת קוד</button><button type="button" data-f="objects" aria-pressed="false">מחסנית של עצמים</button></div>
 <div class="qgrid">
-<a class="qcard" href="#q1" data-tags="trace bigo"><span class="qc-top"><span class="qc-n">שאלה 1</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">מעקב: הפעולה What</span><span class="qc-d">טבלת מעקב על מחסנית אחת, דוגמאות קלט, מה מבצעת הפעולה.</span><span class="qc-tags"><span class="chip trace">מעקב</span><span class="chip ">טענת יציאה</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q2" data-tags="trace bigo"><span class="qc-top"><span class="qc-n">שאלה 2</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">מעקב: הפעולה Secret</span><span class="qc-d">פעולה בוליאנית על שתי מחסניות: מעקב, שתי ריצות ומה היא בודקת.</span><span class="qc-tags"><span class="chip trace">מעקב</span><span class="chip ">שתי מחסניות</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q3" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 3</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">להעביר לראש</span><span class="qc-d">MoveToTop ו-MoveMinToTop שמשתמשת בה.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">פעולת עזר</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q4" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 4</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">התחתון והפלינדרום</span><span class="qc-d">RemoveBottom ו-IsPalindrome שמשתמשת בה.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">פעולת עזר</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q5" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 5</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">מחסנית ממוינת</span><span class="qc-d">InsertSorted ו-SortStack, ומתי המיון מהיר.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">לשמור על s</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q6" data-tags="write bigo objects"><span class="qc-top"><span class="qc-n">שאלה 6</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">מחסנית של משימות</span><span class="qc-d"><bdi dir="ltr">Stack&lt;Job&gt;</bdi>: עדיפות מרבית, מחיקה לפי עדיפות, העברה לראש.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">מחסנית של עצמים</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q7" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 7</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">קטעים במחסנית</span><span class="qc-d">סכום של כל קטע בין אפסים, והקטע הארוך ביותר.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">לשמור על הסדר</span><span class="chip bigo">סיבוכיות</span></span></a>
-<a class="qcard" href="#q8" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 8</span><span class="qc-pts">25 נק'</span><span class="qc-score"></span></span><span class="qc-t">שתי מחסניות ממוינות</span><span class="qc-d">מיזוג וערכים משותפים ביעילות <bdi dir="ltr">O(n + m)</bdi>.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">שתי מחסניות</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q1" data-tags="trace bigo"><span class="qc-top"><span class="qc-n">שאלה 1</span><span class="qc-score"></span></span><span class="qc-t">מעקב: הפעולה What</span><span class="qc-d">טבלת מעקב על מחסנית אחת, דוגמאות קלט, מה מבצעת הפעולה.</span><span class="qc-tags"><span class="chip trace">מעקב</span><span class="chip ">טענת יציאה</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q2" data-tags="trace bigo"><span class="qc-top"><span class="qc-n">שאלה 2</span><span class="qc-score"></span></span><span class="qc-t">מעקב: הפעולה Secret</span><span class="qc-d">פעולה בוליאנית על שתי מחסניות: מעקב, שתי ריצות ומה היא בודקת.</span><span class="qc-tags"><span class="chip trace">מעקב</span><span class="chip ">שתי מחסניות</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q3" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 3</span><span class="qc-score"></span></span><span class="qc-t">להעביר לראש</span><span class="qc-d">MoveToTop ו-MoveMinToTop שמשתמשת בה.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">פעולת עזר</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q4" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 4</span><span class="qc-score"></span></span><span class="qc-t">התחתון והפלינדרום</span><span class="qc-d">RemoveBottom ו-IsPalindrome שמשתמשת בה.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">פעולת עזר</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q5" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 5</span><span class="qc-score"></span></span><span class="qc-t">מחסנית ממוינת</span><span class="qc-d">InsertSorted ו-SortStack, ומתי המיון מהיר.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">לשמור על s</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q6" data-tags="write bigo objects"><span class="qc-top"><span class="qc-n">שאלה 6</span><span class="qc-score"></span></span><span class="qc-t">מחסנית של משימות</span><span class="qc-d"><bdi dir="ltr">Stack&lt;Job&gt;</bdi>: עדיפות מרבית, מחיקה לפי עדיפות, העברה לראש.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">מחסנית של עצמים</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q7" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 7</span><span class="qc-score"></span></span><span class="qc-t">קטעים במחסנית</span><span class="qc-d">סכום של כל קטע בין אפסים, והקטע הארוך ביותר.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">לשמור על הסדר</span><span class="chip bigo">סיבוכיות</span></span></a>
+<a class="qcard" href="#q8" data-tags="write bigo"><span class="qc-top"><span class="qc-n">שאלה 8</span><span class="qc-score"></span></span><span class="qc-t">שתי מחסניות ממוינות</span><span class="qc-d">מיזוג וערכים משותפים ביעילות <bdi dir="ltr">O(n + m)</bdi>.</span><span class="qc-tags"><span class="chip ">כתיבת קוד</span><span class="chip ">שתי מחסניות</span><span class="chip bigo">סיבוכיות</span></span></a>
 </div></section>
 <section id="questions"><h2>השאלות</h2>
 <div class="stage" id="q1" data-stage="1" data-title="מעקב: What" data-min="35" data-points="25" data-done="סיימתי את שאלה 1">
-<div class="stage-head"><span class="badge">1</span><h3>מעקב וניתוח: הפעולה What</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">1</span><h3>מעקב וניתוח: הפעולה What</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">מעקב · מה מבצעת הפעולה · סיבוכיות</span>
 <p>לפניכם הפעולה <code>What</code>, שמקבלת מחסנית של מספרים שלמים:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">What</span></div>
@@ -83,7 +83,7 @@
         s.Push(temp.Pop());
     return count;
 }</code></pre></div>
-<p class="sub">א. <span class="pts">(10 נקודות)</span> נתונה המחסנית <code>s</code> שלהלן:</p>
+<p class="sub">א. נתונה המחסנית <code>s</code> שלהלן:</p>
 <div class="stackline">s:   (top)  3, 1, 5, 5, 2, 8, 6, 9, 4  (bottom)</div>
 <p>עקבו אחר ביצוע הזימון <code>What(s)</code> בעזרת טבלת המעקב. כל שורה היא סבב אחד של הלולאה הראשונה. בעמודה של <code>temp</code> רשמו את התוכן <b>מהבסיס אל הראש</b>, מופרד בפסיקים. אם <code>temp</code> ריקה לפני הבדיקה, רשמו <code>-</code> בעמודה של <code>temp.Top()</code>. בעמודת התנאי רשמו <code>true</code> או <code>false</code>.</p>
 <div class="check" data-key="q1-trace"><div class="tbl"><table class="trace"><thead><tr><th><code>x</code></th><th><code>temp.Top()</code> לפני הבדיקה</th><th>ערך התנאי</th><th><code>temp</code> בסוף הסבב</th><th><code>count</code></th></tr></thead><tbody>
@@ -102,30 +102,30 @@
 <details><summary>רמז 1</summary><div class="inner">
 <p>שימו לב: בודקים את <code>x</code> מול <b>הראש של temp</b>, כלומר מול האיבר האחרון שנכנס ל-<code>temp</code>, ולא מול האיבר הקודם ב-<code>s</code>. כשהתנאי <code>false</code>, האיבר לא נכנס לשום מקום: הוא נעלם.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(5 נקודות)</span> ענו על שני הסעיפים:</p>
+<p class="sub">ב. ענו על שני הסעיפים:</p>
 <ol><li>תנו דוגמה למחסנית <code>s</code> עם 5 איברים בדיוק, שעבורה <code>What(s)</code> תחזיר 0.</li><li>תנו דוגמה למחסנית <code>s</code> עם 5 איברים בדיוק, שעבורה <code>What(s)</code> תחזיר 4. מה יהיה תוכן <code>s</code> בסיום?</li></ol>
-<p class="sub">ג. <span class="pts">(5 נקודות)</span> מה מבצעת הפעולה <code>What</code> באופן כללי? התייחסו גם לערך המוחזר וגם לתוכן <code>s</code> בסיום. אין לתאר את הקוד שורה אחר שורה.</p>
-<p class="sub">ד. <span class="pts">(5 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>What</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו (במחברת), ואז בחרו:</p>
+<p class="sub">ג. מה מבצעת הפעולה <code>What</code> באופן כללי? התייחסו גם לערך המוחזר וגם לתוכן <code>s</code> בסיום. אין לתאר את הקוד שורה אחר שורה.</p>
+<p class="sub">ד. מהי סיבוכיות זמן הריצה של <code>What</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו (במחברת), ואז בחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות זמן הריצה של `What`:", "a": ["`O(1)`", "`O(n)`", "`O(n²)`", "`O(log n)`"], "c": 1, "h": "כמה סבבים יש בכל לולאה? וכמה עולה כל סבב?", "ex": "בלולאה הראשונה יש בדיוק n סבבים, ובכל סבב מספר קבוע של פעולות O(1). בלולאה השנייה יש לכל היותר n סבבים. O(n) + O(n) = O(n)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<p><b>א.</b> הערך המוחזר: <code>5</code>. תוכן <code>s</code> בסיום: <code>(top) 3, 5, 8, 9 (bottom)</code>. הלולאה השנייה מחזירה את <code>temp</code> אל <code>s</code>, ולכן הסדר של האיברים שנשארו לא משתנה.</p><p><b>ב.</b> 1. מחסנית שעולה מהראש אל הבסיס, למשל <code>(top) 1, 2, 3, 4, 5</code>: כל איבר גדול מהקודם, ואף אחד לא נמחק. 2. המקסימום היחיד בראש, למשל <code>(top) 9, 2, 7, 1, 3</code>: כל השאר לא גדולים מ-9 ונמחקים. בסיום <code>s</code> מכילה רק <code>9</code>.</p><p><b>ג.</b> הפעולה עוברת על <code>s</code> מהראש אל הבסיס ומשאירה בה רק את האיברים שגדולים <b>מכל</b> האיברים שמעליהם ("שיאים"), באותו הסדר. שאר האיברים נמחקים. הפעולה מחזירה את מספר האיברים שנמחקו.</p><p><b>ד.</b> <code>O(n)</code>: שתי לולאות בזו אחר זו, כל אחת לכל היותר n סבבים של פעולות <code>O(1)</code>.</p><div class="rubric" data-key="q1"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="7"><span>טבלת מעקב נכונה (להוריד נקודה על כל שורה שגויה, בלי טעויות גוררות)</span><span class="p">7 נק'</span></label>
-<label><input type="checkbox" data-pts="1"><span>ערך מוחזר נכון</span><span class="p">1 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>תוכן s בסיום נכון</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב1: דוגמה נכונה</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב2: דוגמה נכונה + תוכן s</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: האיברים שנשארים הם אלה שגדולים מכל מה שמעליהם</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: הסדר נשמר, השאר נמחקים</span><span class="p">1 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: הערך המוחזר = מספר הנמחקים</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ד: O(n)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ד: נימוק (שתי לולאות, כל אחת n סבבים של O(1))</span><span class="p">3 נק'</span></label>
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<p><b>א.</b> הערך המוחזר: <code>5</code>. תוכן <code>s</code> בסיום: <code>(top) 3, 5, 8, 9 (bottom)</code>. הלולאה השנייה מחזירה את <code>temp</code> אל <code>s</code>, ולכן הסדר של האיברים שנשארו לא משתנה.</p><p><b>ב.</b> 1. מחסנית שעולה מהראש אל הבסיס, למשל <code>(top) 1, 2, 3, 4, 5</code>: כל איבר גדול מהקודם, ואף אחד לא נמחק. 2. המקסימום היחיד בראש, למשל <code>(top) 9, 2, 7, 1, 3</code>: כל השאר לא גדולים מ-9 ונמחקים. בסיום <code>s</code> מכילה רק <code>9</code>.</p><p><b>ג.</b> הפעולה עוברת על <code>s</code> מהראש אל הבסיס ומשאירה בה רק את האיברים שגדולים <b>מכל</b> האיברים שמעליהם ("שיאים"), באותו הסדר. שאר האיברים נמחקים. הפעולה מחזירה את מספר האיברים שנמחקו.</p><p><b>ד.</b> <code>O(n)</code>: שתי לולאות בזו אחר זו, כל אחת לכל היותר n סבבים של פעולות <code>O(1)</code>.</p><div class="rubric" data-key="q1"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>טבלת מעקב נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ערך מוחזר נכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>תוכן s בסיום נכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב1: דוגמה נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב2: דוגמה נכונה + תוכן s</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: האיברים שנשארים הם אלה שגדולים מכל מה שמעליהם</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הסדר נשמר, השאר נמחקים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הערך המוחזר = מספר הנמחקים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: נימוק (שתי לולאות, כל אחת n סבבים של O(1))</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q2" data-stage="2" data-title="מעקב: Secret" data-min="35" data-points="25" data-done="סיימתי את שאלה 2">
-<div class="stage-head"><span class="badge">2</span><h3>מעקב וניתוח: הפעולה Secret</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">2</span><h3>מעקב וניתוח: הפעולה Secret</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">מעקב · שתי מחסניות · סיבוכיות</span>
 <p>לפניכם הפעולה <code>Secret</code>, שמקבלת שתי מחסניות של מספרים שלמים:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Secret</span></div>
@@ -147,7 +147,7 @@
         s2.Push(t2.Pop());
     return result;
 }</code></pre></div>
-<p class="sub">א. <span class="pts">(9 נקודות)</span> נתונות המחסניות:</p>
+<p class="sub">א. נתונות המחסניות:</p>
 <div class="stackline">s1:  (top)  7, 2, 9, 4, 2, 5  (bottom)
 s2:  (top)  2, 4, 5  (bottom)</div>
 <p>עקבו אחר הזימון <code>Secret(s1, s2)</code>. כל שורה היא סבב אחד של הלולאה הראשונה. <code>t2</code>: מהבסיס אל הראש. <code>s2</code>: מהראש אל הבסיס. מחסנית ריקה: רשמו <code>-</code>.</p>
@@ -164,31 +164,31 @@ s2:  (top)  2, 4, 5  (bottom)</div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>בריצה השנייה: את 9 מוצאים, ואחריו מחפשים 2. ה-2 שנמצא <b>מתחת</b> ל-9 מתאים. ואז מחפשים 4, אבל מתחת ל-2 הזה נשאר רק 5.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(3 נקודות)</span> מה יהיה התוכן של <code>s1</code> ושל <code>s2</code> בסיום הזימון הראשון? הסבירו.</p>
-<p class="sub">ג. <span class="pts">(5 נקודות)</span> מה מבצעת הפעולה <code>Secret</code>? כתבו במשפט אחד מהי השאלה שעליה הפעולה עונה <code>true</code> או <code>false</code>.</p>
-<p class="sub">ד. <span class="pts">(3 נקודות)</span> תנו דוגמה ל-<code>s2</code> עם 3 איברים, שכל האיברים שלה נמצאים גם ב-<code>s1</code> שבסעיף א, ובכל זאת הפעולה מחזירה <code>false</code>.</p>
-<p class="sub">ה. <span class="pts">(5 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>Secret</code>, כתלות ב-<code>n</code> (מספר האיברים ב-<code>s1</code>) וב-<code>m</code> (מספר האיברים ב-<code>s2</code>)? נמקו, ובחרו:</p>
+<p class="sub">ב. מה יהיה התוכן של <code>s1</code> ושל <code>s2</code> בסיום הזימון הראשון? הסבירו.</p>
+<p class="sub">ג. מה מבצעת הפעולה <code>Secret</code>? כתבו במשפט אחד מהי השאלה שעליה הפעולה עונה <code>true</code> או <code>false</code>.</p>
+<p class="sub">ד. תנו דוגמה ל-<code>s2</code> עם 3 איברים, שכל האיברים שלה נמצאים גם ב-<code>s1</code> שבסעיף א, ובכל זאת הפעולה מחזירה <code>false</code>.</p>
+<p class="sub">ה. מהי סיבוכיות זמן הריצה של <code>Secret</code>, כתלות ב-<code>n</code> (מספר האיברים ב-<code>s1</code>) וב-<code>m</code> (מספר האיברים ב-<code>s2</code>)? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות זמן הריצה של `Secret`:", "a": ["`O(n)`", "`O(n·m)`", "`O(n + m)`", "`O(n²)`"], "c": 2, "h": "האם יש לולאה בתוך לולאה? כמה סבבים לכל היותר בכל אחת משלוש הלולאות?", "ex": "הלולאה הראשונה: לכל היותר n סבבים. שחזור s1: לכל היותר n. שחזור s2: לכל היותר m. כל סבב O(1), ואין לולאות מקוננות, ולכן O(n + m)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<p><b>א.</b> הזימון הראשון מחזיר <code>true</code>, והשני <code>false</code>.</p><p><b>ב.</b> שתי המחסניות חוזרות בדיוק למצבן ההתחלתי: כל איבר שהוצא מ-<code>s1</code> נכנס ל-<code>t1</code>, וכל איבר שהוצא מ-<code>s2</code> נכנס ל-<code>t2</code>, ובסוף הן מוחזרות.</p><p><b>ג.</b> הפעולה בודקת אם כל האיברים של <code>s2</code> מופיעים ב-<code>s1</code> <b>באותו הסדר</b> (מהראש אל הבסיס), לא בהכרח צמודים זה לזה. אם <code>s2</code> ריקה, היא מחזירה <code>true</code>.</p><p><b>ד.</b> למשל <code>(top) 5, 2, 7</code>: כל האיברים נמצאים ב-<code>s1</code>, אבל לא בסדר הזה. (גם <code>(top) 2, 2, 2</code> תשובה נכונה: ב-<code>s1</code> יש רק שני 2.)</p><p><b>ה.</b> <code>O(n + m)</code>: אין לולאה בתוך לולאה. הלולאה הראשונה והשחזור של <code>s1</code> הם עד n סבבים, השחזור של <code>s2</code> עד m סבבים.</p><div class="rubric" data-key="q2"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="6"><span>טבלת מעקב נכונה</span><span class="p">6 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>שני הערכים המוחזרים נכונים</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: שתיהן חוזרות למצב המקורי + הסבר</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: "כל איברי s2 מופיעים ב-s1"</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ג: באותו הסדר, לא בהכרח צמודים</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ד: דוגמה נכונה</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ה: O(n + m)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ה: נימוק</span><span class="p">3 נק'</span></label>
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<p><b>א.</b> הזימון הראשון מחזיר <code>true</code>, והשני <code>false</code>.</p><p><b>ב.</b> שתי המחסניות חוזרות בדיוק למצבן ההתחלתי: כל איבר שהוצא מ-<code>s1</code> נכנס ל-<code>t1</code>, וכל איבר שהוצא מ-<code>s2</code> נכנס ל-<code>t2</code>, ובסוף הן מוחזרות.</p><p><b>ג.</b> הפעולה בודקת אם כל האיברים של <code>s2</code> מופיעים ב-<code>s1</code> <b>באותו הסדר</b> (מהראש אל הבסיס), לא בהכרח צמודים זה לזה. אם <code>s2</code> ריקה, היא מחזירה <code>true</code>.</p><p><b>ד.</b> למשל <code>(top) 5, 2, 7</code>: כל האיברים נמצאים ב-<code>s1</code>, אבל לא בסדר הזה. (גם <code>(top) 2, 2, 2</code> תשובה נכונה: ב-<code>s1</code> יש רק שני 2.)</p><p><b>ה.</b> <code>O(n + m)</code>: אין לולאה בתוך לולאה. הלולאה הראשונה והשחזור של <code>s1</code> הם עד n סבבים, השחזור של <code>s2</code> עד m סבבים.</p><div class="rubric" data-key="q2"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>טבלת מעקב נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>שני הערכים המוחזרים נכונים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שתיהן חוזרות למצב המקורי + הסבר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: "כל איברי s2 מופיעים ב-s1"</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: באותו הסדר, לא בהכרח צמודים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: דוגמה נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: O(n + m)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: נימוק</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q3" data-stage="3" data-title="להעביר לראש" data-min="35" data-points="25" data-done="סיימתי את שאלה 3">
-<div class="stage-head"><span class="badge">3</span><h3>כתיבת פעולות: להעביר לראש המחסנית</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">3</span><h3>כתיבת פעולות: להעביר לראש המחסנית</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">כתיבת קוד · שימוש בפעולת עזר · סיבוכיות</span>
 <p class="note"><b>בשאלה זו</b> הפעולות משנות את המחסנית שהתקבלה, אבל רק כפי שמתואר בכל סעיף.</p>
-<p class="sub">א. <span class="pts">(12 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static void MoveToTop(Stack&lt;int&gt; s, int x)</code></pre></div>
 <p>הפעולה מעבירה את <b>כל</b> המופעים של <code>x</code> במחסנית <code>s</code> לראש המחסנית. שאר האיברים נשארים באותו הסדר שהיו בו. אם <code>x</code> לא נמצא ב-<code>s</code>, המחסנית לא משתנה.</p>
@@ -210,7 +210,7 @@ while (!s.IsEmpty())
 // TODO: push x count times</code></pre></div>
 
 </div></details>
-<p class="sub">ב. <span class="pts">(8 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static void MoveMinToTop(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מעבירה את כל המופעים של הערך <b>הקטן ביותר</b> ב-<code>s</code> לראש המחסנית. שאר האיברים נשארים באותו הסדר. הניחו ש-<code>s</code> אינה ריקה.</p>
@@ -221,9 +221,9 @@ after:   (top) 1, 1, 5, 3, 8, 6 (bottom)</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>שני שלבים: קודם מוצאים את הערך הקטן ביותר, בלי להרוס את <code>s</code> (מעבר עם מחסנית עזר והחזרה). אחר כך זימון אחד של <code>MoveToTop</code>.</p>
 </div></details>
-<p class="sub">ג. <span class="pts">(5 נקודות)</span> מהי סיבוכיות זמן הריצה של הפעולה שכתבתם בסעיף ב, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
+<p class="sub">ג. מהי סיבוכיות זמן הריצה של הפעולה שכתבתם בסעיף ב, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `MoveMinToTop` (בפתרון שמוצא מינימום ואז מזמן את `MoveToTop` פעם אחת):", "a": ["`O(1)`", "`O(n)`", "`O(n²)`", "`O(n log n)`"], "c": 1, "h": "כמה פעמים מזמנים את MoveToTop? האם הזימון נמצא בתוך לולאה?", "ex": "מציאת המינימום והחזרת s: O(n). זימון אחד של MoveToTop: O(n) (שלוש לולאות בזו אחר זו). סך הכול O(n). אם הייתם מזמנים את MoveToTop בתוך לולאה, זה היה O(n²)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static void MoveToTop(Stack&lt;int&gt; s, int x)
 {
@@ -258,25 +258,25 @@ public static void MoveMinToTop(Stack&lt;int&gt; s)
         s.Push(temp.Pop());
     MoveToTop(s, min);
 }</code></pre></div>
-<p><b>ג.</b> <code>O(n)</code>: מציאת המינימום היא מעבר אחד והחזרה (<code>O(n)</code>), ואחריה זימון אחד של <code>MoveToTop</code>, שגם הוא <code>O(n)</code>. אין לולאה בתוך לולאה.</p><div class="rubric" data-key="q3"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="4"><span>א: מעבר על כל s, ספירת x / העברת השאר לעזר</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>א: השאר חוזרים לסדר המקורי</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: x נדחף count פעמים בראש</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="1"><span>א: x שלא קיים - המחסנית לא משתנה</span><span class="p">1 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: מציאת המינימום עם מחסנית עזר</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: s מוחזרת לפני הזימון</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: שימוש ב-MoveToTop</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: O(n)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ג: נימוק</span><span class="p">3 נק'</span></label>
+<p><b>ג.</b> <code>O(n)</code>: מציאת המינימום היא מעבר אחד והחזרה (<code>O(n)</code>), ואחריה זימון אחד של <code>MoveToTop</code>, שגם הוא <code>O(n)</code>. אין לולאה בתוך לולאה.</p><div class="rubric" data-key="q3"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: מעבר על כל s, ספירת x / העברת השאר לעזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: השאר חוזרים לסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: x נדחף count פעמים בראש</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: x שלא קיים - המחסנית לא משתנה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מציאת המינימום עם מחסנית עזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: s מוחזרת לפני הזימון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-MoveToTop</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: נימוק</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q4" data-stage="4" data-title="התחתון והפלינדרום" data-min="35" data-points="25" data-done="סיימתי את שאלה 4">
-<div class="stage-head"><span class="badge">4</span><h3>כתיבת פעולות: האיבר התחתון ופלינדרום</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">4</span><h3>כתיבת פעולות: האיבר התחתון ופלינדרום</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">כתיבת קוד · שימוש בפעולת עזר · סיבוכיות</span>
-<p class="sub">א. <span class="pts">(9 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static int RemoveBottom(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מוחקת את האיבר <b>התחתון</b> במחסנית <code>s</code> ומחזירה את ערכו. שאר האיברים במחסנית נשארים ללא שינוי. הניחו שהמחסנית אינה ריקה.</p>
@@ -287,7 +287,7 @@ after:   (top) 6, 2, 8 (bottom)</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>מעבירים את הכול למחסנית עזר. עכשיו האיבר התחתון נמצא <b>בראש</b> העזר. מוציאים אותו, ומחזירים את השאר.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(10 נקודות)</span> מחסנית נקראת <b>פלינדרום</b> אם קריאה שלה מהראש אל הבסיס זהה לקריאה מהבסיס אל הראש. כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. מחסנית נקראת <b>פלינדרום</b> אם קריאה שלה מהראש אל הבסיס זהה לקריאה מהבסיס אל הראש. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static bool IsPalindrome(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מחזירה <code>true</code> אם <code>s</code> היא פלינדרום, אחרת <code>false</code>. מחסנית ריקה ומחסנית עם איבר אחד הן פלינדרום.</p>
@@ -312,9 +312,9 @@ after:   (top) 6, 2, 8 (bottom)</pre></div>
 return true;</code></pre></div>
 
 </div></details>
-<p class="sub">ג. <span class="pts">(6 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>IsPalindrome</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
+<p class="sub">ג. מהי סיבוכיות זמן הריצה של <code>IsPalindrome</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `IsPalindrome` (במקרה הגרוע):", "a": ["`O(n)`", "`O(n²)`", "`O(1)`", "`O(n log n)`"], "c": 1, "h": "כמה עולה זימון אחד של RemoveBottom? וכמה פעמים מזמנים אותו?", "ex": "RemoveBottom עוברת על כל המחסנית: O(k) כש-k הוא מספר האיברים. מזמנים אותה בערך n/2 פעמים (במקרה הגרוע, פלינדרום). n/2 · O(n) = O(n²)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static int RemoveBottom(Stack&lt;int&gt; s)
 {
@@ -340,26 +340,26 @@ public static bool IsPalindrome(Stack&lt;int&gt; s)
     }
     return true;
 }</code></pre></div>
-<p><b>ג.</b> <code>O(n²)</code>: הלולאה רצה עד n/2 סבבים, ובכל סבב מזמנים את <code>RemoveBottom</code>, שעוברת על כל מה שנשאר במחסנית (<code>O(n)</code>). סך הכול <code>O(n²)</code>.</p><div class="rubric" data-key="q4"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="4"><span>א: העברה לעזר והוצאת התחתון</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: החזרת השאר בסדר המקורי</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>א: החזרת הערך</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ב: השוואת ראש מול תחתון בלולאה</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: שימוש ב-RemoveBottom</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: טיפול באורך אי-זוגי (לא לזמן על מחסנית ריקה)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: ערכי החזרה נכונים (כולל ריקה)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: O(n²)</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ג: נימוק: O(n) בתוך לולאה של n/2</span><span class="p">4 נק'</span></label>
+<p><b>ג.</b> <code>O(n²)</code>: הלולאה רצה עד n/2 סבבים, ובכל סבב מזמנים את <code>RemoveBottom</code>, שעוברת על כל מה שנשאר במחסנית (<code>O(n)</code>). סך הכול <code>O(n²)</code>.</p><div class="rubric" data-key="q4"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: העברה לעזר והוצאת התחתון</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: החזרת השאר בסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: החזרת הערך</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: השוואת ראש מול תחתון בלולאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-RemoveBottom</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: טיפול באורך אי-זוגי (לא לזמן על מחסנית ריקה)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: ערכי החזרה נכונים (כולל ריקה)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n²)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: נימוק: O(n) בתוך לולאה של n/2</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q5" data-stage="5" data-title="מחסנית ממוינת" data-min="35" data-points="25" data-done="סיימתי את שאלה 5">
-<div class="stage-head"><span class="badge">5</span><h3>כתיבת פעולות: מחסנית ממוינת</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">5</span><h3>כתיבת פעולות: מחסנית ממוינת</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">כתיבת קוד · לשמור על המחסנית · סיבוכיות</span>
 <p>מחסנית נקראת <b>ממוינת</b> אם האיברים שלה מסודרים בסדר עולה מהראש אל הבסיס (הקטן ביותר בראש). למשל: <code>(top) 2, 5, 5, 9 (bottom)</code>.</p>
-<p class="sub">א. <span class="pts">(8 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static void InsertSorted(Stack&lt;int&gt; s, int x)</code></pre></div>
 <p>הפעולה מקבלת מחסנית ממוינת <code>s</code> (יכולה להיות ריקה) ומספר <code>x</code>, ומכניסה את <code>x</code> למקום המתאים, כך שהמחסנית נשארת ממוינת.</p>
@@ -371,7 +371,7 @@ InsertSorted(s, 11)  -&gt;  (top) 2, 5, 9, 11 (bottom)  (on the original s)</pre
 <details><summary>רמז 1</summary><div class="inner">
 <p>מוציאים לעזר רק את האיברים <b>הקטנים</b> מ-<code>x</code> (הם בראש). עוצרים כשהמחסנית ריקה או כשהראש גדול או שווה ל-<code>x</code>. שימו לב לסדר הבדיקות בתנאי: קודם <code>IsEmpty</code>, אחר כך <code>Top</code>.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(9 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; SortStack(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מחזירה מחסנית <b>חדשה</b> וממוינת, עם כל האיברים של <code>s</code>. בסיום הפעולה <code>s</code> צריכה להכיל את אותם האיברים, באותו הסדר, כמו בהתחלה. <b>עליכם להשתמש בפעולה מסעיף א.</b></p>
@@ -379,10 +379,10 @@ InsertSorted(s, 11)  -&gt;  (top) 2, 5, 9, 11 (bottom)  (on the original s)</pre
 <pre>s = (top) 7, 3, 9, 1, 3 (bottom)
 returns: (top) 1, 3, 3, 7, 9 (bottom)
 s after: (top) 7, 3, 9, 1, 3 (bottom)</pre></div>
-<p class="sub">ג. <span class="pts">(5 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>SortStack</code> במקרה הגרוע, כתלות ב-<code>n</code>? נמקו, ובחרו:</p>
+<p class="sub">ג. מהי סיבוכיות זמן הריצה של <code>SortStack</code> במקרה הגרוע, כתלות ב-<code>n</code>? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `SortStack` במקרה הגרוע:", "a": ["`O(n)`", "`O(n log n)`", "`O(n²)`", "`O(n³)`"], "c": 2, "h": "כמה עולה InsertSorted כשבמחסנית התוצאה כבר k איברים? וכמה פעמים מזמנים אותה?", "ex": "בכל סבב מזמנים את InsertSorted על התוצאה, שיש בה עד n איברים: O(n) במקרה הגרוע. n סבבים · O(n) = O(n²)."}]</script></div>
-<p class="sub">ד. <span class="pts">(3 נקודות)</span> תנו דוגמה למחסנית <code>s</code> עם 4 איברים, שעבורה כל זימון של <code>InsertSorted</code> בתוך <code>SortStack</code> מתבצע ב-<code>O(1)</code>. נמקו.</p>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<p class="sub">ד. תנו דוגמה למחסנית <code>s</code> עם 4 איברים, שעבורה כל זימון של <code>InsertSorted</code> בתוך <code>SortStack</code> מתבצע ב-<code>O(1)</code>. נמקו.</p>
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static void InsertSorted(Stack&lt;int&gt; s, int x)
 {
@@ -408,40 +408,40 @@ public static Stack&lt;int&gt; SortStack(Stack&lt;int&gt; s)
         s.Push(temp.Pop());
     return result;
 }</code></pre></div>
-<p><b>ג.</b> <code>O(n²)</code>: n זימונים של <code>InsertSorted</code>, וכל אחד עד <code>O(n)</code>.</p><p><b>ד.</b> מחסנית שהגדול ביותר בראש, בסדר יורד: <code>(top) 9, 7, 4, 1 (bottom)</code>. כל איבר שמוצא קטן מכל מה שכבר בתוצאה, ולכן <code>InsertSorted</code> דוחפת אותו מיד לראש, בלי להוציא אף איבר. סך הכול <code>O(n)</code>.</p><div class="rubric" data-key="q5"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="3"><span>א: תנאי עצירה נכון (קודם IsEmpty, אחר כך Top)</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: הכנסת x והחזרת העזר</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>א: עובד גם במחסנית ריקה ו-x הכי גדול</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ב: מחסנית חדשה + שימוש ב-InsertSorted</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: s מוחזרת לסדר המקורי</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: החזרת התוצאה</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="5"><span>ג: O(n²) + נימוק</span><span class="p">5 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ד: דוגמה ונימוק</span><span class="p">3 נק'</span></label>
+<p><b>ג.</b> <code>O(n²)</code>: n זימונים של <code>InsertSorted</code>, וכל אחד עד <code>O(n)</code>.</p><p><b>ד.</b> מחסנית שהגדול ביותר בראש, בסדר יורד: <code>(top) 9, 7, 4, 1 (bottom)</code>. כל איבר שמוצא קטן מכל מה שכבר בתוצאה, ולכן <code>InsertSorted</code> דוחפת אותו מיד לראש, בלי להוציא אף איבר. סך הכול <code>O(n)</code>.</p><div class="rubric" data-key="q5"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: תנאי עצירה נכון (קודם IsEmpty, אחר כך Top)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הכנסת x והחזרת העזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: עובד גם במחסנית ריקה ו-x הכי גדול</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מחסנית חדשה + שימוש ב-InsertSorted</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: s מוחזרת לסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: החזרת התוצאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n²) + נימוק</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: דוגמה ונימוק</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q6" data-stage="6" data-title="מחסנית של משימות" data-min="35" data-points="25" data-done="סיימתי את שאלה 6">
-<div class="stage-head"><span class="badge">6</span><h3>מחסנית של עצמים: משימות</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">6</span><h3>מחסנית של עצמים: משימות</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">מחסנית של עצמים · השוואת הפניות · סיבוכיות</span>
 <p>המחלקה <code>Job</code> מייצגת משימה במחשב. לפניכם הממשק שלה:</p>
 <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th></tr></thead><tbody><tr><td><code>Job(string name, int priority)</code></td><td>פעולה בונה</td></tr><tr><td><code>string GetName()</code></td><td>מחזירה את שם המשימה</td></tr><tr><td><code>int GetPriority()</code></td><td>מחזירה את העדיפות (מספר גדול = חשוב יותר)</td></tr></tbody></table></div>
 <p>המשימות שמחכות נשמרות במחסנית <code>Stack&lt;Job&gt;</code>. בדוגמאות, כל משימה מופיעה כ-<code>name(priority)</code>:</p>
 <div class="stackline">jobs:  (top)  backup(3), print(1), update(5), scan(2), email(5)  (bottom)</div>
-<p class="sub">א. <span class="pts">(7 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static Job MaxPriority(Stack&lt;Job&gt; jobs)</code></pre></div>
 <p>הפעולה מחזירה את המשימה עם העדיפות הגבוהה ביותר. אם יש כמה כאלה, מחזירה את הקרובה ביותר לראש. בסיום, <code>jobs</code> צריכה להיות כמו בהתחלה. הניחו שהמחסנית אינה ריקה.</p>
 <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">דוגמה</span></div>
 <pre>MaxPriority(jobs)  -&gt;  update(5)</pre></div>
-<p class="sub">ב. <span class="pts">(7 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static void RemoveBelow(Stack&lt;Job&gt; jobs, int p)</code></pre></div>
 <p>הפעולה מוחקת מ-<code>jobs</code> את כל המשימות שהעדיפות שלהן <b>קטנה</b> מ-<code>p</code>. שאר המשימות נשארות באותו הסדר.</p>
 <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">דוגמה</span></div>
 <pre>RemoveBelow(jobs, 3)  -&gt;  (top) backup(3), update(5), email(5) (bottom)</pre></div>
-<p class="sub">ג. <span class="pts">(7 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ג. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static void PromoteMax(Stack&lt;Job&gt; jobs)</code></pre></div>
 <p>הפעולה מעבירה לראש המחסנית את המשימה שמחזירה <code>MaxPriority</code> (משימה אחת בלבד). שאר המשימות נשארות באותו הסדר. <b>עליכם להשתמש בפעולה מסעיף א.</b></p>
@@ -450,9 +450,9 @@ public static Stack&lt;int&gt; SortStack(Stack&lt;int&gt; s)
 <details><summary>רמז 1</summary><div class="inner">
 <p>שימו לב: גם <code>email</code> בעדיפות 5. אם תשוו <b>עדיפויות</b>, תעבירו את שתיהן. השוו <b>הפניות</b>: <code>j != max</code> בודק אם זה אותו עצם בדיוק.</p>
 </div></details>
-<p class="sub">ד. <span class="pts">(4 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>PromoteMax</code>, כתלות ב-<code>n</code>, מספר המשימות? נמקו, ובחרו:</p>
+<p class="sub">ד. מהי סיבוכיות זמן הריצה של <code>PromoteMax</code>, כתלות ב-<code>n</code>, מספר המשימות? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `PromoteMax`:", "a": ["`O(1)`", "`O(n)`", "`O(n²)`", "`O(n·p)`"], "c": 1, "h": "MaxPriority מזומנת פעם אחת, לפני הלולאה, ולא בתוכה.", "ex": "זימון אחד של MaxPriority הוא O(n), ואחריו מעבר אחד והחזרה, O(n). סך הכול O(n)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static Job MaxPriority(Stack&lt;Job&gt; jobs)
 {
@@ -497,26 +497,26 @@ public static void PromoteMax(Stack&lt;Job&gt; jobs)
         jobs.Push(temp.Pop());
     jobs.Push(max);
 }</code></pre></div>
-<p><b>ד.</b> <code>O(n)</code>: זימון אחד של <code>MaxPriority</code> (<code>O(n)</code>) ועוד מעבר אחד והחזרה (<code>O(n)</code>).</p><div class="rubric" data-key="q6"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="4"><span>א: מקסימום לפי GetPriority, עם > (הקרוב לראש)</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: jobs מוחזרת</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ב: מחיקה רק של עדיפות < p</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: השאר באותו הסדר</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: שימוש ב-MaxPriority</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ג: השוואת הפניות (רק עצם אחד עובר)</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ג: השאר באותו הסדר + max בראש</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ד: O(n) + נימוק</span><span class="p">4 נק'</span></label>
+<p><b>ד.</b> <code>O(n)</code>: זימון אחד של <code>MaxPriority</code> (<code>O(n)</code>) ועוד מעבר אחד והחזרה (<code>O(n)</code>).</p><div class="rubric" data-key="q6"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: מקסימום לפי GetPriority, עם > (הקרוב לראש)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: jobs מוחזרת</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מחיקה רק של עדיפות < p</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: השאר באותו הסדר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שימוש ב-MaxPriority</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: השוואת הפניות (רק עצם אחד עובר)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: השאר באותו הסדר + max בראש</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n) + נימוק</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q7" data-stage="7" data-title="קטעים במחסנית" data-min="35" data-points="25" data-done="סיימתי את שאלה 7">
-<div class="stage-head"><span class="badge">7</span><h3>כתיבת פעולות: קטעים במחסנית</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">7</span><h3>כתיבת פעולות: קטעים במחסנית</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">כתיבת קוד · שמירה על הסדר · סיבוכיות</span>
 <p>במחסנית <code>s</code> יש מספרים חיוביים ואפסים. האפסים מחלקים את המחסנית ל<b>קטעים</b>. הניחו שאין 0 בראש או בבסיס, ואין שני אפסים צמודים. למשל, במחסנית הבאה יש שלושה קטעים: <code>3, 4</code> ואז <code>5</code> ואז <code>1, 2, 6</code>.</p>
 <div class="stackline">s:  (top)  3, 4, 0, 5, 0, 1, 2, 6  (bottom)</div>
-<p class="sub">א. <span class="pts">(12 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; SegmentSums(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מחזירה מחסנית חדשה עם הסכום של כל קטע, <b>באותו הסדר</b> של הקטעים ב-<code>s</code> (הסכום של הקטע העליון בראש). בסיום, <code>s</code> צריכה להיות כמו בהתחלה. הניחו ש-<code>s</code> אינה ריקה.</p>
@@ -528,15 +528,15 @@ public static void PromoteMax(Stack&lt;Job&gt; jobs)
 <details><summary>רמז 2</summary><div class="inner">
 <p>אם דוחפים כל סכום ישר למחסנית התוצאה, הסדר יוצא הפוך (הקטע העליון בבסיס). דחפו את הסכומים למחסנית עזר, ובסוף העבירו אותם למחסנית התוצאה: ההעברה הופכת את הסדר בחזרה.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(8 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static int LongestSegment(Stack&lt;int&gt; s)</code></pre></div>
 <p>הפעולה מחזירה את מספר האיברים בקטע הארוך ביותר. אין צורך לשמור על התוכן המקורי של <code>s</code>.</p>
 <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">דוגמה</span></div>
 <pre>LongestSegment(s)  -&gt;  3</pre></div>
-<p class="sub">ג. <span class="pts">(5 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>SegmentSums</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
+<p class="sub">ג. מהי סיבוכיות זמן הריצה של <code>SegmentSums</code>, כתלות ב-<code>n</code>, מספר האיברים ב-<code>s</code>? נמקו, ובחרו:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `SegmentSums`:", "a": ["`O(n)`", "`O(n²)`", "`O(k)` כש-k מספר הקטעים", "`O(n·k)`"], "c": 0, "h": "האם יש לולאה בתוך לולאה? כמה איברים עוברים בכל לולאה?", "ex": "מעבר אחד על s (n סבבים), החזרה (n), והיפוך הסכומים (k ≤ n). לולאות בזו אחר זו, ולכן O(n)."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; SegmentSums(Stack&lt;int&gt; s)
 {
@@ -580,25 +580,25 @@ public static int LongestSegment(Stack&lt;int&gt; s)
     }
     return max;
 }</code></pre></div>
-<p><b>ג.</b> <code>O(n)</code>: שלוש לולאות בזו אחר זו (מעבר, החזרה והיפוך), ואף אחת מהן לא עוברת יותר מ-n איברים.</p><div class="rubric" data-key="q7"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="3"><span>א: צבירת סכום ואיפוס ב-0</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>א: הקטע האחרון נכלל</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: הסדר של הסכומים נכון (היפוך)</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>א: s מוחזרת</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>א: מחזירה מחסנית חדשה</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ב: ספירת אורך ואיפוס ב-0</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ב: מקסימום נכון (כולל הקטע האחרון)</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="5"><span>ג: O(n) + נימוק</span><span class="p">5 נק'</span></label>
+<p><b>ג.</b> <code>O(n)</code>: שלוש לולאות בזו אחר זו (מעבר, החזרה והיפוך), ואף אחת מהן לא עוברת יותר מ-n איברים.</p><div class="rubric" data-key="q7"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: צבירת סכום ואיפוס ב-0</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הקטע האחרון נכלל</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הסדר של הסכומים נכון (היפוך)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: s מוחזרת</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: מחזירה מחסנית חדשה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: ספירת אורך ואיפוס ב-0</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מקסימום נכון (כולל הקטע האחרון)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n) + נימוק</span></label>
 </div>
 
 </div></details>
 </div>
 
 <div class="stage" id="q8" data-stage="8" data-title="שתי מחסניות ממוינות" data-min="35" data-points="25" data-done="סיימתי את שאלה 8">
-<div class="stage-head"><span class="badge">8</span><h3>כתיבת פעולות: שתי מחסניות ממוינות</h3><span class="time">25 נקודות · כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">8</span><h3>כתיבת פעולות: שתי מחסניות ממוינות</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
 <span class="principle">כתיבת קוד · שתי מחסניות · סיבוכיות</span>
 <p>בשאלה זו המחסניות <b>ממוינות</b>: בסדר עולה מהראש אל הבסיס (הקטן ביותר בראש). אין צורך לשמור על התוכן המקורי של המחסניות שמתקבלות.</p>
-<p class="sub">א. <span class="pts">(10 נקודות)</span> כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">א. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; Merge(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)</code></pre></div>
 <p>הפעולה מחזירה מחסנית חדשה וממוינת עם כל האיברים של <code>s1</code> ושל <code>s2</code>. <b>אין</b> להשתמש בפעולה <code>InsertSorted</code> או בפעולת מיון אחרת.</p>
@@ -612,7 +612,7 @@ returns: (top) 1, 2, 3, 4, 9, 10, 12 (bottom)</pre></div>
 <details><summary>רמז 2</summary><div class="inner">
 <p>האיברים יוצאים מהקטן אל הגדול. אם דוחפים אותם למחסנית עזר, הגדול ביותר יהיה בראש העזר. העברה אחת נוספת לתוצאה מסדרת אותם נכון.</p>
 </div></details>
-<p class="sub">ב. <span class="pts">(8 נקודות)</span> בכל אחת מהמחסניות אין ערכים שחוזרים על עצמם. כתבו פעולה חיצונית שכותרתה:</p>
+<p class="sub">ב. בכל אחת מהמחסניות אין ערכים שחוזרים על עצמם. כתבו פעולה חיצונית שכותרתה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">כותרת</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; Common(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)</code></pre></div>
 <p>הפעולה מחזירה מחסנית חדשה וממוינת עם הערכים שמופיעים <b>בשתי</b> המחסניות. הפעולה צריכה להיות ביעילות <code>O(n + m)</code>.</p>
@@ -623,11 +623,11 @@ returns: (top) 3, 8 (bottom)</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>אותו רעיון כמו ב-<code>Merge</code>: משווים ראשים. שווים? זה ערך משותף, מוציאים משתיהן. אחרת מוציאים רק את הקטן (הוא לא יכול להופיע בשנייה).</p>
 </div></details>
-<p class="sub">ג. <span class="pts">(4 נקודות)</span> מהי סיבוכיות זמן הריצה של <code>Merge</code>, כתלות ב-<code>n</code> ו-<code>m</code>, מספרי האיברים ב-<code>s1</code> וב-<code>s2</code>? בחרו, ונמקו במחברת:</p>
+<p class="sub">ג. מהי סיבוכיות זמן הריצה של <code>Merge</code>, כתלות ב-<code>n</code> ו-<code>m</code>, מספרי האיברים ב-<code>s1</code> וב-<code>s2</code>? בחרו, ונמקו במחברת:</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות `Merge`:", "a": ["`O(n·m)`", "`O(n + m)`", "`O(max(n, m)²)`", "`O(n)`"], "c": 1, "h": "בכל סבב יוצא איבר אחד בדיוק מ-s1 או מ-s2.", "ex": "כל איבר יוצא פעם אחת מהמחסנית שלו, נכנס פעם אחת לעזר ופעם אחת לתוצאה. סך הכול O(n + m)."}]</script></div>
-<p class="sub">ד. <span class="pts">(3 נקודות)</span> תלמיד פתר את סעיף ב כך: לכל איבר ב-<code>s1</code> הוא בדק אם הוא נמצא ב-<code>s2</code>, במעבר על <code>s2</code> והחזרה שלה. מהי הסיבוכיות של הפתרון שלו?</p>
+<p class="sub">ד. תלמיד פתר את סעיף ב כך: לכל איבר ב-<code>s1</code> הוא בדק אם הוא נמצא ב-<code>s2</code>, במעבר על <code>s2</code> והחזרה שלה. מהי הסיבוכיות של הפתרון שלו?</p>
 <div class="quiz"><script type="application/json">[{"q": "סיבוכיות הפתרון של התלמיד:", "a": ["`O(n + m)`", "`O(n·m)`", "`O(n²)`", "`O(m)`"], "c": 1, "h": "לכל אחד מ-n האיברים יש מעבר על כל s2.", "ex": "n איברים, ולכל אחד מעבר על s2 והחזרה: O(m). סך הכול O(n·m). הפתרון בסעיף ב טוב יותר כי הוא מנצל את המיון."}]</script></div>
-<details><summary>פתרון מלא ומחוון (פתחו רק אחרי שכתבתם)</summary><div class="inner">
+<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
 <pre><code class="cs">public static Stack&lt;int&gt; Merge(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)
 {
@@ -669,15 +669,15 @@ public static Stack&lt;int&gt; Common(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)
         result.Push(temp.Pop());
     return result;
 }</code></pre></div>
-<p><b>ג.</b> <code>O(n + m)</code>: כל איבר יוצא פעם אחת מהמחסנית שלו, ועובר פעם אחת לעזר ופעם אחת לתוצאה.</p><p><b>ד.</b> <code>O(n·m)</code>: לכל אחד מ-n האיברים יש מעבר <code>O(m)</code> על <code>s2</code>.</p><div class="rubric" data-key="q8"><h5>מחוון: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="4"><span>א: השוואת ראשים והוצאת הקטן</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: העברת השאריות משתי המחסניות</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>א: הסדר בתוצאה נכון (היפוך דרך עזר)</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: שווים - מוציאים משתיהן ושומרים</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ב: אחרת מוציאים רק את הקטן</span><span class="p">3 נק'</span></label>
-<label><input type="checkbox" data-pts="2"><span>ב: סדר נכון בתוצאה</span><span class="p">2 נק'</span></label>
-<label><input type="checkbox" data-pts="4"><span>ג: O(n + m)</span><span class="p">4 נק'</span></label>
-<label><input type="checkbox" data-pts="3"><span>ד: O(n·m)</span><span class="p">3 נק'</span></label>
+<p><b>ג.</b> <code>O(n + m)</code>: כל איבר יוצא פעם אחת מהמחסנית שלו, ועובר פעם אחת לעזר ופעם אחת לתוצאה.</p><p><b>ד.</b> <code>O(n·m)</code>: לכל אחד מ-n האיברים יש מעבר <code>O(m)</code> על <code>s2</code>.</p><div class="rubric" data-key="q8"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: השוואת ראשים והוצאת הקטן</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: העברת השאריות משתי המחסניות</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הסדר בתוצאה נכון (היפוך דרך עזר)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שווים - מוציאים משתיהן ושומרים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: אחרת מוציאים רק את הקטן</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: סדר נכון בתוצאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n + m)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n·m)</span></label>
 </div>
 
 </div></details>
