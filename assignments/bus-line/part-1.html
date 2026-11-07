@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>קו אוטובוס, חלק 1: בונים את הקו</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="1">
+<script type="application/json" id="series">{"id":"bus-line","title":"שרשרת חוליות: קו אוטובוס","parts":[{"title":"בונים את הקו","href":"part-1.html"},{"title":"משנים את הקו","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>קו אוטובוס, חלק 1: בונים את הקו</h1>
+    <p class="lead">בונים תוכנית אחת, שלב אחרי שלב: קו אוטובוס שנשמר כ<b>שרשרת של תחנות</b>. כל תחנה יודעת כמה דקות נוסע האוטובוס אליה מהתחנה הקודמת. בחלק הזה בונים את התחנה ואת הקו, ומחשבים זמני נסיעה.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> בסוף חלק 2</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<div class="start-box">
+  <h3>לפני שמתחילים</h3>
+  <ul>
+    <li>פתחו פרויקט Console חדש, והוסיפו לו את ספריית המחלקות של משרד החינוך (<code>Unit4.CollectionsLib</code>), כמו בשיעורים על שרשרת חוליות.</li>
+    <li>בראש הקובץ: <code>using Unit4.CollectionsLib;</code></li>
+  </ul>
+</div>
+
+<div class="note"><b>איך עובדים:</b> בסוף כל שלב יש Main ופלט צפוי. הריצו והשוו שורה אחרי שורה, ועברו לשלב הבא רק כשהפלט זהה בדיוק. סריקות הולכות עם <code>pos</code>; רק הוספה או הוצאה משנות את <code>first</code>.</div>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="10" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <p class="part-sub">קראו, ואז ענו על הבוחן הקצר שבסוף. בשלבים יש קישורים חזרה לכאן.</p>
+  <div class="concepts">
+    <div class="concept" id="c-node">
+      <span class="badge" aria-hidden="true">1</span>
+      <div>
+        <h3>החוליה (Node)</h3>
+        <p>חוליה מחזיקה ערך והפניה לחוליה הבאה. בחוליה האחרונה ההפניה היא <code>null</code>. את כל השרשרת מכירים דרך החוליה הראשונה בלבד.</p>
+        <div class="tbl"><table class="map">
+          <thead><tr><th>פעולה</th><th>מה היא עושה</th></tr></thead>
+          <tbody>
+            <tr><td><code>new Node&lt;T&gt;(x)</code></td><td>חוליה עם הערך x, בלי חוליה הבאה</td></tr>
+            <tr><td><code>new Node&lt;T&gt;(x, next)</code></td><td>חוליה עם הערך x, שמפנה ל-next</td></tr>
+            <tr><td><code>GetValue()</code>, <code>SetValue(x)</code></td><td>הערך שבחוליה</td></tr>
+            <tr><td><code>GetNext()</code>, <code>SetNext(n)</code></td><td>החוליה הבאה</td></tr>
+            <tr><td><code>HasNext()</code></td><td>האם יש חוליה הבאה</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="concept" id="c-walk">
+      <span class="badge" aria-hidden="true">2</span>
+      <div>
+        <h3>הליכה על שרשרת</h3>
+        <p>הולכים עם משתנה עזר <code>pos</code>, ולא מזיזים את <code>first</code>. ‏<code>pos != null</code> עובר על כל החוליות; ‏<code>pos.HasNext()</code> עוצר <b>על</b> האחרונה, כשצריך לעשות בה משהו (למשל להוסיף אחריה).</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">The walk</span></div>
+<pre><code class="cs">Node&lt;Stop&gt; pos = first;
+while (pos != null)
+{
+    Stop s = pos.GetValue();
+    // ... look at s ...
+    pos = pos.GetNext();
+}</code></pre></div>
+      </div>
+    </div>
+    <div class="concept" id="c-class">
+      <span class="badge" aria-hidden="true">3</span>
+      <div>
+        <h3>שרשרת בתוך מחלקה</h3>
+        <p>במחלקה, <code>first</code> הוא <b>תכונה פרטית</b>. הפעולות של המחלקה מציבות בו בעצמן, ולכן הן לא מחזירות אותו. הערך בכל חוליה הוא עצם, ולכן מבקשים ממנו את מה שצריך: <code>pos.GetValue().GetName()</code>.</p>
+        <p>אם פעולת סריקה מזיזה את <code>first</code> במקום <code>pos</code>, השרשרת אובדת לתמיד.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"השרשרת היא 4, 7, 1. מה הערך של `first.GetNext().GetValue()`?",
+     "a":["4","7","1","null"],"c":1,
+     "h":"‏GetNext() של החוליה הראשונה היא החוליה השנייה.",
+     "ex":"‏first היא החוליה עם 4, ‏GetNext() היא החוליה עם 7, ו-GetValue() מחזירה 7."},
+    {"q":"רוצים להוסיף חוליה בסוף השרשרת. באיזה תנאי הלולאה צריכה להשתמש?",
+     "a":["`while (pos != null)`","`while (pos.HasNext())`","`while (first != null)`","אין צורך בלולאה"],"c":1,
+     "h":"על איזו חוליה צריך לעמוד כדי לקרוא ל-SetNext?",
+     "ex":"צריך לעצור **על** החוליה האחרונה ולקרוא ל-SetNext שלה. עם pos != null הלולאה מגיעה ל-null, ואין למי לחבר."},
+    {"q":"בתוך המחלקה BusLine, פעולה שסוכמת את הדקות מקדמת בלולאה את first עצמו, במקום משתנה עזר pos. מה יקרה?",
+     "a":["כלום, הסכום יהיה נכון","הסכום יהיה נכון, אבל אחרי הקריאה הקו יהיה ריק","שגיאת קומפילציה","הסכום יהיה 0"],"c":1,
+     "h":"first הוא תכונה של העצם. מה הערך שלה בסוף הלולאה?",
+     "ex":"בסוף הלולאה first הוא null, והתכונה נשארת כך גם אחרי שהפעולה מסתיימת. הקריאה הראשונה מחזירה את הסכום הנכון, ומאותו רגע הקו ריק."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 0 ---------- -->
+  <div class="stage" id="stage0" data-stage="0" data-title="חימום: אורך והוספה" data-min="10" data-done="סיימתי את שלב 0, והפלט תואם">
+    <div class="stage-head"><span class="badge">0</span><h3>חימום: אורך והוספה בסוף</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">עיקרון: הליכה על שרשרת</span>
+    <p class="goal"><b>בסוף השלב:</b> שתי פעולות על שרשרת של מספרים: אחת סופרת חוליות, והשנייה מוסיפה חוליה בסוף.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-node">החוליה</a><a class="ref" href="#c-walk">הליכה על שרשרת</a></div>
+    <ol class="req">
+      <li>כתבו פעולה סטטית <code>int Length(Node&lt;int&gt; first)</code> שמחזירה את מספר החוליות.</li>
+      <li>כתבו פעולה סטטית <code>Node&lt;int&gt; AddLast(Node&lt;int&gt; first, int x)</code> שמוסיפה חוליה עם x בסוף, ומחזירה את החוליה הראשונה. בשרשרת ריקה, החוליה החדשה <b>היא</b> השרשרת.</li>
+      <li>הוסיפו את הפעולה <code>Print</code> משיעור 1. נסו לכתוב בלי להסתכל בשיעורים.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Node&lt;int&gt; first = null;
+Console.WriteLine(Length(first));
+first = AddLast(first, 7);
+first = AddLast(first, 2);
+first = AddLast(first, 9);
+Print(first);
+Console.WriteLine(Length(first));</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>0
+7 -&gt; 2 -&gt; 9 -&gt; null
+3</pre></div>
+    <div class="predict" data-key="forgot">
+      <h4>טעות נפוצה: נחשו מה קורה</h4>
+      <p>תלמיד כתב בשורה הראשונה <code>AddLast(first, 7);</code>, בלי <code>first =</code>. שתי השורות הבאות נשארו כמו שהן. מה תדפיס <code>Print(first)</code>?</p>
+      <div class="col-guess" data-label="Print(first)">
+        <label><input type="checkbox" value="7 -> 2 -> 9 -> null"> <code dir="ltr">7 -&gt; 2 -&gt; 9 -&gt; null</code></label>
+        <label><input type="checkbox" value="2 -> 9 -> null" data-correct> <code dir="ltr">2 -&gt; 9 -&gt; null</code></label>
+        <label><input type="checkbox" value="null"> <code>null</code></label>
+      </div>
+      <button class="btn" type="button">הצגת התשובה</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Output</span></div>
+<pre>2 -&gt; 9 -&gt; null</pre></div>
+      <div class="note aha"><p><b>ה-7 אבד.</b> השרשרת הייתה ריקה, ולכן <code>AddLast</code> יצרה חוליה חדשה והחזירה אותה. אף אחד לא שמר אותה, ו-<code>first</code> נשאר <code>null</code>. השורה הבאה התחילה שרשרת חדשה מ-2. פעולה שעשויה לשנות את הראש מחזירה אותו, וחובה להציב את התוצאה.</p></div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>ב-<code>AddLast</code>: יוצרים את החוליה החדשה. אם <code>first == null</code>, מחזירים אותה. אחרת הולכים עם <code>pos.HasNext()</code> עד החוליה האחרונה, ומחברים אליה את החדשה.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 1 ---------- -->
+  <div class="stage" id="stage1" data-stage="1" data-title="המחלקה Stop" data-min="10" data-done="סיימתי את שלב 1, והפלט תואם">
+    <div class="stage-head"><span class="badge">1</span><h3>תחנה (Stop)</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">עיקרון: מחלקה</span>
+    <p class="goal"><b>בסוף השלב:</b> מחלקה של תחנה, עם שם, ומספר הדקות שהאוטובוס נוסע אליה מהתחנה הקודמת.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a></div>
+    <ol class="req">
+      <li>תכונות פרטיות: <code>name</code> (מחרוזת) ו-<code>minutes</code> (שלם): הדקות מהתחנה הקודמת.</li>
+      <li>פעולה בונה <code>Stop(string name, int minutes)</code>, ופעולות <code>GetName()</code>, <code>GetMinutes()</code>, <code>SetMinutes(int minutes)</code>.</li>
+      <li><code>ToString()</code> שמחזירה את התחנה בדיוק בפורמט שבפלט הצפוי.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">Stop a = new Stop("Park", 4);
+Console.WriteLine(a);
+Console.WriteLine(a.GetName() + " " + a.GetMinutes());
+a.SetMinutes(7);
+Console.WriteLine(a);</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Park (4 min)
+Park 4
+Park (7 min)</pre></div>
+  </div>
+
+  <!-- ---------- STAGE 2 ---------- -->
+  <div class="stage" id="stage2" data-stage="2" data-title="המחלקה BusLine" data-min="20" data-done="סיימתי את שלב 2, והפלט תואם">
+    <div class="stage-head"><span class="badge">2</span><h3>קו אוטובוס (BusLine)</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: שרשרת כתכונה של מחלקה</span>
+    <p class="goal"><b>בסוף השלב:</b> קו שאפשר להוסיף לו תחנות בסוף, לספור אותן ולהדפיס את המסלול.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-class">שרשרת בתוך מחלקה</a><a class="ref" href="#c-walk">הליכה על שרשרת</a></div>
+    <ol class="req">
+      <li>תכונות פרטיות: <code>number</code> (מחרוזת, מספר הקו) ו-<code>Node&lt;Stop&gt; first</code>.</li>
+      <li>פעולה בונה <code>BusLine(string number)</code>, עם שרשרת ריקה.</li>
+      <li><code>void AddStop(string name, int minutes)</code>: מוסיפה תחנה בסוף. לתחנה הראשונה בקו יש תמיד <b>0</b> דקות, לא משנה מה התקבל: אין תחנה לפניה.</li>
+      <li><code>int CountStops()</code>: כמה תחנות יש בקו.</li>
+      <li><code>ToString()</code>: מספר הקו, ואחריו שמות התחנות עם חץ ביניהן, בדיוק כמו בפלט.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = new BusLine("5");
+Console.WriteLine(line);
+Console.WriteLine(line.CountStops());
+line.AddStop("Central", 9);
+line.AddStop("Park", 4);
+line.AddStop("Library", 6);
+Console.WriteLine(line);
+Console.WriteLine(line.CountStops());</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Line 5:
+0
+Line 5: Central -&gt; Park -&gt; Library
+3</pre></div>
+    <details class="think"><summary>שאלה למחשבה</summary><div class="inner">
+      <p>ב-Main, התחנה Central נוספה עם 9 דקות. למה זה לא משנה? ומה היה קורה לזמנים בשלב 3 אם הייתם שומרים את ה-9?</p>
+    </div></details>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Skeleton</span></div>
+<pre><code class="cs">public void AddStop(string name, int minutes)
+{
+    if (first == null)
+    {
+        // TODO: the first stop, with 0 minutes
+        return;
+    }
+    // TODO: walk to the last node, and connect a new node with a new Stop
+}
+
+public override string ToString()
+{
+    string s = "Line " + number + ":";
+    // TODO: add " " + the name of every stop, and " ->" if there is a next stop
+    return s;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 3 ---------- -->
+  <div class="stage" id="stage3" data-stage="3" data-title="זמנים" data-min="20" data-done="סיימתי את שלב 3, והפלט תואם">
+    <div class="stage-head"><span class="badge">3</span><h3>זמנים</h3><span class="time">כ-20 דקות</span></div>
+    <span class="principle">עיקרון: סריקה עם סכום מצטבר</span>
+    <p class="goal"><b>בסוף השלב:</b> הקו יודע כמה זמן לוקחת כל הנסיעה, וכמה זמן לוקח להגיע לכל תחנה מהתחנה הראשונה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-walk">הליכה על שרשרת</a><a class="ref" href="#c-class">שרשרת בתוך מחלקה</a></div>
+    <ol class="req">
+      <li><code>int TotalMinutes()</code>: הדקות מהתחנה הראשונה עד האחרונה.</li>
+      <li><code>int TimeTo(string name)</code>: הדקות מהתחנה הראשונה עד התחנה הזו. אם אין תחנה כזו, <code>-1</code>.</li>
+      <li><code>void PrintTimes()</code>: כל תחנה בשורה משלה, עם הזמן שלה מהתחנה הראשונה, כמו בפלט. <b>מעבר אחד</b> על השרשרת.</li>
+    </ol>
+    <p>מכאן והלאה, השלבים משתמשים בפעולה הזו כדי לבנות את אותו קו. העתיקו אותה למחלקה <code>Program</code>:</p>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Build</span></div>
+<pre><code class="cs">static BusLine Build()
+{
+    BusLine line = new BusLine("5");
+    line.AddStop("Central", 0);
+    line.AddStop("Park", 4);
+    line.AddStop("Library", 6);
+    line.AddStop("Market", 3);
+    line.AddStop("Station", 5);
+    return line;
+}</code></pre></div>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+Console.WriteLine(line);
+Console.WriteLine(line.TotalMinutes());
+Console.WriteLine(line.TimeTo("Library") + " " + line.TimeTo("Central") + " " + line.TimeTo("Zoo"));
+line.PrintTimes();</code></pre></div>
+    <div class="predict" data-key="times">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>בקו: Central, ‏Park (4), ‏Library (6), ‏Market (3), ‏Station (5). מה יחזירו הקריאות האלה?</p>
+      <div class="guess">
+        <label for="gLib"><code>TimeTo("Library")</code>:</label>
+        <span><input id="gLib" type="number" inputmode="numeric" data-answer="10" data-label="TimeTo Library"></span>
+      </div>
+      <div class="guess">
+        <label for="gCen"><code>TimeTo("Central")</code>:</label>
+        <span><input id="gCen" type="number" inputmode="numeric" data-answer="0" data-label="TimeTo Central"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Line 5: Central -&gt; Park -&gt; Library -&gt; Market -&gt; Station
+18
+10 0 -1
+Central: 0
+Park: 4
+Library: 10
+Market: 13
+Station: 18</pre></div>
+      <div class="note aha"><p><b>הזמן לתחנה כולל את הדקות שלה עצמה:</b> אל Library נוסעים 4 דקות עד Park ועוד 6, כלומר 10. לכן מוסיפים את הדקות של התחנה <b>לפני</b> שבודקים אם זו התחנה המבוקשת. אל Central, התחנה הראשונה, הזמן הוא 0.</p></div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>שלוש הפעולות בנויות אותו דבר: <code>pos</code> הולך על כל השרשרת, ו-<code>sum</code> מצטבר. ב-<code>TimeTo</code> מחזירים את <code>sum</code> ברגע שמוצאים את השם. ב-<code>PrintTimes</code> מדפיסים את <code>sum</code> אחרי כל תחנה. אל תקראו ל-<code>TimeTo</code> בתוך הלולאה: זה היה מעבר על השרשרת לכל תחנה.</p>
+    </div></details>
+  </div>
+
+  <div class="start-box">
+    <h3>סוף חלק 1</h3>
+    <p>אם הפלט של כל השלבים תואם, אתם מוכנים לחלק 2: תחנה חדשה באמצע הקו, הוצאת תחנה, הדרך חזרה ודוחות. שמרו את הפרויקט, ממשיכים מאותו קוד.</p>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מבני נתונים: סיכום שרשרת חוליות | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

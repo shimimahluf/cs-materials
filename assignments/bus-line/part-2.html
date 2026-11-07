@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>קו אוטובוס, חלק 2: משנים את הקו</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="2">
+<script type="application/json" id="series">{"id":"bus-line","title":"שרשרת חוליות: קו אוטובוס","parts":[{"title":"בונים את הקו","href":"part-1.html"},{"title":"משנים את הקו","href":"part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <nav class="crumbs" aria-label="ניווט"></nav>
+    <h1>קו אוטובוס, חלק 2: משנים את הקו</h1>
+    <p class="lead">בחלק הזה משנים את השרשרת עצמה: מכניסים תחנה באמצע, מוציאים תחנה, ובונים קו חדש לדרך חזרה. בכל שינוי צריך גם לתקן את הדקות, כך שזמני הנסיעה יישארו נכונים.</p>
+    <ul class="facts">
+      <li><b>זמן משוער:</b> כשעה, בקצב שלכם</li>
+      <li><b>שפה:</b> C#, אפליקציית Console</li>
+      <li><b>הגשה:</b> בסוף החלק הזה</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<div class="start-box">
+  <h3>ממשיכים מחלק 1</h3>
+  <p>פתחו את הפרויקט מחלק 1. לפני שממשיכים, ודאו שיש בו:</p>
+  <ul>
+    <li>המחלקה <code>Stop</code>, והמחלקה <code>BusLine</code> עם <code>AddStop</code>, <code>CountStops</code>, <code>ToString</code>, <code>TotalMinutes</code>, <code>TimeTo</code> ו-<code>PrintTimes</code></li>
+    <li>ב-<code>Program</code>: הפעולה <code>Build()</code> משלב 3</li>
+  </ul>
+  <p>חסר משהו? חזרו ל<a href="part-1.html">חלק 1</a>. תזכורות: <a href="part-1.html#c-node">החוליה</a>, <a href="part-1.html#c-walk">הליכה על שרשרת</a>, <a href="part-1.html#c-class">שרשרת בתוך מחלקה</a>.</p>
+</div>
+
+<!-- ================= REMINDER ================= -->
+<section id="reminder" data-min="5" data-title="תזכורת ובוחן">
+  <h2>תזכורת קצרה</h2>
+  <div class="concepts">
+    <div class="concept" id="c-insert">
+      <span class="badge" aria-hidden="true">4</span>
+      <div>
+        <h3>הכנסה אחרי חוליה</h3>
+        <p>שני צעדים, בסדר הזה: קודם החוליה החדשה מפנה להמשך, ורק אחר כך <code>pos</code> מפנה אליה. בסדר ההפוך, ההפניה להמשך נדרסת ושאר השרשרת אובדת.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Insert after pos</span></div>
+<pre><code class="cs">pos.SetNext(new Node&lt;Stop&gt;(s, pos.GetNext()));</code></pre></div>
+      </div>
+    </div>
+    <div class="concept" id="c-remove">
+      <span class="badge" aria-hidden="true">5</span>
+      <div>
+        <h3>הוצאה: עוצרים חוליה אחת לפני</h3>
+        <p>כדי להוציא חוליה משנים את החץ של החוליה <b>שלפניה</b>, כך שידלג עליה. לכן הלולאה מסתכלת צעד קדימה, עם <code>pos.GetNext()</code>. הראש הוא מקרה מיוחד: אין חוליה לפניו, ומשנים את <code>first</code>.</p>
+        <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Remove after pos</span></div>
+<pre><code class="cs">pos.SetNext(pos.GetNext().GetNext());</code></pre></div>
+      </div>
+    </div>
+    <div class="concept" id="c-reverse">
+      <span class="badge" aria-hidden="true">6</span>
+      <div>
+        <h3>שרשרת הפוכה</h3>
+        <p>הולכים על השרשרת מההתחלה, ומוסיפים כל ערך <b>בראש</b> שרשרת חדשה. הערך הראשון מגיע לסוף. מעבר אחד, <code>O(n)</code>.</p>
+      </div>
+    </div>
+  </div>
+  <h3>בוחן בדיקה עצמית</h3>
+  <div class="quiz"><script type="application/json">[
+    {"q":"השרשרת היא 3, 5, 9, ו-pos עומד על 3. מה תהיה השרשרת אחרי `pos.SetNext(pos.GetNext().GetNext());`?",
+     "a":["3, 9","3, 5","5, 9","9"],"c":0,
+     "h":"‏pos.GetNext().GetNext() היא החוליה שאחרי 5.",
+     "ex":"החץ של 3 מדלג על 5 ומפנה ישר ל-9. ה-5 כבר לא חלק מהשרשרת."},
+    {"q":"תלמידה כתבה הכנסה אחרי pos כך: `pos.SetNext(new Node<Stop>(s));`. מה קרה לשאר השרשרת, אחרי pos?",
+     "a":["כלום, החוליה החדשה נכנסה באמצע","היא אבדה: החוליה החדשה היא עכשיו האחרונה","היא הוכפלה","שגיאת קומפילציה"],"c":1,
+     "h":"לאן מפנה החוליה החדשה?",
+     "ex":"החוליה החדשה נוצרה בלי המשך, ו-pos מפנה אליה במקום להמשך הישן. אף אחד לא זוכר יותר איפה היה ההמשך."},
+    {"q":"כדי להוציא את התחנה Library, על איזו חוליה צריך לעמוד?",
+     "a":["על Library","על התחנה שלפני Library","על התחנה שאחרי Library","על first, תמיד"],"c":1,
+     "h":"של איזו חוליה משנים את החץ?",
+     "ex":"משנים את החץ של התחנה שלפני Library, כדי שידלג עליה. לכן התנאי בודק את pos.GetNext()."}
+  ]</script></div>
+</section>
+
+<!-- ================= STAGES ================= -->
+<section id="project">
+  <h2>השלבים</h2>
+  <p class="part-sub">הזמנים ליד כל שלב הם הערכה בלבד, לא מגבלה. סמנו כל שלב שסיימתם, וההתקדמות תופיע בפתק בצד.</p>
+
+  <!-- ---------- STAGE 4 ---------- -->
+  <div class="stage" id="stage4" data-stage="4" data-title="תחנה חדשה" data-min="15" data-done="סיימתי את שלב 4, והפלט תואם">
+    <div class="stage-head"><span class="badge">4</span><h3>תחנה חדשה באמצע הקו</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: הכנסה אחרי חוליה</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר להוסיף תחנה בין שתי תחנות קיימות. הזמנים לכל התחנות שאחריה לא משתנים.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-insert">הכנסה אחרי חוליה</a></div>
+    <ol class="req">
+      <li><code>bool InsertAfter(string after, string name, int minutes)</code>: מכניסה תחנה חדשה מיד אחרי התחנה <code>after</code>, במרחק <code>minutes</code> דקות ממנה, ומחזירה <code>true</code>.</li>
+      <li>התחנה שהייתה הבאה קרובה עכשיו יותר: הדקות שלה יורדות ב-<code>minutes</code>.</li>
+      <li>מחזירה <code>false</code>, ולא משנה כלום, אם אין תחנה <code>after</code>, או אם <code>minutes</code> <b>אינו קטן</b> מהדקות של התחנה הבאה: התחנה החדשה חייבת להיות בין השתיים.</li>
+      <li>אחרי התחנה האחרונה אין הגבלה כזו: מוסיפים אותה בסוף.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+Console.WriteLine(line.InsertAfter("Library", "Museum", 1));
+Console.WriteLine(line.InsertAfter("Park", "School", 6));
+Console.WriteLine(line.InsertAfter("Zoo", "Pool", 2));
+Console.WriteLine(line.InsertAfter("Station", "Depot", 8));
+Console.WriteLine(line);
+Console.WriteLine(line.TotalMinutes());
+line.PrintTimes();</code></pre></div>
+    <div class="predict" data-key="insert">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>לפני השינוי, הזמן אל Market היה 13. התחנה Museum נכנסת אחרי Library, דקה אחת אחריה. מה יהיה הזמן אל Market אחרי ההכנסה?</p>
+      <div class="guess">
+        <label for="gMk">הזמן אל Market:</label>
+        <span><input id="gMk" type="number" inputmode="numeric" data-answer="13" data-label="Market"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>True
+False
+False
+True
+Line 5: Central -&gt; Park -&gt; Library -&gt; Museum -&gt; Market -&gt; Station -&gt; Depot
+26
+Central: 0
+Park: 4
+Library: 10
+Museum: 11
+Market: 13
+Station: 18
+Depot: 26</pre></div>
+      <div class="note aha"><p><b>האוטובוס לא נוסע יותר, הוא רק עוצר בדרך.</b> מ-Library נוסעים דקה אל Museum, ועוד 2 דקות אל Market (היו 3). לכן Market נשארת ב-13. ‏School לא נכנסה: 6 דקות זה כל הנסיעה מ-Park אל Library, ולא נשאר מקום. ‏Depot נכנסה אחרי האחרונה, ולכן הקו התארך ל-26.</p></div>
+    </div>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Skeleton</span></div>
+<pre><code class="cs">public bool InsertAfter(string after, string name, int minutes)
+{
+    Node&lt;Stop&gt; pos = first;
+    // TODO: walk until pos is the stop "after", or null
+    if (pos == null)
+        return false;
+    if (pos.HasNext())
+    {
+        // TODO: check the minutes of the next stop; return false if there is no room
+        // TODO: only then, make the next stop closer
+    }
+    // TODO: insert the new stop after pos
+    return true;
+}</code></pre></div>
+      <p>שימו לב לסדר: קודם בודקים את כל מה שיכול להחזיר <code>false</code>, ורק אחר כך משנים משהו.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 5 ---------- -->
+  <div class="stage" id="stage5" data-stage="5" data-title="הוצאת תחנה" data-min="15" data-done="סיימתי את שלב 5, והפלט תואם">
+    <div class="stage-head"><span class="badge">5</span><h3>הוצאת תחנה</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: הוצאה, ועצם שמשתנה דרך החוליה</span>
+    <p class="goal"><b>בסוף השלב:</b> אפשר לבטל תחנה. האוטובוס נוסע ישר הלאה, והזמנים לתחנות שאחריה נשארים נכונים.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-remove">הוצאה: עוצרים חוליה אחת לפני</a></div>
+    <ol class="req">
+      <li><code>bool RemoveStop(string name)</code>: מוציאה את התחנה ומחזירה <code>true</code>. אם אין תחנה כזו, <code>false</code>.</li>
+      <li>התחנה שאחרי התחנה שהוצאה מקבלת גם את הדקות שלה: האוטובוס נוסע עכשיו ישר אליה.</li>
+      <li>אם מוציאים את התחנה הראשונה, התחנה הראשונה החדשה מקבלת 0 דקות.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+Console.WriteLine(line.RemoveStop("Library"));
+Console.WriteLine(line);
+Console.WriteLine(line.TimeTo("Market") + " " + line.TotalMinutes());
+Console.WriteLine(line.RemoveStop("Central"));
+Console.WriteLine(line.RemoveStop("Zoo"));
+line.PrintTimes();</code></pre></div>
+    <div class="predict" data-key="remove">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>מוציאים את Library (שהייתה 6 דקות אחרי Park). אחר כך מוציאים את Central, התחנה הראשונה. מה יהיה הזמן אל Market בשורה האחרונה של <code>PrintTimes</code>?</p>
+      <div class="guess">
+        <label for="gMk2">הזמן אל Market:</label>
+        <span><input id="gMk2" type="number" inputmode="numeric" data-answer="9" data-label="Market"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>True
+Line 5: Central -&gt; Park -&gt; Market -&gt; Station
+13 18
+True
+False
+Park: 0
+Market: 9
+Station: 14</pre></div>
+      <div class="note aha"><p><b>אחרי שהוצאנו את Library, הזמן אל Market נשאר 13:</b> ‏Market קיבלה את 6 הדקות של Library, ועכשיו יש לה 9. כשהוצאנו את Central, ‏Park הפכה לראשונה וקיבלה 0, ולכן כל הזמנים ירדו ב-4: ‏Market ב-9. שימו לב: <code>SetMinutes</code> על <code>pos.GetNext().GetValue()</code> משנה את התחנה שנמצאת בקו, לא עותק שלה.</p></div>
+    </div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>מקרה הראש: <code>first = first.GetNext()</code>, ואם נשארה תחנה, מאפסים את הדקות שלה. שאר המקרים: עוצרים כש-<code>pos.GetNext()</code> היא התחנה שמוציאים. שמרו אותה במשתנה <code>gone</code>, הוסיפו את הדקות שלה לתחנה שאחריה (אם יש כזו), ורק אז דלגו עליה.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 6 ---------- -->
+  <div class="stage" id="stage6" data-stage="6" data-title="הדרך חזרה" data-min="15" data-done="סיימתי את שלב 6, והפלט תואם">
+    <div class="stage-head"><span class="badge">6</span><h3>הדרך חזרה</h3><span class="time">כ-15 דקות</span></div>
+    <span class="principle">עיקרון: בניית שרשרת חדשה בסדר הפוך</span>
+    <p class="goal"><b>בסוף השלב:</b> מכל קו אפשר לקבל קו חדש לדרך חזרה, עם אותן תחנות בסדר הפוך ועם הדקות הנכונות. הקו המקורי לא משתנה.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="#c-reverse">שרשרת הפוכה</a></div>
+    <ol class="req">
+      <li><code>BusLine Reversed(string number)</code>: מחזירה קו <b>חדש</b>, עם המספר שהתקבל, ובו אותן תחנות בסדר הפוך.</li>
+      <li>כל תחנה בקו החדש היא עצם <code>Stop</code> <b>חדש</b>, עם הדקות של הדרך חזרה. לתחנה הראשונה בקו החדש יש 0 דקות.</li>
+      <li>מעבר אחד על הקו המקורי, <code>O(n)</code>. פעולה של <code>BusLine</code> רשאית לגשת לתכונה <code>first</code> של <code>BusLine</code> אחר.</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+BusLine back = line.Reversed("5 back");
+Console.WriteLine(back);
+back.PrintTimes();
+Console.WriteLine(line.TotalMinutes() + " " + back.TotalMinutes());
+Console.WriteLine(line);</code></pre></div>
+    <div class="predict" data-key="back">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>בדרך הלוך: Central, ‏Park (4), ‏Library (6), ‏Market (3), ‏Station (5). בדרך חזרה מתחילים ב-Station. כמה דקות יהיו לתחנה Market בקו החדש (הנסיעה אליה מ-Station)?</p>
+      <div class="guess">
+        <label for="gBack">הדקות של Market:</label>
+        <span><input id="gBack" type="number" inputmode="numeric" data-answer="5" data-label="Market"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Line 5 back: Station -&gt; Market -&gt; Library -&gt; Park -&gt; Central
+Station: 0
+Market: 5
+Library: 8
+Park: 14
+Central: 18
+18 18
+Line 5: Central -&gt; Park -&gt; Library -&gt; Market -&gt; Station</pre></div>
+      <div class="note aha"><p><b>הדקות זזות תחנה אחת.</b> בדרך הלוך, 5 הדקות בין Market ל-Station שמורות אצל Station. בדרך חזרה אותה נסיעה מגיעה אל Market, ולכן ל-Market יש 5. בכל תחנה לוקחים את הדקות של התחנה <b>שאחריה</b> בדרך הלוך (ולאחרונה, 0). הנסיעה כולה עדיין 18 דקות.</p></div>
+    </div>
+    <details><summary>רמז: שלד קוד</summary><div class="inner">
+      <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Skeleton</span></div>
+<pre><code class="cs">public BusLine Reversed(string number)
+{
+    BusLine res = new BusLine(number);
+    Node&lt;Stop&gt; pos = first;
+    while (pos != null)
+    {
+        int minutes = 0;
+        // TODO: if pos has a next stop, minutes = the minutes of that next stop
+        // TODO: add a new node with a new Stop at the HEAD of res.first
+        pos = pos.GetNext();
+    }
+    return res;
+}</code></pre></div>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 7 ---------- -->
+  <div class="stage" id="stage7" data-stage="7" data-title="דוחות" data-min="10" data-done="סיימתי את שלב 7, והפלט תואם">
+    <div class="stage-head"><span class="badge">7</span><h3>דוחות</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">עיקרון: השוואה בין שכנים</span>
+    <p class="goal"><b>בסוף השלב:</b> הקו יודע מהי הנסיעה הארוכה ביותר שלו, וכמה נסיעות ארוכות יש בו.</p>
+    <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref" href="part-1.html#c-walk">הליכה על שרשרת</a></div>
+    <ol class="req">
+      <li><code>string LongestLeg()</code>: הנסיעה הארוכה ביותר בין שתי תחנות שכנות, בפורמט שבפלט. אם יש תיקו, הראשונה. אם בקו פחות משתי תחנות, מחרוזת ריקה.</li>
+      <li><code>int CountLongLegs(int min)</code>: כמה נסיעות לוקחות יותר מ-<code>min</code> דקות. (לתחנה הראשונה אין נסיעה.)</li>
+    </ol>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+Console.WriteLine(line.LongestLeg());
+Console.WriteLine(line.CountLongLegs(4));
+BusLine one = new BusLine("1");
+one.AddStop("Central", 0);
+Console.WriteLine("[" + one.LongestLeg() + "] " + one.CountLongLegs(0));</code></pre></div>
+    <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Park -&gt; Library (6 min)
+2
+[] 0</pre></div>
+    <details><summary>רמז</summary><div class="inner">
+      <p>הדקות של נסיעה שמורות בתחנה שאליה נוסעים. כדי להדפיס גם את התחנה שממנה יצאו, שמרו את החוליה <b>שלפני</b> הנסיעה הארוכה (<code>best</code>), והשוו את <code>pos.GetNext()</code> ל-<code>best.GetNext()</code>.</p>
+    </div></details>
+  </div>
+
+  <!-- ---------- STAGE 8 ---------- -->
+  <div class="stage" id="stage8" data-stage="8" data-title="יום של שינויים והגשה" data-min="10" data-done="סיימתי את שלב 8 והגשתי">
+    <div class="stage-head"><span class="badge">8</span><h3>יום של שינויים, והגשה</h3><span class="time">כ-10 דקות</span></div>
+    <span class="principle">חיבור כל החלקים</span>
+    <p class="goal"><b>בסוף השלב:</b> תרחיש שלם שמשתמש בכל הפעולות עובד, והפלט זהה לפלט הצפוי.</p>
+    <p>לפני ההרצה, ציירו את הקו על הנייר אחרי כל שורה: אילו תחנות יש, וכמה דקות לכל אחת?</p>
+    <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Main</span></div>
+<pre><code class="cs">BusLine line = Build();
+line.RemoveStop("Park");
+line.InsertAfter("Central", "Clinic", 3);
+line.AddStop("Beach", 7);
+Console.WriteLine(line);
+line.PrintTimes();
+Console.WriteLine(line.LongestLeg());
+BusLine back = line.Reversed("5 back");
+Console.WriteLine(back.TimeTo("Central") + " " + back.TimeTo("Clinic"));</code></pre></div>
+    <div class="predict" data-key="day">
+      <h4>לפני שמריצים: נחשו</h4>
+      <p>בשורה האחרונה: בקו החזרה, כמה דקות לוקח להגיע מהתחנה הראשונה (Beach) אל Central?</p>
+      <div class="guess">
+        <label for="gDay">הזמן אל Central:</label>
+        <span><input id="gDay" type="number" inputmode="numeric" data-answer="25" data-label="Central"></span>
+      </div>
+      <button class="btn" type="button">הצגת הפלט הצפוי</button>
+      <p class="g-msg" aria-live="polite"></p>
+    </div>
+    <div class="reveal" hidden>
+      <div class="g-result"></div>
+      <div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Expected output</span></div>
+<pre>Line 5: Central -&gt; Clinic -&gt; Library -&gt; Market -&gt; Station -&gt; Beach
+Central: 0
+Clinic: 3
+Library: 10
+Market: 13
+Station: 18
+Beach: 25
+Clinic -&gt; Library (7 min)
+25 22</pre></div>
+      <div class="note aha"><p><b>מעקב:</b> ‏Park הוצאה, ו-Library קיבלה את הדקות שלה (10). ‏Clinic נכנסה 3 דקות אחרי Central, ו-Library ירדה ל-7. ‏Beach נוספה בסוף, 7 דקות אחרי Station. כל הקו 25 דקות, ולכן גם בדרך חזרה Central רחוקה 25 דקות. שתי נסיעות של 7 דקות: מוחזרת הראשונה, Clinic -&gt; Library.</p></div>
+    </div>
+    <details class="think"><summary>שאלה אחרונה: מה הסיבוכיות של כל פעולה?</summary><div class="inner">
+      <p>חשבו לבד, ורק אחר כך השוו. n הוא מספר התחנות בקו.</p>
+      <div class="tbl"><table class="map">
+        <thead><tr><th>פעולה</th><th>סיבוכיות</th><th>למה</th></tr></thead>
+        <tbody>
+          <tr><td><code>AddStop</code></td><td><code>O(n)</code></td><td>הליכה עד התחנה האחרונה</td></tr>
+          <tr><td><code>CountStops</code>, <code>TotalMinutes</code>, <code>PrintTimes</code></td><td><code>O(n)</code></td><td>מעבר אחד</td></tr>
+          <tr><td><code>TimeTo</code>, <code>InsertAfter</code>, <code>RemoveStop</code></td><td><code>O(n)</code></td><td>חיפוש התחנה; השינוי עצמו <code>O(1)</code></td></tr>
+          <tr><td><code>Reversed</code>, <code>LongestLeg</code>, <code>CountLongLegs</code></td><td><code>O(n)</code></td><td>מעבר אחד</td></tr>
+        </tbody>
+      </table></div>
+    </div></details>
+    <h4>הגשה</h4>
+    <p>העלו ל-Classroom את הקובץ <code>Program.cs</code> עם כל המחלקות.</p>
+  </div>
+
+  <!-- ---------- BONUS ---------- -->
+  <div class="stage" id="bonus">
+    <div class="stage-head"><span class="badge">+</span><h3>משימות בונוס, למי שסיים מוקדם</h3></div>
+    <ol class="req">
+      <li><b>הוספה מהירה:</b> הוסיפו ל-<code>BusLine</code> תכונה <code>last</code>, החוליה האחרונה, כך ש-<code>AddStop</code> תהיה <code>O(1)</code>. אילו פעולות צריכות לעדכן אותה?</li>
+      <li><b>קו מקוצר:</b> <code>BusLine Express(string number, int min)</code>: קו חדש שעוצר רק בתחנות שהנסיעה אליהן (מהתחנה הקודמת <b>שבה עצר</b>) לוקחת לפחות <code>min</code> דקות. התחנה הראשונה והאחרונה נשארות תמיד, והזמן הכולל לא משתנה.</li>
+      <li><b>תחנה משותפת:</b> <code>string FirstCommon(BusLine other)</code>: שם התחנה הראשונה בקו הזה שקיימת גם בקו <code>other</code>, או מחרוזת ריקה. מה הסיבוכיות?</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="part-nav" aria-label="חלקי המטלה"></nav>
+</main>
+<aside class="ticket-col"></aside>
+</div>
+
+<footer>מבני נתונים: סיכום שרשרת חוליות | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

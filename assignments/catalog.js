@@ -5,6 +5,17 @@
      parts    = one entry per part page; stages = number of stages on that page */
 window.CATALOG = [
   {
+    id: "bus-line",
+    title: "שרשרת חוליות: קו אוטובוס",
+    course: "מבני נתונים",
+    blurb: "תרגיל הסיכום של יחידת שרשרת החוליות: קו אוטובוס שנשמר כשרשרת של תחנות. מוסיפים תחנות, מחשבים זמני נסיעה, מכניסים ומוציאים תחנות באמצע הקו, ובונים את הדרך חזרה.",
+    tags: ["שרשרת חוליות", "Node<T>", "הכנסה והוצאה", "שרשרת בתוך מחלקה", "היפוך", "סיבוכיות", "Unit4.CollectionsLib", "Console"],
+    parts: [
+      { title: "בונים את הקו", href: "bus-line/part-1.html", min: 70, stages: 4 },
+      { title: "משנים את הקו", href: "bus-line/part-2.html", min: 70, stages: 5 }
+    ]
+  },
+  {
     id: "cafe-orders",
     title: "מחסנית ותור: מערכת הזמנות לבית קפה",
     course: "מבני נתונים",
