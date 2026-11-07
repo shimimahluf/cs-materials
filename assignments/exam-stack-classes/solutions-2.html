@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>פתרונות, חלק 2: מחלקות ועצמים</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="s2">
+<script type="application/json" id="series">{"id": "exam-stack-classes", "title": "תרגול למבחן: מחסנית ומחלקות", "parts": [{"title": "מחסנית", "href": "part-1.html"}, {"title": "מחלקות ועצמים", "href": "part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="crumbs"><a href="part-2.html">חזרה לדף השאלות</a></p>
+    <h1>פתרונות, חלק 2: מחלקות ועצמים</h1>
+    <p class="lead">פתרונות מלאים לשאלות על מחלקות ועצמים, עם רשימת בדיקה עצמית לכל שאלה.</p>
+  </div>
+</header>
+
+<div class="wrap sol-wrap">
+<main>
+<div class="note"><b>לפני שפותחים:</b> כתבו את התשובה במחברת. פתחו את הפתרון של שאלה רק אחרי שסיימתם אותה, ואז סמנו ברשימת הבדיקה העצמית מה עשיתם נכון. התוצאה תופיע גם ליד השאלה בדף השאלות.</div>
+<div class="refs"><span class="lbl">מעבר לשאלה:</span><a class="ref" href="#sol-c1">שאלה 1</a><a class="ref" href="#sol-c2">שאלה 2</a><a class="ref" href="#sol-c3">שאלה 3</a><a class="ref" href="#sol-c4">שאלה 4</a><a class="ref" href="#sol-c5">שאלה 5</a><a class="ref" href="#sol-c6">שאלה 6</a></div>
+<div class="sol-q" id="sol-c1">
+<div class="stage-head"><span class="badge">1</span><h3>מחלקה: מוצר בחנות</h3><span class="q-score" data-score-for="c1"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c1">לשאלה 1</a></p>
+<details><summary>הצגת הפתרון לשאלה 1</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public class Product
+{
+    private string name;
+    private double price;
+    private int quantity;
+
+    public Product(string name, double price, int quantity)
+    {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+    public string GetName() { return name; }
+    public double GetPrice() { return price; }
+    public int GetQuantity() { return quantity; }
+    public void SetQuantity(int quantity) { this.quantity = quantity; }
+
+    public double TotalValue()
+    {
+        return price * quantity;
+    }
+
+    public bool Sell(int amount)
+    {
+        if (amount &gt; quantity)
+            return false;
+        quantity -= amount;
+        return true;
+    }
+}
+
+public static string MostValuable(Product[] products)
+{
+    int best = 0;
+    for (int i = 1; i &lt; products.Length; i++)
+        if (products[i].TotalValue() &gt; products[best].TotalValue())
+            best = i;
+    return products[best].GetName();
+}</code></pre></div>
+<div class="rubric" data-key="c1"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: כותרת ותכונות private בטיפוסים נכונים</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: פעולה בונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: Get ו-SetQuantity</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: TotalValue</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: בדיקת מלאי והחזרת false בלי שינוי</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הורדת הכמות והחזרת true</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: מעבר על המערך ושימוש ב-TotalValue</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: מציאת המקסימום (אתחול נכון)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: החזרת השם</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-c2">
+<div class="stage-head"><span class="badge">2</span><h3>מערך של עצמים: כיתה</h3><span class="q-score" data-score-for="c2"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c2">לשאלה 2</a></p>
+<details><summary>הצגת הפתרון לשאלה 2</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public Classroom(string className, int capacity)
+{
+    this.className = className;
+    this.students = new Student[capacity];
+    this.count = 0;
+}
+
+public bool Add(Student st)
+{
+    if (count == students.Length)
+        return false;
+    students[count] = st;
+    count++;
+    return true;
+}
+
+public double Average()
+{
+    double sum = 0;
+    for (int i = 0; i &lt; count; i++)
+        sum += students[i].GetAverage();
+    return sum / count;
+}
+
+public int CountAbove(double g)
+{
+    int c = 0;
+    for (int i = 0; i &lt; count; i++)
+        if (students[i].GetAverage() &gt; g)
+            c++;
+    return c;
+}
+
+public static string BestClass(Classroom[] classes)
+{
+    Classroom best = classes[0];
+    for (int i = 1; i &lt; classes.Length; i++)
+        if (classes[i].Average() &gt; best.Average())
+            best = classes[i];
+    return best.GetClassName();
+}</code></pre></div>
+<div class="rubric" data-key="c2"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: יצירת מערך בגודל capacity ו-count = 0</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: בדיקה שיש מקום</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: הכנסה בתא count וקידום count</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: לולאה עד count + סכימה וחלוקה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: ספירה נכונה עד count</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: מעבר על הכיתות + שימוש ב-Average</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: מקסימום נכון והחזרת השם</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-c3">
+<div class="stage-head"><span class="badge">3</span><h3>עצם מורכב: רכבת ושעות</h3><span class="q-score" data-score-for="c3"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c3">לשאלה 3</a></p>
+<details><summary>הצגת הפתרון לשאלה 3</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">// in Time
+public int ToMinutes()
+{
+    return hour * 60 + minute;
+}
+
+// in Train
+public Train(int number, string destination, int depHour, int depMin, int arrHour, int arrMin)
+{
+    this.number = number;
+    this.destination = destination;
+    this.departure = new Time(depHour, depMin);   // the inner objects are created here
+    this.arrival = new Time(arrHour, arrMin);
+}
+
+public int Duration()
+{
+    return arrival.ToMinutes() - departure.ToMinutes();
+}
+
+private static void AddMinutes(Time t, int minutes)
+{
+    int total = t.ToMinutes() + minutes;
+    t.SetHour(total / 60);
+    t.SetMinute(total % 60);
+}
+
+public void Delay(int minutes)
+{
+    AddMinutes(departure, minutes);
+    AddMinutes(arrival, minutes);
+}
+
+// e2: deep copy
+public Train(Train other)
+{
+    this.number = other.number;
+    this.destination = other.destination;
+    this.departure = new Time(other.departure.GetHour(), other.departure.GetMinute());
+    this.arrival = new Time(other.arrival.GetHour(), other.arrival.GetMinute());
+}</code></pre></div>
+<p><b>ה1.</b> הפלט: <code>09:15</code>, <code>09:15</code>, <code>False</code>, <code>True</code>. <code>t1</code> ו-<code>t2</code> הם שני עצמים שונים של רכבת (<code>False</code>), אבל שניהם מפנים <b>לאותם</b> עצמי <code>Time</code> (<code>True</code>). לכן האיחור של <code>t2</code> שינה גם את <code>t1</code>. זו העתקה רדודה (shallow copy).</p><p><b>ה2.</b> העתקה עמוקה: יוצרים עצמי <code>Time</code> חדשים עם אותם ערכים.</p><div class="rubric" data-key="c3"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: ToMinutes</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: אתחול התכונות הפשוטות</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: יצירת שני עצמי Time חדשים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הפרש של ToMinutes</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: חישוב שעה ודקה (/ ו-%)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: עדכון היציאה וגם ההגעה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה1: הפלט נכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה1: הסבר: שני עצמי רכבת, אותם עצמי Time</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה2: העתקה עמוקה</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-c4">
+<div class="stage-head"><span class="badge">4</span><h3>מעקב: עצמים והפניות</h3><span class="q-score" data-score-for="c4"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c4">לשאלה 4</a></p>
+<details><summary>הצגת הפתרון לשאלה 4</summary><div class="inner">
+<p><b>א.</b></p><div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Output</span></div>
+<pre>5
+True
+False
+5 8
+6 6 10
+True</pre></div>
+<ul><li>שורה 1: <code>a</code> ו-<code>b</code> מפנים לאותו עצם, ולכן <code>b.Add(2)</code> שינה את <code>a</code>: 5.</li><li>שורה 2: אותה הפניה: <code>True</code>. שורה 3: <code>==</code> בין עצמים משווה הפניות, לא ערכים. שני עצמים שונים: <code>False</code>, למרות שבשניהם 3.</li><li>שורה 4: <code>Change</code> שינתה את העצם עצמו (8). <code>Replace</code> שינתה רק את הפרמטר המקומי שלה, ולכן <code>a</code> נשאר 5.</li><li>שורה 5: <code>a</code> מקבל 0 ואז 1 (פעמיים במערך): 6. <code>b</code> הוא אותו עצם: 6. <code>c</code> מקבל 2: 10.</li><li>שורה 6: מערך של עצמים מאותחל ל-<code>null</code>: <code>True</code>.</li></ul><p><b>ב.</b> 3 עצמים: <code>new Counter(3)</code> פעמיים ב-Main, ועוד אחד בתוך <code>Replace</code>. <code>new Counter[3]</code> יוצר מערך של הפניות, לא עצמי <code>Counter</code>.</p><p><b>ג.</b> תיזרק חריגה <code>NullReferenceException</code>: ב-<code>arr2[0]</code> יש <code>null</code>, אין עצם שאפשר לזמן עליו פעולה.</p><div class="rubric" data-key="c4"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>שורה 1</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורות 2-3</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 4</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 5</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 6</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: 3 עצמים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: NullReferenceException + הסבר</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-c5">
+<div class="stage-head"><span class="badge">5</span><h3>עצם מורכב ומערך: מלון</h3><span class="q-score" data-score-for="c5"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c5">לשאלה 5</a></p>
+<details><summary>הצגת הפתרון לשאלה 5</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">// in Room
+public bool IsFree()
+{
+    return guest == null;
+}
+
+// in Hotel
+public int CheckIn(Guest g, int maxPrice)
+{
+    for (int i = 0; i &lt; rooms.Length; i++)
+    {
+        if (rooms[i].IsFree() &amp;&amp; rooms[i].GetPrice() &lt;= maxPrice)
+        {
+            rooms[i].SetGuest(g);
+            return rooms[i].GetNumber();
+        }
+    }
+    return -1;
+}
+
+public int CheckOut(string name)
+{
+    for (int i = 0; i &lt; rooms.Length; i++)
+    {
+        Guest g = rooms[i].GetGuest();
+        if (g != null &amp;&amp; g.GetName() == name)
+        {
+            int pay = g.GetNights() * rooms[i].GetPrice();
+            rooms[i].SetGuest(null);
+            return pay;
+        }
+    }
+    return -1;
+}
+
+public int FreeRooms()
+{
+    int c = 0;
+    for (int i = 0; i &lt; rooms.Length; i++)
+        if (rooms[i].IsFree())
+            c++;
+    return c;
+}
+
+public Guest LongestStay()
+{
+    Guest best = null;
+    for (int i = 0; i &lt; rooms.Length; i++)
+    {
+        Guest g = rooms[i].GetGuest();
+        if (g != null &amp;&amp; (best == null || g.GetNights() &gt; best.GetNights()))
+            best = g;
+    }
+    return best;
+}</code></pre></div>
+<div class="rubric" data-key="c5"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: IsFree</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: תנאי פנוי + מחיר, שימוש ב-IsFree</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: return בתוך הלולאה (רק חדר אחד) + -1</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: בדיקת null לפני GetName</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: חישוב התשלום ופינוי החדר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: -1 כשלא נמצא</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: FreeRooms</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: מקסימום עם התחלה מ-null</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: דילוג על חדרים פנויים</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-c6">
+<div class="stage-head"><span class="badge">6</span><h3>מערך של עצמים: שירים ואמנים</h3><span class="q-score" data-score-for="c6"></span></div>
+<p class="refs"><a class="ref" href="part-2.html#c6">לשאלה 6</a></p>
+<details><summary>הצגת הפתרון לשאלה 6</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static int TotalTime(Song[] songs, string artist)
+{
+    int sum = 0;
+    for (int i = 0; i &lt; songs.Length; i++)
+        if (songs[i].GetArtist() == artist)
+            sum += songs[i].GetSeconds();
+    return sum;
+}
+
+public static string TopArtist(Song[] songs)
+{
+    string best = songs[0].GetArtist();
+    int max = TotalTime(songs, best);
+    for (int i = 1; i &lt; songs.Length; i++)
+    {
+        int t = TotalTime(songs, songs[i].GetArtist());
+        if (t &gt; max)
+        {
+            max = t;
+            best = songs[i].GetArtist();
+        }
+    }
+    return best;
+}
+
+public static bool HasDuplicates(Song[] songs)
+{
+    for (int i = 0; i &lt; songs.Length; i++)
+        for (int j = i + 1; j &lt; songs.Length; j++)
+            if (songs[i].GetTitle() == songs[j].GetTitle() &amp;&amp;
+                songs[i].GetArtist() == songs[j].GetArtist())
+                return true;
+    return false;
+}
+
+public static Song[] LongerThan(Song[] songs, int sec)
+{
+    int count = 0;
+    for (int i = 0; i &lt; songs.Length; i++)
+        if (songs[i].GetSeconds() &gt; sec)
+            count++;
+    Song[] result = new Song[count];
+    int k = 0;
+    for (int i = 0; i &lt; songs.Length; i++)
+    {
+        if (songs[i].GetSeconds() &gt; sec)
+        {
+            result[k] = songs[i];
+            k++;
+        }
+    }
+    return result;
+}</code></pre></div>
+<div class="rubric" data-key="c6"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: סכימה לפי אמן</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-TotalTime על האמן של כל שיר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מקסימום נכון והחזרת שם האמן</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: לולאה כפולה מ-i+1 (לא להשוות שיר לעצמו)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: השוואת שם וגם אמן, החזרות נכונות</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: ספירה ויצירת מערך בגודל מדויק</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: מילוי עם אינדקס נפרד, באותו הסדר</span></label>
+</div>
+
+</div></details>
+</div>
+
+</main>
+</div>
+
+<footer>מבני נתונים: תרגול למבחן, מחסנית ומחלקות | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

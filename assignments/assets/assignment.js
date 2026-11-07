@@ -16,7 +16,9 @@
      .checklist input[id]                       -> remembered
      .check[data-key] with input.ans[data-answer] -> "check" + "show answers" (trace tables, output lines)
          data-answer may list alternatives separated by "|"
-     .rubric[data-key] input[data-pts]          -> self-check list; checked / total into .q-score of its stage
+     .rubric[data-key] input[data-pts]          -> self-check list, saved per key across the series' pages
+     [data-score-for=key]                       -> shows "checked / total" of that rubric (also on another page)
+     .check[data-noshow]                        -> no "show answers" button (answers are on a solutions page)
      .qpick a.qcard[href="#stageId"]            -> question picker cards: done mark + self-score
    Progress lives in localStorage under "csa:<series id>" (one origin is shared
    with the rest of the site, so keys are always namespaced).
@@ -348,7 +350,7 @@
     var b1 = document.createElement("button"); b1.type = "button"; b1.className = "btn"; b1.textContent = "בדיקה";
     var b2 = document.createElement("button"); b2.type = "button"; b2.className = "btn ghost"; b2.textContent = "הצגת התשובות";
     var msg = document.createElement("span"); msg.className = "check-msg"; msg.setAttribute("aria-live", "polite");
-    bar.appendChild(b1); bar.appendChild(b2); bar.appendChild(msg); box.appendChild(bar);
+    bar.appendChild(b1); if (!box.hasAttribute("data-noshow")) bar.appendChild(b2); bar.appendChild(msg); box.appendChild(bar);
     function check() {
       var n = 0, empty = 0;
       inputs.forEach(function (inp) {
@@ -375,47 +377,49 @@
     if (saved.shown) inputs.forEach(function (inp) { if (!isRight(inp)) inp.classList.add("shown"); else inp.classList.add("right"); });
   });
 
-  /* ---------- rubric self-score ---------- */
-  function stageScore(st) {
-    var sum = 0, any = false;
-    st.querySelectorAll(".rubric input[data-pts]").forEach(function (cb) {
-      if (cb.checked) { sum += Number(cb.getAttribute("data-pts")); any = true; }
+  /* ---------- rubric self-check ----------
+     Rubric ticks live in state.rubric[key] (shared by every page of the series), so a
+     solutions page can hold the rubric while the question page still shows the result:
+     any element with data-score-for="<key>" shows "checked / total" for that rubric. */
+  state.rubric = state.rubric || {};
+  document.querySelectorAll(".rubric[data-key]").forEach(function (r) {
+    var key = r.getAttribute("data-key");
+    var rec = state.rubric[key] = state.rubric[key] || { c: {} };
+    var boxes = r.querySelectorAll("input[data-pts]");
+    rec.max = 0;
+    boxes.forEach(function (cb, i) {
+      rec.w = rec.w || {}; rec.w[i] = Number(cb.getAttribute("data-pts"));
+      rec.max += rec.w[i];
+      cb.checked = !!rec.c[i];
+      cb.addEventListener("change", function () { rec.c[i] = cb.checked; save(); renderScores(); });
     });
-    var max = 0;
-    st.querySelectorAll(".rubric input[data-pts]").forEach(function (cb) { max += Number(cb.getAttribute("data-pts")); });
-    return { sum: sum, any: any, max: max };
+  });
+  save();
+  function rubricScore(key) {
+    var rec = state.rubric[key];
+    if (!rec || !rec.max) return null;
+    var sum = 0, any = false;
+    for (var i in rec.c) if (rec.c[i]) { sum += (rec.w && rec.w[i]) || 1; any = true; }
+    return { sum: sum, any: any, max: rec.max };
   }
   function renderScores() {
-    stages.forEach(function (st) {
-      var sc = stageScore(st);
-      var el = st.querySelector(".q-score");
-      if (el) el.textContent = sc.any ? "בדיקה עצמית: " + sc.sum + " / " + sc.max : "בדיקה עצמית: —";
-      st.querySelectorAll(".rubric").forEach(function (r) {
-        var s = 0, m = 0;
-        r.querySelectorAll("input[data-pts]").forEach(function (cb) { var p = Number(cb.getAttribute("data-pts")); m += p; if (cb.checked) s += p; });
-        var out = r.querySelector(".rubric-sum");
-        if (!out) { out = document.createElement("p"); out.className = "rubric-sum"; r.appendChild(out); }
-        out.textContent = "סימנתם " + s + " מתוך " + m;
-      });
+    document.querySelectorAll(".rubric[data-key]").forEach(function (r) {
+      var sc = rubricScore(r.getAttribute("data-key"));
+      var out = r.querySelector(".rubric-sum");
+      if (!out) { out = document.createElement("p"); out.className = "rubric-sum"; r.appendChild(out); }
+      out.textContent = "סימנתם " + (sc ? sc.sum : 0) + " מתוך " + (sc ? sc.max : 0);
+    });
+    document.querySelectorAll("[data-score-for]").forEach(function (el) {
+      var sc = rubricScore(el.getAttribute("data-score-for"));
+      var short = el.classList.contains("qc-score");
+      el.textContent = sc && sc.any ? (short ? sc.sum + "/" + sc.max : "בדיקה עצמית: " + sc.sum + " / " + sc.max)
+                                    : (short ? "" : "בדיקה עצמית: —");
     });
     document.querySelectorAll(".qpick a.qcard").forEach(function (card) {
       var st = document.querySelector(card.getAttribute("href"));
-      if (!st) return;
-      var k = st.getAttribute("data-stage");
-      card.classList.toggle("done", !!me.done[k]);
-      var sc = stageScore(st);
-      var tag = card.querySelector(".qc-score");
-      if (tag) tag.textContent = sc.any ? sc.sum + "/" + sc.max : "";
+      if (st) card.classList.toggle("done", !!me.done[st.getAttribute("data-stage")]);
     });
   }
-  document.querySelectorAll(".rubric[data-key]").forEach(function (r) {
-    var key = r.getAttribute("data-key");
-    r.querySelectorAll("input[data-pts]").forEach(function (cb, i) {
-      var id = "rb-" + key + "-" + i;
-      cb.checked = !!me.checks[id];
-      cb.addEventListener("change", function () { me.checks[id] = cb.checked; save(); renderScores(); });
-    });
-  });
   stages.forEach(function (st) {
     var inp = st.querySelector(".done-row input");
     if (inp) inp.addEventListener("change", renderScores);

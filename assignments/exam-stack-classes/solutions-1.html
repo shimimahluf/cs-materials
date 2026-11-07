@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>פתרונות, חלק 1: מחסנית</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="s1">
+<script type="application/json" id="series">{"id": "exam-stack-classes", "title": "תרגול למבחן: מחסנית ומחלקות", "parts": [{"title": "מחסנית", "href": "part-1.html"}, {"title": "מחלקות ועצמים", "href": "part-2.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="crumbs"><a href="part-1.html">חזרה לדף השאלות</a></p>
+    <h1>פתרונות, חלק 1: מחסנית</h1>
+    <p class="lead">פתרונות מלאים לשאלות על המחסנית, עם רשימת בדיקה עצמית לכל שאלה.</p>
+  </div>
+</header>
+
+<div class="wrap sol-wrap">
+<main>
+<div class="note"><b>לפני שפותחים:</b> כתבו את התשובה במחברת. פתחו את הפתרון של שאלה רק אחרי שסיימתם אותה, ואז סמנו ברשימת הבדיקה העצמית מה עשיתם נכון. התוצאה תופיע גם ליד השאלה בדף השאלות.</div>
+<div class="refs"><span class="lbl">מעבר לשאלה:</span><a class="ref" href="#sol-q1">שאלה 1</a><a class="ref" href="#sol-q2">שאלה 2</a><a class="ref" href="#sol-q3">שאלה 3</a><a class="ref" href="#sol-q4">שאלה 4</a><a class="ref" href="#sol-q5">שאלה 5</a><a class="ref" href="#sol-q6">שאלה 6</a><a class="ref" href="#sol-q7">שאלה 7</a><a class="ref" href="#sol-q8">שאלה 8</a></div>
+<div class="sol-q" id="sol-q1">
+<div class="stage-head"><span class="badge">1</span><h3>מעקב וניתוח: הפעולה What</h3><span class="q-score" data-score-for="q1"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q1">לשאלה 1</a></p>
+<details><summary>הצגת הפתרון לשאלה 1</summary><div class="inner">
+<p><b>א.</b> הערך המוחזר: <code>5</code>. תוכן <code>s</code> בסיום: <code>(top) 3, 5, 8, 9 (bottom)</code>. הלולאה השנייה מחזירה את <code>temp</code> אל <code>s</code>, ולכן הסדר של האיברים שנשארו לא משתנה.</p><p><b>ב.</b> 1. מחסנית שעולה מהראש אל הבסיס, למשל <code>(top) 1, 2, 3, 4, 5</code>: כל איבר גדול מהקודם, ואף אחד לא נמחק. 2. המקסימום היחיד בראש, למשל <code>(top) 9, 2, 7, 1, 3</code>: כל השאר לא גדולים מ-9 ונמחקים. בסיום <code>s</code> מכילה רק <code>9</code>.</p><p><b>ג.</b> הפעולה עוברת על <code>s</code> מהראש אל הבסיס ומשאירה בה רק את האיברים שגדולים <b>מכל</b> האיברים שמעליהם ("שיאים"), באותו הסדר. שאר האיברים נמחקים. הפעולה מחזירה את מספר האיברים שנמחקו.</p><p><b>ד.</b> <code>O(n)</code>: שתי לולאות בזו אחר זו, כל אחת לכל היותר n סבבים של פעולות <code>O(1)</code>.</p><div class="rubric" data-key="q1"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>טבלת מעקב נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ערך מוחזר נכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>תוכן s בסיום נכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב1: דוגמה נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב2: דוגמה נכונה + תוכן s</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: האיברים שנשארים הם אלה שגדולים מכל מה שמעליהם</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הסדר נשמר, השאר נמחקים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הערך המוחזר = מספר הנמחקים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: נימוק (שתי לולאות, כל אחת n סבבים של O(1))</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q2">
+<div class="stage-head"><span class="badge">2</span><h3>מעקב וניתוח: הפעולה Secret</h3><span class="q-score" data-score-for="q2"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q2">לשאלה 2</a></p>
+<details><summary>הצגת הפתרון לשאלה 2</summary><div class="inner">
+<p><b>א.</b> הזימון הראשון מחזיר <code>true</code>, והשני <code>false</code>.</p><p><b>ב.</b> שתי המחסניות חוזרות בדיוק למצבן ההתחלתי: כל איבר שהוצא מ-<code>s1</code> נכנס ל-<code>t1</code>, וכל איבר שהוצא מ-<code>s2</code> נכנס ל-<code>t2</code>, ובסוף הן מוחזרות.</p><p><b>ג.</b> הפעולה בודקת אם כל האיברים של <code>s2</code> מופיעים ב-<code>s1</code> <b>באותו הסדר</b> (מהראש אל הבסיס), לא בהכרח צמודים זה לזה. אם <code>s2</code> ריקה, היא מחזירה <code>true</code>.</p><p><b>ד.</b> למשל <code>(top) 5, 2, 7</code>: כל האיברים נמצאים ב-<code>s1</code>, אבל לא בסדר הזה. (גם <code>(top) 2, 2, 2</code> תשובה נכונה: ב-<code>s1</code> יש רק שני 2.)</p><p><b>ה.</b> <code>O(n + m)</code>: אין לולאה בתוך לולאה. הלולאה הראשונה והשחזור של <code>s1</code> הם עד n סבבים, השחזור של <code>s2</code> עד m סבבים.</p><div class="rubric" data-key="q2"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>טבלת מעקב נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>שני הערכים המוחזרים נכונים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שתיהן חוזרות למצב המקורי + הסבר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: "כל איברי s2 מופיעים ב-s1"</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: באותו הסדר, לא בהכרח צמודים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: דוגמה נכונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: O(n + m)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: נימוק</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q3">
+<div class="stage-head"><span class="badge">3</span><h3>כתיבת פעולות: להעביר לראש המחסנית</h3><span class="q-score" data-score-for="q3"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q3">לשאלה 3</a></p>
+<details><summary>הצגת הפתרון לשאלה 3</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static void MoveToTop(Stack&lt;int&gt; s, int x)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    int count = 0;
+    while (!s.IsEmpty())
+    {
+        int val = s.Pop();
+        if (val == x)
+            count++;
+        else
+            temp.Push(val);
+    }
+    while (!temp.IsEmpty())        // the order of the others is restored
+        s.Push(temp.Pop());
+    for (int i = 0; i &lt; count; i++)
+        s.Push(x);
+}
+
+public static void MoveMinToTop(Stack&lt;int&gt; s)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    int min = s.Top();
+    while (!s.IsEmpty())
+    {
+        int val = s.Pop();
+        if (val &lt; min)
+            min = val;
+        temp.Push(val);
+    }
+    while (!temp.IsEmpty())
+        s.Push(temp.Pop());
+    MoveToTop(s, min);
+}</code></pre></div>
+<p><b>ג.</b> <code>O(n)</code>: מציאת המינימום היא מעבר אחד והחזרה (<code>O(n)</code>), ואחריה זימון אחד של <code>MoveToTop</code>, שגם הוא <code>O(n)</code>. אין לולאה בתוך לולאה.</p><div class="rubric" data-key="q3"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: מעבר על כל s, ספירת x / העברת השאר לעזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: השאר חוזרים לסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: x נדחף count פעמים בראש</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: x שלא קיים - המחסנית לא משתנה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מציאת המינימום עם מחסנית עזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: s מוחזרת לפני הזימון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-MoveToTop</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: נימוק</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q4">
+<div class="stage-head"><span class="badge">4</span><h3>כתיבת פעולות: האיבר התחתון ופלינדרום</h3><span class="q-score" data-score-for="q4"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q4">לשאלה 4</a></p>
+<details><summary>הצגת הפתרון לשאלה 4</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static int RemoveBottom(Stack&lt;int&gt; s)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    while (!s.IsEmpty())
+        temp.Push(s.Pop());
+    int bottom = temp.Pop();        // the bottom is now on top of temp
+    while (!temp.IsEmpty())
+        s.Push(temp.Pop());
+    return bottom;
+}
+
+public static bool IsPalindrome(Stack&lt;int&gt; s)
+{
+    while (!s.IsEmpty())
+    {
+        int top = s.Pop();
+        if (s.IsEmpty())
+            return true;            // one element left in the middle
+        int bottom = RemoveBottom(s);
+        if (top != bottom)
+            return false;
+    }
+    return true;
+}</code></pre></div>
+<p><b>ג.</b> <code>O(n²)</code>: הלולאה רצה עד n/2 סבבים, ובכל סבב מזמנים את <code>RemoveBottom</code>, שעוברת על כל מה שנשאר במחסנית (<code>O(n)</code>). סך הכול <code>O(n²)</code>.</p><div class="rubric" data-key="q4"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: העברה לעזר והוצאת התחתון</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: החזרת השאר בסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: החזרת הערך</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: השוואת ראש מול תחתון בלולאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-RemoveBottom</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: טיפול באורך אי-זוגי (לא לזמן על מחסנית ריקה)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: ערכי החזרה נכונים (כולל ריקה)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n²)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: נימוק: O(n) בתוך לולאה של n/2</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q5">
+<div class="stage-head"><span class="badge">5</span><h3>כתיבת פעולות: מחסנית ממוינת</h3><span class="q-score" data-score-for="q5"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q5">לשאלה 5</a></p>
+<details><summary>הצגת הפתרון לשאלה 5</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static void InsertSorted(Stack&lt;int&gt; s, int x)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    while (!s.IsEmpty() &amp;&amp; s.Top() &lt; x)
+        temp.Push(s.Pop());
+    s.Push(x);
+    while (!temp.IsEmpty())
+        s.Push(temp.Pop());
+}
+
+public static Stack&lt;int&gt; SortStack(Stack&lt;int&gt; s)
+{
+    Stack&lt;int&gt; result = new Stack&lt;int&gt;();
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    while (!s.IsEmpty())
+    {
+        int x = s.Pop();
+        temp.Push(x);              // to restore s at the end
+        InsertSorted(result, x);
+    }
+    while (!temp.IsEmpty())
+        s.Push(temp.Pop());
+    return result;
+}</code></pre></div>
+<p><b>ג.</b> <code>O(n²)</code>: n זימונים של <code>InsertSorted</code>, וכל אחד עד <code>O(n)</code>.</p><p><b>ד.</b> מחסנית שהגדול ביותר בראש, בסדר יורד: <code>(top) 9, 7, 4, 1 (bottom)</code>. כל איבר שמוצא קטן מכל מה שכבר בתוצאה, ולכן <code>InsertSorted</code> דוחפת אותו מיד לראש, בלי להוציא אף איבר. סך הכול <code>O(n)</code>.</p><div class="rubric" data-key="q5"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: תנאי עצירה נכון (קודם IsEmpty, אחר כך Top)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הכנסת x והחזרת העזר</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: עובד גם במחסנית ריקה ו-x הכי גדול</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מחסנית חדשה + שימוש ב-InsertSorted</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: s מוחזרת לסדר המקורי</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: החזרת התוצאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n²) + נימוק</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: דוגמה ונימוק</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q6">
+<div class="stage-head"><span class="badge">6</span><h3>מחסנית של עצמים: משימות</h3><span class="q-score" data-score-for="q6"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q6">לשאלה 6</a></p>
+<details><summary>הצגת הפתרון לשאלה 6</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static Job MaxPriority(Stack&lt;Job&gt; jobs)
+{
+    Stack&lt;Job&gt; temp = new Stack&lt;Job&gt;();
+    Job max = jobs.Top();
+    while (!jobs.IsEmpty())
+    {
+        Job j = jobs.Pop();
+        if (j.GetPriority() &gt; max.GetPriority())   // &gt; keeps the one closest to the top
+            max = j;
+        temp.Push(j);
+    }
+    while (!temp.IsEmpty())
+        jobs.Push(temp.Pop());
+    return max;
+}
+
+public static void RemoveBelow(Stack&lt;Job&gt; jobs, int p)
+{
+    Stack&lt;Job&gt; temp = new Stack&lt;Job&gt;();
+    while (!jobs.IsEmpty())
+    {
+        Job j = jobs.Pop();
+        if (j.GetPriority() &gt;= p)
+            temp.Push(j);
+    }
+    while (!temp.IsEmpty())
+        jobs.Push(temp.Pop());
+}
+
+public static void PromoteMax(Stack&lt;Job&gt; jobs)
+{
+    Job max = MaxPriority(jobs);
+    Stack&lt;Job&gt; temp = new Stack&lt;Job&gt;();
+    while (!jobs.IsEmpty())
+    {
+        Job j = jobs.Pop();
+        if (j != max)              // the same object, not the same priority
+            temp.Push(j);
+    }
+    while (!temp.IsEmpty())
+        jobs.Push(temp.Pop());
+    jobs.Push(max);
+}</code></pre></div>
+<p><b>ד.</b> <code>O(n)</code>: זימון אחד של <code>MaxPriority</code> (<code>O(n)</code>) ועוד מעבר אחד והחזרה (<code>O(n)</code>).</p><div class="rubric" data-key="q6"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: מקסימום לפי GetPriority, עם > (הקרוב לראש)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: jobs מוחזרת</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מחיקה רק של עדיפות < p</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: השאר באותו הסדר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שימוש ב-MaxPriority</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: השוואת הפניות (רק עצם אחד עובר)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: השאר באותו הסדר + max בראש</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n) + נימוק</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q7">
+<div class="stage-head"><span class="badge">7</span><h3>כתיבת פעולות: קטעים במחסנית</h3><span class="q-score" data-score-for="q7"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q7">לשאלה 7</a></p>
+<details><summary>הצגת הפתרון לשאלה 7</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static Stack&lt;int&gt; SegmentSums(Stack&lt;int&gt; s)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();   // to restore s
+    Stack&lt;int&gt; sums = new Stack&lt;int&gt;();   // reversed order
+    int sum = 0;
+    while (!s.IsEmpty())
+    {
+        int x = s.Pop();
+        temp.Push(x);
+        if (x == 0)
+        {
+            sums.Push(sum);
+            sum = 0;
+        }
+        else
+            sum += x;
+    }
+    sums.Push(sum);                        // the last segment
+    while (!temp.IsEmpty())
+        s.Push(temp.Pop());
+    Stack&lt;int&gt; result = new Stack&lt;int&gt;();
+    while (!sums.IsEmpty())
+        result.Push(sums.Pop());
+    return result;
+}
+
+public static int LongestSegment(Stack&lt;int&gt; s)
+{
+    int max = 0, len = 0;
+    while (!s.IsEmpty())
+    {
+        if (s.Pop() == 0)
+            len = 0;
+        else
+        {
+            len++;
+            if (len &gt; max)
+                max = len;
+        }
+    }
+    return max;
+}</code></pre></div>
+<p><b>ג.</b> <code>O(n)</code>: שלוש לולאות בזו אחר זו (מעבר, החזרה והיפוך), ואף אחת מהן לא עוברת יותר מ-n איברים.</p><div class="rubric" data-key="q7"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: צבירת סכום ואיפוס ב-0</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הקטע האחרון נכלל</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הסדר של הסכומים נכון (היפוך)</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: s מוחזרת</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: מחזירה מחסנית חדשה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: ספירת אורך ואיפוס ב-0</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מקסימום נכון (כולל הקטע האחרון)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n) + נימוק</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-q8">
+<div class="stage-head"><span class="badge">8</span><h3>כתיבת פעולות: שתי מחסניות ממוינות</h3><span class="q-score" data-score-for="q8"></span></div>
+<p class="refs"><a class="ref" href="part-1.html#q8">לשאלה 8</a></p>
+<details><summary>הצגת הפתרון לשאלה 8</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public static Stack&lt;int&gt; Merge(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();    // largest ends up on top
+    while (!s1.IsEmpty() &amp;&amp; !s2.IsEmpty())
+    {
+        if (s1.Top() &lt;= s2.Top())
+            temp.Push(s1.Pop());
+        else
+            temp.Push(s2.Pop());
+    }
+    while (!s1.IsEmpty())
+        temp.Push(s1.Pop());
+    while (!s2.IsEmpty())
+        temp.Push(s2.Pop());
+    Stack&lt;int&gt; result = new Stack&lt;int&gt;();
+    while (!temp.IsEmpty())
+        result.Push(temp.Pop());
+    return result;
+}
+
+public static Stack&lt;int&gt; Common(Stack&lt;int&gt; s1, Stack&lt;int&gt; s2)
+{
+    Stack&lt;int&gt; temp = new Stack&lt;int&gt;();
+    while (!s1.IsEmpty() &amp;&amp; !s2.IsEmpty())
+    {
+        if (s1.Top() == s2.Top())
+        {
+            temp.Push(s1.Pop());
+            s2.Pop();
+        }
+        else if (s1.Top() &lt; s2.Top())
+            s1.Pop();
+        else
+            s2.Pop();
+    }
+    Stack&lt;int&gt; result = new Stack&lt;int&gt;();
+    while (!temp.IsEmpty())
+        result.Push(temp.Pop());
+    return result;
+}</code></pre></div>
+<p><b>ג.</b> <code>O(n + m)</code>: כל איבר יוצא פעם אחת מהמחסנית שלו, ועובר פעם אחת לעזר ופעם אחת לתוצאה.</p><p><b>ד.</b> <code>O(n·m)</code>: לכל אחד מ-n האיברים יש מעבר <code>O(m)</code> על <code>s2</code>.</p><div class="rubric" data-key="q8"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: השוואת ראשים והוצאת הקטן</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: העברת השאריות משתי המחסניות</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הסדר בתוצאה נכון (היפוך דרך עזר)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שווים - מוציאים משתיהן ושומרים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: אחרת מוציאים רק את הקטן</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: סדר נכון בתוצאה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: O(n + m)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: O(n·m)</span></label>
+</div>
+
+</div></details>
+</div>
+
+</main>
+</div>
+
+<footer>מבני נתונים: תרגול למבחן, מחסנית ומחלקות | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>

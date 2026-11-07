@@ -13,7 +13,7 @@
   <div class="top-inner">
     <nav class="crumbs" aria-label="ניווט"></nav>
     <h1>תרגול למבחן, חלק 2: מחלקות ועצמים</h1>
-    <p class="lead">שאלות בסגנון הבגרות על מחלקות: כתיבת מחלקה, מערך של עצמים, עצם מורכב ומעקב אחר הפניות. בכל שאלה יש רמזים, פתרון מלא ורשימת בדיקה עצמית.</p>
+    <p class="lead">שאלות בסגנון הבגרות על מחלקות: כתיבת מחלקה, מערך של עצמים, עצם מורכב ומעקב אחר הפניות. בכל שאלה יש רמזים, ובדף נפרד יש פתרונות מלאים ורשימת בדיקה עצמית.</p>
     <ul class="facts"><li><b>שאלות:</b> 6</li><li><b>בוחרים:</b> כמה שרוצים, בכל סדר</li><li><b>שפה:</b> <bdi dir="ltr">C#</bdi></li></ul>
   </div>
 </header>
@@ -27,22 +27,22 @@
     <li>השאלות בנויות כמו שאלות על מחלקות בבגרות: נותנים מחלקה עם התכונות שלה וממשק חלקי, ומבקשים "ממשו" פעולה בונה, פעולות פנימיות ופעולה חיצונית על מערך.</li>
     <li>"פעולה פנימית" נכתבת בתוך המחלקה. "פעולה חיצונית" היא <code>public static</code>, מחוץ למחלקה, ומשתמשת רק בפעולות הממשק.</li>
     <li>"חובה להשתמש בפעולה מסעיף..." = פתרון שלא משתמש בה אינו מלא, גם אם הקוד עובד. מותר להשתמש בפעולות מהממשק ומסעיפים קודמים בלי לממש אותן שוב.</li>
-    <li>כתבו במחברת, ופתחו את הפתרון רק אחרי שסיימתם. השאלות על המחסנית נמצאות ב<a href="part-1.html">חלק 1</a>.</li>
+    <li>כתבו במחברת. הפתרונות נמצאים בדף נפרד, שהמורה ייתן לכם. השאלות על המחסנית נמצאות ב<a href="part-1.html">חלק 1</a>.</li>
   </ul>
 </div>
 <section class="qpick" id="pick"><h2>בחרו שאלה</h2>
 <div class="qfilter" role="group" aria-label="סינון שאלות"><button type="button" data-f="all" aria-pressed="true">הכול</button><button type="button" data-f="class" aria-pressed="false">כתיבת מחלקה</button><button type="button" data-f="array" aria-pressed="false">מערך של עצמים</button><button type="button" data-f="composite" aria-pressed="false">עצם מורכב</button><button type="button" data-f="trace" aria-pressed="false">מעקב</button></div>
 <div class="qgrid">
-<a class="qcard" href="#c1" data-tags="class array"><span class="qc-top"><span class="qc-n">שאלה 1</span><span class="qc-score"></span></span><span class="qc-t">מוצר בחנות</span><span class="qc-d">כתיבת מחלקה מאפס, פעולות פנימיות, ופעולה חיצונית על מערך.</span><span class="qc-tags"><span class="chip ">מחלקה</span><span class="chip ">מערך של עצמים</span></span></a>
-<a class="qcard" href="#c2" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 2</span><span class="qc-score"></span></span><span class="qc-t">כיתה ותלמידים</span><span class="qc-d">מערך של עצמים עם מונה (count) בתוך מחלקה.</span><span class="qc-tags"><span class="chip ">מערך של עצמים</span><span class="chip ">מונה count</span></span></a>
-<a class="qcard" href="#c3" data-tags="composite trace"><span class="qc-top"><span class="qc-n">שאלה 3</span><span class="qc-score"></span></span><span class="qc-t">רכבת ושעות</span><span class="qc-d">עצם מורכב: Time בתוך Train, איחור, והעתקה רדודה או עמוקה.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">בנאי מעתיק</span><span class="chip trace">מה יודפס</span></span></a>
-<a class="qcard" href="#c4" data-tags="trace"><span class="qc-top"><span class="qc-n">שאלה 4</span><span class="qc-score"></span></span><span class="qc-t">מעקב: הפניות</span><span class="qc-d">מה יודפס: שתי הפניות לאותו עצם, ==, עצם כפרמטר ו-null.</span><span class="qc-tags"><span class="chip trace">מה יודפס</span><span class="chip ">הפניות</span></span></a>
-<a class="qcard" href="#c5" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 5</span><span class="qc-score"></span></span><span class="qc-t">מלון</span><span class="qc-d">חדרים עם אורח או null: כניסה, יציאה ותשלום, ספירה ומקסימום.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">מערך של עצמים</span><span class="chip ">null</span></span></a>
-<a class="qcard" href="#c6" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 6</span><span class="qc-score"></span></span><span class="qc-t">שירים ואמנים</span><span class="qc-d">פעולות חיצוניות על Song[]: קיבוץ לפי אמן, כפילויות ומערך חדש.</span><span class="qc-tags"><span class="chip ">מערך של עצמים</span><span class="chip ">פעולה חיצונית</span></span></a>
+<a class="qcard" href="#c1" data-tags="class array"><span class="qc-top"><span class="qc-n">שאלה 1</span><span class="qc-score" data-score-for="c1"></span></span><span class="qc-t">מוצר בחנות</span><span class="qc-d">כתיבת מחלקה מאפס, פעולות פנימיות, ופעולה חיצונית על מערך.</span><span class="qc-tags"><span class="chip ">מחלקה</span><span class="chip ">מערך של עצמים</span></span></a>
+<a class="qcard" href="#c2" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 2</span><span class="qc-score" data-score-for="c2"></span></span><span class="qc-t">כיתה ותלמידים</span><span class="qc-d">מערך של עצמים עם מונה (count) בתוך מחלקה.</span><span class="qc-tags"><span class="chip ">מערך של עצמים</span><span class="chip ">מונה count</span></span></a>
+<a class="qcard" href="#c3" data-tags="composite trace"><span class="qc-top"><span class="qc-n">שאלה 3</span><span class="qc-score" data-score-for="c3"></span></span><span class="qc-t">רכבת ושעות</span><span class="qc-d">עצם מורכב: Time בתוך Train, איחור, והעתקה רדודה או עמוקה.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">בנאי מעתיק</span><span class="chip trace">מה יודפס</span></span></a>
+<a class="qcard" href="#c4" data-tags="trace"><span class="qc-top"><span class="qc-n">שאלה 4</span><span class="qc-score" data-score-for="c4"></span></span><span class="qc-t">מעקב: הפניות</span><span class="qc-d">מה יודפס: שתי הפניות לאותו עצם, ==, עצם כפרמטר ו-null.</span><span class="qc-tags"><span class="chip trace">מה יודפס</span><span class="chip ">הפניות</span></span></a>
+<a class="qcard" href="#c5" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 5</span><span class="qc-score" data-score-for="c5"></span></span><span class="qc-t">מלון</span><span class="qc-d">חדרים עם אורח או null: כניסה, יציאה ותשלום, ספירה ומקסימום.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">מערך של עצמים</span><span class="chip ">null</span></span></a>
+<a class="qcard" href="#c6" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 6</span><span class="qc-score" data-score-for="c6"></span></span><span class="qc-t">שירים ואמנים</span><span class="qc-d">פעולות חיצוניות על Song[]: קיבוץ לפי אמן, כפילויות ומערך חדש.</span><span class="qc-tags"><span class="chip ">מערך של עצמים</span><span class="chip ">פעולה חיצונית</span></span></a>
 </div></section>
 <section id="questions"><h2>השאלות</h2>
 <div class="stage" id="c1" data-stage="1" data-title="מוצר בחנות" data-min="35" data-points="30" data-done="סיימתי את שאלה 1">
-<div class="stage-head"><span class="badge">1</span><h3>מחלקה: מוצר בחנות</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">1</span><h3>מחלקה: מוצר בחנות</h3><span class="time">כ-35 דקות</span><span class="q-score" data-score-for="c1"></span></div>
 <span class="principle">מחלקה · פעולה פנימית · פעולה חיצונית על מערך</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>חנות רוצה לנהל את המוצרים שלה. לכל מוצר נשמרים: <b>שם</b> (מחרוזת), <b>מחיר</b> ליחידה (ממשי) ו<b>כמות במלאי</b> (שלם).</p>
@@ -65,64 +65,10 @@ MostValuable(...)  -&gt;  "Bag"</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>בסעיף ד שמרו את <b>האינדקס</b> (או העצם) של המוצר הטוב ביותר עד עכשיו, ולא רק את השווי שלו: בסוף צריך להחזיר את השם.</p>
 </div></details>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
-<pre><code class="cs">public class Product
-{
-    private string name;
-    private double price;
-    private int quantity;
-
-    public Product(string name, double price, int quantity)
-    {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
-    public string GetName() { return name; }
-    public double GetPrice() { return price; }
-    public int GetQuantity() { return quantity; }
-    public void SetQuantity(int quantity) { this.quantity = quantity; }
-
-    public double TotalValue()
-    {
-        return price * quantity;
-    }
-
-    public bool Sell(int amount)
-    {
-        if (amount &gt; quantity)
-            return false;
-        quantity -= amount;
-        return true;
-    }
-}
-
-public static string MostValuable(Product[] products)
-{
-    int best = 0;
-    for (int i = 1; i &lt; products.Length; i++)
-        if (products[i].TotalValue() &gt; products[best].TotalValue())
-            best = i;
-    return products[best].GetName();
-}</code></pre></div>
-<div class="rubric" data-key="c1"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>א: כותרת ותכונות private בטיפוסים נכונים</span></label>
-<label><input type="checkbox" data-pts="1"><span>א: פעולה בונה</span></label>
-<label><input type="checkbox" data-pts="1"><span>א: Get ו-SetQuantity</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: TotalValue</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: בדיקת מלאי והחזרת false בלי שינוי</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: הורדת הכמות והחזרת true</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: מעבר על המערך ושימוש ב-TotalValue</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: מציאת המקסימום (אתחול נכון)</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: החזרת השם</span></label>
-</div>
-
-</div></details>
 </div>
 
 <div class="stage" id="c2" data-stage="2" data-title="כיתה ותלמידים" data-min="35" data-points="30" data-done="סיימתי את שאלה 2">
-<div class="stage-head"><span class="badge">2</span><h3>מערך של עצמים: כיתה</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">2</span><h3>מערך של עצמים: כיתה</h3><span class="time">כ-35 דקות</span><span class="q-score" data-score-for="c2"></span></div>
 <span class="principle">מערך של עצמים בתוך מחלקה · מונה · פעולה חיצונית</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>המחלקה <code>Student</code> מייצגת תלמיד. הממשק שלה:</p>
@@ -152,64 +98,10 @@ BestClass(...) -&gt; "11B"</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>הלולאות במחלקה רצות עד <code>count</code>, לא עד <code>students.Length</code>: התאים שאחרי <code>count</code> הם <code>null</code>, ו-<code>GetAverage()</code> עליהם תזרוק NullReferenceException.</p>
 </div></details>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
-<pre><code class="cs">public Classroom(string className, int capacity)
-{
-    this.className = className;
-    this.students = new Student[capacity];
-    this.count = 0;
-}
-
-public bool Add(Student st)
-{
-    if (count == students.Length)
-        return false;
-    students[count] = st;
-    count++;
-    return true;
-}
-
-public double Average()
-{
-    double sum = 0;
-    for (int i = 0; i &lt; count; i++)
-        sum += students[i].GetAverage();
-    return sum / count;
-}
-
-public int CountAbove(double g)
-{
-    int c = 0;
-    for (int i = 0; i &lt; count; i++)
-        if (students[i].GetAverage() &gt; g)
-            c++;
-    return c;
-}
-
-public static string BestClass(Classroom[] classes)
-{
-    Classroom best = classes[0];
-    for (int i = 1; i &lt; classes.Length; i++)
-        if (classes[i].Average() &gt; best.Average())
-            best = classes[i];
-    return best.GetClassName();
-}</code></pre></div>
-<div class="rubric" data-key="c2"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>א: יצירת מערך בגודל capacity ו-count = 0</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: בדיקה שיש מקום</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: הכנסה בתא count וקידום count</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: לולאה עד count + סכימה וחלוקה</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: ספירה נכונה עד count</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה: מעבר על הכיתות + שימוש ב-Average</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה: מקסימום נכון והחזרת השם</span></label>
-</div>
-
-</div></details>
 </div>
 
 <div class="stage" id="c3" data-stage="3" data-title="רכבת ושעות" data-min="40" data-points="30" data-done="סיימתי את שאלה 3">
-<div class="stage-head"><span class="badge">3</span><h3>עצם מורכב: רכבת ושעות</h3><span class="time">כ-40 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">3</span><h3>עצם מורכב: רכבת ושעות</h3><span class="time">כ-40 דקות</span><span class="q-score" data-score-for="c3"></span></div>
 <span class="principle">עצם מורכב · יצירת עצמים פנימיים · העתקה עמוקה</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a></div>
 <p>המחלקה <code>Time</code> מייצגת שעה ביום. הממשק שלה:</p>
@@ -255,73 +147,17 @@ Console.WriteLine(t1.GetDeparture());
 Console.WriteLine(t2.GetDeparture());
 Console.WriteLine(t1 == t2);
 Console.WriteLine(t1.GetDeparture() == t2.GetDeparture());</code></pre></div>
-<div class="check" data-key="c3-out"><ol class="out-lines">
+<div class="check" data-key="c3-out" data-noshow><ol class="out-lines">
 <li><span class="ln">line 1</span><input class="ans" data-answer="09:15"></li>
 <li><span class="ln">line 2</span><input class="ans" data-answer="09:15"></li>
 <li><span class="ln">line 3</span><input class="ans" data-answer="False"></li>
 <li><span class="ln">line 4</span><input class="ans" data-answer="True"></li>
 </ol></div>
 <p>2. הסבירו את הבעיה, ותקנו את הפעולה הבונה המעתיקה כך ששינוי ב-<code>t2</code> לא ישפיע על <code>t1</code>.</p>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
-<pre><code class="cs">// in Time
-public int ToMinutes()
-{
-    return hour * 60 + minute;
-}
-
-// in Train
-public Train(int number, string destination, int depHour, int depMin, int arrHour, int arrMin)
-{
-    this.number = number;
-    this.destination = destination;
-    this.departure = new Time(depHour, depMin);   // the inner objects are created here
-    this.arrival = new Time(arrHour, arrMin);
-}
-
-public int Duration()
-{
-    return arrival.ToMinutes() - departure.ToMinutes();
-}
-
-private static void AddMinutes(Time t, int minutes)
-{
-    int total = t.ToMinutes() + minutes;
-    t.SetHour(total / 60);
-    t.SetMinute(total % 60);
-}
-
-public void Delay(int minutes)
-{
-    AddMinutes(departure, minutes);
-    AddMinutes(arrival, minutes);
-}
-
-// e2: deep copy
-public Train(Train other)
-{
-    this.number = other.number;
-    this.destination = other.destination;
-    this.departure = new Time(other.departure.GetHour(), other.departure.GetMinute());
-    this.arrival = new Time(other.arrival.GetHour(), other.arrival.GetMinute());
-}</code></pre></div>
-<p><b>ה1.</b> הפלט: <code>09:15</code>, <code>09:15</code>, <code>False</code>, <code>True</code>. <code>t1</code> ו-<code>t2</code> הם שני עצמים שונים של רכבת (<code>False</code>), אבל שניהם מפנים <b>לאותם</b> עצמי <code>Time</code> (<code>True</code>). לכן האיחור של <code>t2</code> שינה גם את <code>t1</code>. זו העתקה רדודה (shallow copy).</p><p><b>ה2.</b> העתקה עמוקה: יוצרים עצמי <code>Time</code> חדשים עם אותם ערכים.</p><div class="rubric" data-key="c3"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>א: ToMinutes</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: אתחול התכונות הפשוטות</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: יצירת שני עצמי Time חדשים</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: הפרש של ToMinutes</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: חישוב שעה ודקה (/ ו-%)</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: עדכון היציאה וגם ההגעה</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה1: הפלט נכון</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה1: הסבר: שני עצמי רכבת, אותם עצמי Time</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה2: העתקה עמוקה</span></label>
-</div>
-
-</div></details>
 </div>
 
 <div class="stage" id="c4" data-stage="4" data-title="מעקב: הפניות" data-min="25" data-points="20" data-done="סיימתי את שאלה 4">
-<div class="stage-head"><span class="badge">4</span><h3>מעקב: עצמים והפניות</h3><span class="time">כ-25 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">4</span><h3>מעקב: עצמים והפניות</h3><span class="time">כ-25 דקות</span><span class="q-score" data-score-for="c4"></span></div>
 <span class="principle">מעקב · הפניות · עצם כפרמטר</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a></div>
 <p>לפניכם המחלקה <code>Counter</code> ושתי פעולות חיצוניות:</p>
@@ -365,7 +201,7 @@ Console.WriteLine(a.GetValue() + " " + b.GetValue() + " " + c.GetValue());   // 
 Counter[] arr2 = new Counter[2];
 Console.WriteLine(arr2[0] == null);                      // line 6</code></pre></div>
 <p class="sub">א. מה ידפיס הקוד? כתבו כל שורה כפי שתופיע בפלט (<bdi dir="ltr">C#</bdi> מדפיס <code>True</code> / <code>False</code>). כדאי לצייר את העצמים וההפניות במחברת.</p>
-<div class="check" data-key="c4-out"><ol class="out-lines">
+<div class="check" data-key="c4-out" data-noshow><ol class="out-lines">
 <li><span class="ln">line 1</span><input class="ans" data-answer="5"></li>
 <li><span class="ln">line 2</span><input class="ans" data-answer="True"></li>
 <li><span class="ln">line 3</span><input class="ans" data-answer="False"></li>
@@ -380,33 +216,14 @@ Console.WriteLine(arr2[0] == null);                      // line 6</code></pre><
 <p>שורה 5: <code>arr[0]</code> ו-<code>arr[1]</code> הם אותו עצם (<code>a</code>), ולכן הוא מקבל גם <code>Add(0)</code> וגם <code>Add(1)</code>. ו-<code>b</code> הוא עדיין אותו עצם כמו <code>a</code>.</p>
 </div></details>
 <p class="sub">ב. כמה עצמים מטיפוס <code>Counter</code> נוצרו במהלך הריצה (כולל בתוך הפעולות)?</p>
-<div class="check" data-key="c4-count"><ol class="out-lines">
+<div class="check" data-key="c4-count" data-noshow><ol class="out-lines">
 <li><span class="ln">objects</span><input class="ans" data-answer="3"></li>
 </ol></div>
 <p class="sub">ג. מוסיפים בסוף ה-Main את השורה <code>arr2[0].Add(1);</code>. מה יקרה? הסבירו.</p>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<p><b>א.</b></p><div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Output</span></div>
-<pre>5
-True
-False
-5 8
-6 6 10
-True</pre></div>
-<ul><li>שורה 1: <code>a</code> ו-<code>b</code> מפנים לאותו עצם, ולכן <code>b.Add(2)</code> שינה את <code>a</code>: 5.</li><li>שורה 2: אותה הפניה: <code>True</code>. שורה 3: <code>==</code> בין עצמים משווה הפניות, לא ערכים. שני עצמים שונים: <code>False</code>, למרות שבשניהם 3.</li><li>שורה 4: <code>Change</code> שינתה את העצם עצמו (8). <code>Replace</code> שינתה רק את הפרמטר המקומי שלה, ולכן <code>a</code> נשאר 5.</li><li>שורה 5: <code>a</code> מקבל 0 ואז 1 (פעמיים במערך): 6. <code>b</code> הוא אותו עצם: 6. <code>c</code> מקבל 2: 10.</li><li>שורה 6: מערך של עצמים מאותחל ל-<code>null</code>: <code>True</code>.</li></ul><p><b>ב.</b> 3 עצמים: <code>new Counter(3)</code> פעמיים ב-Main, ועוד אחד בתוך <code>Replace</code>. <code>new Counter[3]</code> יוצר מערך של הפניות, לא עצמי <code>Counter</code>.</p><p><b>ג.</b> תיזרק חריגה <code>NullReferenceException</code>: ב-<code>arr2[0]</code> יש <code>null</code>, אין עצם שאפשר לזמן עליו פעולה.</p><div class="rubric" data-key="c4"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>שורה 1</span></label>
-<label><input type="checkbox" data-pts="1"><span>שורות 2-3</span></label>
-<label><input type="checkbox" data-pts="1"><span>שורה 4</span></label>
-<label><input type="checkbox" data-pts="1"><span>שורה 5</span></label>
-<label><input type="checkbox" data-pts="1"><span>שורה 6</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: 3 עצמים</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: NullReferenceException + הסבר</span></label>
-</div>
-
-</div></details>
 </div>
 
 <div class="stage" id="c5" data-stage="5" data-title="מלון" data-min="40" data-points="30" data-done="סיימתי את שאלה 5">
-<div class="stage-head"><span class="badge">5</span><h3>עצם מורכב ומערך: מלון</h3><span class="time">כ-40 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">5</span><h3>עצם מורכב ומערך: מלון</h3><span class="time">כ-40 דקות</span><span class="q-score" data-score-for="c5"></span></div>
 <span class="principle">עצם מורכב · מערך של עצמים · טיפול ב-null</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a></div>
 <p>מלון שומר את החדרים שלו. הממשקים של המחלקות <code>Guest</code> ו-<code>Room</code>:</p>
@@ -446,80 +263,10 @@ CheckOut("Omer") -&gt; 700    CheckOut("Omer") again -&gt; -1    FreeRooms() -&g
 <details><summary>רמז 1</summary><div class="inner">
 <p>ב-<code>CheckOut</code> וב-<code>LongestStay</code>: בחדר פנוי <code>GetGuest()</code> מחזירה <code>null</code>. בדקו <code>g != null</code> <b>לפני</b> <code>g.GetName()</code>.</p>
 </div></details>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
-<pre><code class="cs">// in Room
-public bool IsFree()
-{
-    return guest == null;
-}
-
-// in Hotel
-public int CheckIn(Guest g, int maxPrice)
-{
-    for (int i = 0; i &lt; rooms.Length; i++)
-    {
-        if (rooms[i].IsFree() &amp;&amp; rooms[i].GetPrice() &lt;= maxPrice)
-        {
-            rooms[i].SetGuest(g);
-            return rooms[i].GetNumber();
-        }
-    }
-    return -1;
-}
-
-public int CheckOut(string name)
-{
-    for (int i = 0; i &lt; rooms.Length; i++)
-    {
-        Guest g = rooms[i].GetGuest();
-        if (g != null &amp;&amp; g.GetName() == name)
-        {
-            int pay = g.GetNights() * rooms[i].GetPrice();
-            rooms[i].SetGuest(null);
-            return pay;
-        }
-    }
-    return -1;
-}
-
-public int FreeRooms()
-{
-    int c = 0;
-    for (int i = 0; i &lt; rooms.Length; i++)
-        if (rooms[i].IsFree())
-            c++;
-    return c;
-}
-
-public Guest LongestStay()
-{
-    Guest best = null;
-    for (int i = 0; i &lt; rooms.Length; i++)
-    {
-        Guest g = rooms[i].GetGuest();
-        if (g != null &amp;&amp; (best == null || g.GetNights() &gt; best.GetNights()))
-            best = g;
-    }
-    return best;
-}</code></pre></div>
-<div class="rubric" data-key="c5"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>א: IsFree</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: תנאי פנוי + מחיר, שימוש ב-IsFree</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: return בתוך הלולאה (רק חדר אחד) + -1</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: בדיקת null לפני GetName</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: חישוב התשלום ופינוי החדר</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: -1 כשלא נמצא</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: FreeRooms</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה: מקסימום עם התחלה מ-null</span></label>
-<label><input type="checkbox" data-pts="1"><span>ה: דילוג על חדרים פנויים</span></label>
-</div>
-
-</div></details>
 </div>
 
 <div class="stage" id="c6" data-stage="6" data-title="שירים ואמנים" data-min="35" data-points="30" data-done="סיימתי את שאלה 6">
-<div class="stage-head"><span class="badge">6</span><h3>מערך של עצמים: שירים ואמנים</h3><span class="time">כ-35 דקות</span><span class="q-score"></span></div>
+<div class="stage-head"><span class="badge">6</span><h3>מערך של עצמים: שירים ואמנים</h3><span class="time">כ-35 דקות</span><span class="q-score" data-score-for="c6"></span></div>
 <span class="principle">מערך של עצמים · פעולות חיצוניות · מערך חדש</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>המחלקה <code>Song</code> מייצגת שיר. הממשק שלה:</p>
@@ -545,72 +292,6 @@ public Guest LongestStay()
 <pre>LongerThan(songs, 200) -&gt; [Rain, Light, Road]   (length 3)</pre></div>
 <details><summary>רמז 1</summary><div class="inner">
 <p>"בגודל המדויק": קודם סופרים כמה שירים מתאימים, יוצרים מערך בגודל הזה, ואז עוברים שוב וממלאים אותו עם אינדקס נפרד (<code>k</code>).</p>
-</div></details>
-<details><summary>פתרון מלא ובדיקה עצמית (פתחו רק אחרי שכתבתם)</summary><div class="inner">
-<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
-<pre><code class="cs">public static int TotalTime(Song[] songs, string artist)
-{
-    int sum = 0;
-    for (int i = 0; i &lt; songs.Length; i++)
-        if (songs[i].GetArtist() == artist)
-            sum += songs[i].GetSeconds();
-    return sum;
-}
-
-public static string TopArtist(Song[] songs)
-{
-    string best = songs[0].GetArtist();
-    int max = TotalTime(songs, best);
-    for (int i = 1; i &lt; songs.Length; i++)
-    {
-        int t = TotalTime(songs, songs[i].GetArtist());
-        if (t &gt; max)
-        {
-            max = t;
-            best = songs[i].GetArtist();
-        }
-    }
-    return best;
-}
-
-public static bool HasDuplicates(Song[] songs)
-{
-    for (int i = 0; i &lt; songs.Length; i++)
-        for (int j = i + 1; j &lt; songs.Length; j++)
-            if (songs[i].GetTitle() == songs[j].GetTitle() &amp;&amp;
-                songs[i].GetArtist() == songs[j].GetArtist())
-                return true;
-    return false;
-}
-
-public static Song[] LongerThan(Song[] songs, int sec)
-{
-    int count = 0;
-    for (int i = 0; i &lt; songs.Length; i++)
-        if (songs[i].GetSeconds() &gt; sec)
-            count++;
-    Song[] result = new Song[count];
-    int k = 0;
-    for (int i = 0; i &lt; songs.Length; i++)
-    {
-        if (songs[i].GetSeconds() &gt; sec)
-        {
-            result[k] = songs[i];
-            k++;
-        }
-    }
-    return result;
-}</code></pre></div>
-<div class="rubric" data-key="c6"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
-<label><input type="checkbox" data-pts="1"><span>א: סכימה לפי אמן</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-TotalTime על האמן של כל שיר</span></label>
-<label><input type="checkbox" data-pts="1"><span>ב: מקסימום נכון והחזרת שם האמן</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: לולאה כפולה מ-i+1 (לא להשוות שיר לעצמו)</span></label>
-<label><input type="checkbox" data-pts="1"><span>ג: השוואת שם וגם אמן, החזרות נכונות</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: ספירה ויצירת מערך בגודל מדויק</span></label>
-<label><input type="checkbox" data-pts="1"><span>ד: מילוי עם אינדקס נפרד, באותו הסדר</span></label>
-</div>
-
 </div></details>
 </div>
 
