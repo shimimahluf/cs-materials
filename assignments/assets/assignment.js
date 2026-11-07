@@ -14,6 +14,10 @@
          .col-guess[data-label] input[type=checkbox][data-correct]
      pre code.cs / pre code.xml                 -> highlighted + copy button
      .checklist input[id]                       -> remembered
+     .check[data-key] with input.ans[data-answer] -> "check" + "show answers" (trace tables, output lines)
+         data-answer may list alternatives separated by "|"
+     .rubric[data-key] input[data-pts]          -> self-score; sums into .q-score of its stage (data-points)
+     .qpick a.qcard[href="#stageId"]            -> question picker cards: done mark + self-score
    Progress lives in localStorage under "csa:<series id>" (one origin is shared
    with the rest of the site, so keys are always namespaced).
    ============================================================= */
@@ -51,7 +55,8 @@
             "char object out break continue switch case default").split(" ");
   var TY = ("MenuItem Dish Drink Dessert Order Table Billing List Console Program MainWindow Window MessageBox " +
             "RoutedEventArgs SelectionChangedEventArgs InvalidCastException NullReferenceException Math " +
-            "Side IDiscountable IComparable InvalidOperationException Stack Queue Cafe Node Stop BusLine").split(" ");
+            "Side IDiscountable IComparable InvalidOperationException Stack Queue Cafe Node Stop BusLine " +
+            "Job Product Student Classroom Time Train Counter Guest Room Hotel Song").split(" ");
   function highlightCs(src) {
     var re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)')|([A-Za-z_][A-Za-z0-9_]*)/g;
     var out = "", last = 0, m;
@@ -243,8 +248,9 @@
           fill(fb, ok ? item.ex : "נסו שוב. רמז: " + item.h);
           fb.classList.add("show");
           if (Object.keys(answered).length === data.length) {
+            var inReminder = !!(reminder && reminder.contains(box));
             score.textContent = "נכון בניסיון הראשון: " + right + " מתוך " + data.length + "." +
-              (right < data.length ? " כדאי לעבור שוב על התזכורת לפני שממשיכים." : " אפשר להמשיך.");
+              (inReminder ? (right < data.length ? " כדאי לעבור שוב על התזכורת לפני שממשיכים." : " אפשר להמשיך.") : "");
             if (hasQuiz && reminder.contains(box) && !me.done.r) { me.done.r = true; save(); renderTicket(); }
           }
         });
@@ -312,5 +318,120 @@
       show(saved);
     });
     if (state.predict[key]) show(state.predict[key]);
+  });
+
+  /* ---------- answer checks (trace tables, printed lines) ---------- */
+  state.check = state.check || {};
+  function norm(v) {
+    return String(v).trim().toLowerCase()
+      .replace(/[—–−]/g, "-")
+      .replace(/^\((ריקה|empty)\)$|^(ריקה|empty)$/, "-")
+      .replace(/^"(.*)"$/, "$1").replace(/[\s,]+/g, ",").replace(/^,|,$/g, "");
+  }
+  function isRight(inp) {
+    var v = norm(inp.value);
+    return String(inp.getAttribute("data-answer")).split("|").some(function (a) { return norm(a) === v; });
+  }
+  document.querySelectorAll(".check[data-key]").forEach(function (box) {
+    var key = box.getAttribute("data-key");
+    var inputs = Array.prototype.slice.call(box.querySelectorAll("input.ans"));
+    var saved = state.check[key] = state.check[key] || { vals: [], shown: false };
+    inputs.forEach(function (inp, i) {
+      inp.setAttribute("autocomplete", "off"); inp.setAttribute("spellcheck", "false");
+      if (!inp.getAttribute("aria-label")) inp.setAttribute("aria-label", "תשובה " + (i + 1));
+      if (saved.vals[i] != null) inp.value = saved.vals[i];
+      inp.addEventListener("input", function () {
+        inp.classList.remove("right", "wrong"); saved.vals[i] = inp.value; save();
+      });
+    });
+    var bar = document.createElement("div"); bar.className = "check-bar";
+    var b1 = document.createElement("button"); b1.type = "button"; b1.className = "btn"; b1.textContent = "בדיקה";
+    var b2 = document.createElement("button"); b2.type = "button"; b2.className = "btn ghost"; b2.textContent = "הצגת התשובות";
+    var msg = document.createElement("span"); msg.className = "check-msg"; msg.setAttribute("aria-live", "polite");
+    bar.appendChild(b1); bar.appendChild(b2); bar.appendChild(msg); box.appendChild(bar);
+    function check() {
+      var n = 0, empty = 0;
+      inputs.forEach(function (inp) {
+        inp.classList.remove("right", "wrong");
+        if (inp.value.trim() === "") { empty++; return; }
+        var ok = isRight(inp); if (ok) n++;
+        inp.classList.add(ok ? "right" : "wrong");
+      });
+      msg.textContent = "נכונים: " + n + " מתוך " + inputs.length + "." +
+        (empty ? " (" + empty + " תאים ריקים)" : "") + (n === inputs.length ? " מצוין!" : "");
+    }
+    function showAll() {
+      inputs.forEach(function (inp, i) {
+        var a = String(inp.getAttribute("data-answer")).split("|")[0];
+        if (!isRight(inp)) { inp.value = a; inp.classList.remove("right"); inp.classList.add("shown"); }
+        else inp.classList.add("right");
+        saved.vals[i] = inp.value;
+      });
+      saved.shown = true; save();
+      msg.textContent = "התשובות הנכונות מוצגות. תאים בצבע כתום הם תאים שתוקנו.";
+    }
+    b1.addEventListener("click", check);
+    b2.addEventListener("click", showAll);
+    if (saved.shown) inputs.forEach(function (inp) { if (!isRight(inp)) inp.classList.add("shown"); else inp.classList.add("right"); });
+  });
+
+  /* ---------- rubric self-score ---------- */
+  function stageScore(st) {
+    var sum = 0, any = false;
+    st.querySelectorAll(".rubric input[data-pts]").forEach(function (cb) {
+      if (cb.checked) { sum += Number(cb.getAttribute("data-pts")); any = true; }
+    });
+    return { sum: sum, any: any, max: Number(st.getAttribute("data-points") || 0) };
+  }
+  function renderScores() {
+    stages.forEach(function (st) {
+      var sc = stageScore(st);
+      var el = st.querySelector(".q-score");
+      if (el) el.textContent = sc.any ? "ציון עצמי: " + sc.sum + " / " + sc.max : "ציון עצמי: —";
+      st.querySelectorAll(".rubric").forEach(function (r) {
+        var s = 0, m = 0;
+        r.querySelectorAll("input[data-pts]").forEach(function (cb) { var p = Number(cb.getAttribute("data-pts")); m += p; if (cb.checked) s += p; });
+        var out = r.querySelector(".rubric-sum");
+        if (!out) { out = document.createElement("p"); out.className = "rubric-sum"; r.appendChild(out); }
+        out.textContent = "בסעיף הזה: " + s + " מתוך " + m + " נקודות";
+      });
+    });
+    document.querySelectorAll(".qpick a.qcard").forEach(function (card) {
+      var st = document.querySelector(card.getAttribute("href"));
+      if (!st) return;
+      var k = st.getAttribute("data-stage");
+      card.classList.toggle("done", !!me.done[k]);
+      var sc = stageScore(st);
+      var tag = card.querySelector(".qc-score");
+      if (tag) tag.textContent = sc.any ? sc.sum + "/" + sc.max : "";
+    });
+  }
+  document.querySelectorAll(".rubric[data-key]").forEach(function (r) {
+    var key = r.getAttribute("data-key");
+    r.querySelectorAll("input[data-pts]").forEach(function (cb, i) {
+      var id = "rb-" + key + "-" + i;
+      cb.checked = !!me.checks[id];
+      cb.addEventListener("change", function () { me.checks[id] = cb.checked; save(); renderScores(); });
+    });
+  });
+  stages.forEach(function (st) {
+    var inp = st.querySelector(".done-row input");
+    if (inp) inp.addEventListener("change", renderScores);
+  });
+  renderScores();
+
+  /* picker filter chips */
+  document.querySelectorAll(".qpick").forEach(function (pk) {
+    var chips = pk.querySelectorAll(".qfilter button[data-f]");
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        var f = c.getAttribute("data-f");
+        chips.forEach(function (o) { o.setAttribute("aria-pressed", o === c ? "true" : "false"); });
+        pk.querySelectorAll("a.qcard").forEach(function (card) {
+          var tags = (card.getAttribute("data-tags") || "").split(" ");
+          card.hidden = !(f === "all" || tags.indexOf(f) >= 0);
+        });
+      });
+    });
   });
 })();

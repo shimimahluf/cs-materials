@@ -247,3 +247,55 @@ a.ref.pdf::before{border-radius:2px;background:var(--navy)}
 /* direction fixes: counters like "2 / 4" and chips with code-like text ("List<T>") */
 .t-count,.t-parts span,.t-lines .min{direction:ltr;unicode-bidi:isolate}
 .chip,a.ref{unicode-bidi:plaintext}
+
+/* ===== exam practice (question bank) ===== */
+.btn.ghost{background:var(--bg);color:var(--navy)}
+.check-bar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:10px 0 4px}
+.check-msg{font-size:15px;color:var(--navy);font-weight:bold}
+input.ans{font:15px "Courier New",monospace;padding:5px 7px;border:1px solid var(--line);border-radius:6px;
+          direction:ltr;text-align:left;width:100%;min-width:64px;background:#fff;color:var(--text)}
+input.ans.right{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.wrong{border-color:var(--bad);background:var(--bad-bg)}
+input.ans.shown{border-color:#B45309;background:#FEF3E2}
+.out-lines{list-style:none;padding:0;margin:8px 0;direction:ltr;max-width:520px}
+.out-lines li{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;margin:6px 0;max-width:none}
+.out-lines .ln{font:13px "Courier New",monospace;color:var(--slate);text-align:left}
+table.trace{border-collapse:collapse;width:100%;min-width:600px;font-size:15px;direction:ltr}
+table.trace th,table.trace td{border:1px solid var(--line);padding:5px 6px;text-align:center;vertical-align:middle}
+table.trace th{background:var(--tint);color:var(--navy);font-weight:bold;white-space:nowrap}
+table.trace td.given{font:15px "Courier New",monospace;font-weight:bold;color:var(--navy);background:var(--panel)}
+table.trace input.ans{text-align:center}
+.stackline{font:15px "Courier New",monospace;direction:ltr;text-align:left;background:var(--panel);border:1px solid var(--line);
+           border-radius:8px;padding:8px 12px;margin:10px 0;overflow-x:auto;white-space:pre}
+.sub{margin:22px 0 6px;font-weight:bold;color:var(--navy)}
+.sub .pts{font-weight:normal;color:var(--slate);font-size:15px}
+.q-score{font-size:14px;font-weight:bold;color:var(--teal);border:1px solid var(--teal);border-radius:20px;padding:2px 12px;white-space:nowrap;unicode-bidi:isolate}
+.rubric{border:1px dashed var(--navy);border-radius:8px;padding:6px 14px 4px;margin:12px 0;background:#FAFBFE}
+.rubric h5{margin:6px 0;font-size:15px;color:var(--navy)}
+.rubric label{display:flex;gap:10px;align-items:flex-start;margin:5px 0;cursor:pointer;font-size:15.5px}
+.rubric input{margin-top:5px;accent-color:var(--navy);width:17px;height:17px;flex:none}
+.rubric .p{margin-right:auto;font-size:13px;color:var(--slate);white-space:nowrap;unicode-bidi:isolate}
+.rubric-sum{font-size:14px;color:var(--teal);font-weight:bold;margin:6px 0}
+.qpick{margin:4px 0 30px}
+.qfilter{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.qfilter button{font:15px Arial,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--navy);border-radius:20px;padding:4px 14px;cursor:pointer}
+.qfilter button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+a.qcard{position:relative;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--text);
+        border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg)}
+a.qcard[hidden]{display:none}
+a.qcard:hover{border-color:var(--navy);background:#FAFBFE}
+a.qcard .qc-top{display:flex;align-items:center;gap:10px}
+a.qcard .qc-n{font-weight:bold;color:var(--navy);font-size:17px}
+a.qcard .qc-pts{margin-right:auto;font-size:13px;color:var(--slate);white-space:nowrap}
+a.qcard .qc-t{font-weight:bold;color:var(--navy)}
+a.qcard .qc-d{font-size:14.5px;color:var(--slate);line-height:1.5}
+a.qcard .qc-tags{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:2px}
+a.qcard .chip{font-size:12.5px;border-radius:12px;padding:1px 9px;background:var(--tint);color:var(--navy)}
+a.qcard .chip.bigo{background:#E6F0FE;color:var(--accent);font-weight:bold}
+a.qcard .chip.trace{background:#FEF3E2;color:#92400E}
+a.qcard .qc-score{font:13px "Courier New",monospace;color:var(--teal);font-weight:bold;direction:ltr;unicode-bidi:isolate}
+a.qcard.done{border-color:var(--teal)}
+a.qcard.done::after{content:"✓ בוצע";position:absolute;left:12px;bottom:10px;font-size:12.5px;color:var(--teal);font-weight:bold}
+.exam-note{border:1px solid var(--line);border-radius:10px;padding:6px 18px;margin:0 0 24px;background:var(--panel)}
+.exam-note li{margin:3px 0}

@@ -5,6 +5,17 @@
      parts    = one entry per part page; stages = number of stages on that page */
 window.CATALOG = [
   {
+    id: "exam-stack-classes",
+    title: "תרגול למבחן: מחסנית ומחלקות",
+    course: "מבני נתונים",
+    blurb: "מאגר שאלות בסגנון הבגרות לבחירה חופשית: 8 שאלות על מחסנית (מעקב, כתיבת פעולות וסיבוכיות) ו-6 שאלות על מחלקות, מערך של עצמים ועצם מורכב. בכל שאלה יש רמזים, פתרון מלא ומחוון לציון עצמי. מבחן לדוגמה: 2 שאלות מכל חלק, כ-150 דקות.",
+    tags: ["תרגול למבחן", "מחסנית", "מעקב", "סיבוכיות", "מערך של עצמים", "עצם מורכב", "Unit4.CollectionsLib"],
+    parts: [
+      { title: "מחסנית", href: "exam-stack-classes/part-1.html", min: 75, stages: 8 },
+      { title: "מחלקות ועצמים", href: "exam-stack-classes/part-2.html", min: 75, stages: 6 }
+    ]
+  },
+  {
     id: "bus-line",
     title: "שרשרת חוליות: קו אוטובוס",
     course: "מבני נתונים",
