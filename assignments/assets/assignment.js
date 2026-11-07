@@ -108,8 +108,6 @@
   var nParts = SERIES.parts.length, pIdx = parseInt(PART, 10) - 1;
   var crumbs = document.querySelector(".crumbs");
   if (crumbs) {
-    var back = document.createElement("a"); back.href = "../index.html"; back.textContent = "כל המטלות";
-    crumbs.appendChild(back);
     if (nParts > 1) {
       var pill = document.createElement("span"); pill.className = "part-pill";
       pill.textContent = "חלק " + (pIdx + 1) + " מתוך " + nParts;
