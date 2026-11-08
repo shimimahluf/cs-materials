@@ -13,8 +13,8 @@
   <div class="top-inner">
     <nav class="crumbs" aria-label="ניווט"></nav>
     <h1>תרגול למבחן, חלק 3: מחלקות ועצמים, המשך</h1>
-    <p class="lead">שאלות מאתגרות בסגנון הבגרות: תאריכים, הזזת איברים במערך, מעקב אחר מערכים של הפניות, מערך מונים, עצמים משותפים ומיון מערך של עצמים. בכל שאלה יש רמזים, ובדף נפרד יש פתרונות מלאים ורשימת בדיקה עצמית.</p>
-    <ul class="facts"><li><b>שאלות:</b> 6, מהקלה לקשה</li><li><b>בוחרים:</b> כמה שרוצים, בכל סדר</li><li><b>שפה:</b> <bdi dir="ltr">C#</bdi></li></ul>
+    <p class="lead">עוד שאלות בסגנון הבגרות: תאריכים, הזזת איברים במערך, מעקב אחר מערכים של הפניות, מערך מונים, עצמים משותפים ומיון מערך של עצמים. בכל שאלה יש רמזים, ובדף נפרד יש פתרונות מלאים ורשימת בדיקה עצמית.</p>
+    <ul class="facts"><li><b>שאלות:</b> 6</li><li><b>בוחרים:</b> כמה שרוצים, בכל סדר</li><li><b>שפה:</b> <bdi dir="ltr">C#</bdi></li></ul>
   </div>
 </header>
 
@@ -24,7 +24,7 @@
 <div class="start-box">
   <h3>מחלקות ועצמים, המשך</h3>
   <ul>
-    <li>אותו סגנון כמו ב<a href="part-2.html">חלק 2</a>, אבל השאלות קשות יותר. הן מסודרות <b>מהקלה לקשה</b> (רמה ★ עד ★★★★). כדאי להתחיל מחלק 2 אם עוד לא עשיתם אותו.</li>
+    <li>עוד שאלות על מחלקות ועצמים, באותו סגנון כמו ב<a href="part-2.html">חלק 2</a>.</li>
     <li>"פעולה פנימית" נכתבת בתוך המחלקה. מותר להשתמש בפעולות מהממשק ומסעיפים קודמים בלי לממש אותן שוב. "חובה להשתמש בפעולה מסעיף..." = פתרון שלא משתמש בה אינו מלא.</li>
     <li>כתבו במחברת. הפתרונות, עם רשימת בדיקה עצמית לכל שאלה, נמצאים בדף נפרד שהמורה ייתן לכם.</li>
   </ul>
@@ -32,17 +32,17 @@
 <section class="qpick" id="pick"><h2>בחרו שאלה</h2>
 <div class="qfilter" role="group" aria-label="סינון שאלות"><button type="button" data-f="all" aria-pressed="true">הכול</button><button type="button" data-f="array" aria-pressed="false">מערך של עצמים</button><button type="button" data-f="composite" aria-pressed="false">עצם מורכב</button><button type="button" data-f="trace" aria-pressed="false">מעקב</button></div>
 <div class="qgrid">
-<a class="qcard" href="#h1" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 1</span></span><span class="qc-t">חדר כושר ותאריכים</span><span class="qc-d">השוואת תאריכים, הוספת חודשים עם מעבר שנה, ומערך חדש בגודל מדויק.</span><span class="qc-tags"><span class="chip lvl">רמה ★</span><span class="chip ">עצם מורכב</span><span class="chip ">מערך חדש</span></span></a>
-<a class="qcard" href="#h2" data-tags="array trace"><span class="qc-top"><span class="qc-n">שאלה 2</span></span><span class="qc-t">רשימת השמעה</span><span class="qc-d">הכנסה ומחיקה עם הזזת איברים, ומציאת באג של דילוג.</span><span class="qc-tags"><span class="chip lvl">רמה ★★</span><span class="chip ">מערך של עצמים</span><span class="chip ">הזזות</span></span></a>
-<a class="qcard" href="#h3" data-tags="trace"><span class="qc-top"><span class="qc-n">שאלה 3</span></span><span class="qc-t">מעקב: מערכים והפניות</span><span class="qc-d">שלושה מערכים, החלפת חצים מול החלפת ערכים, ופעולה שמחזירה הפניה.</span><span class="qc-tags"><span class="chip lvl">רמה ★★</span><span class="chip trace">מה יודפס</span><span class="chip ">הפניות</span></span></a>
-<a class="qcard" href="#h4" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 4</span></span><span class="qc-t">משמרות עובדים</span><span class="qc-d">השוואת הפניות, מערך מונים לפי יום, וחיפוש התנגשויות.</span><span class="qc-tags"><span class="chip lvl">רמה ★★★</span><span class="chip ">מערך מונים</span><span class="chip ">השוואת הפניות</span></span></a>
-<a class="qcard" href="#h5" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 5</span></span><span class="qc-t">טורניר כדורגל</span><span class="qc-d">עצם שמחזיק שני עצמים מאותו טיפוס, עדכון נקודות ושובר שוויון.</span><span class="qc-tags"><span class="chip lvl">רמה ★★★</span><span class="chip ">עצם מורכב</span><span class="chip ">שובר שוויון</span></span></a>
-<a class="qcard" href="#h6" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 6</span></span><span class="qc-t">בנק</span><span class="qc-d">העברה בטוחה, שמות בלי כפילויות, ומיון מערך של עצמים למערך חדש.</span><span class="qc-tags"><span class="chip lvl">רמה ★★★★</span><span class="chip ">מיון מערך של עצמים</span><span class="chip ">בלי כפילויות</span></span></a>
+<a class="qcard" href="#h1" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 1</span></span><span class="qc-t">חדר כושר ותאריכים</span><span class="qc-d">השוואת תאריכים, הוספת חודשים עם מעבר שנה, ומערך חדש בגודל מדויק.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">מערך חדש</span></span></a>
+<a class="qcard" href="#h2" data-tags="array trace"><span class="qc-top"><span class="qc-n">שאלה 2</span></span><span class="qc-t">רשימת השמעה</span><span class="qc-d">הכנסה ומחיקה עם הזזת איברים, ומציאת באג של דילוג.</span><span class="qc-tags"><span class="chip ">מערך של עצמים</span><span class="chip ">הזזות</span></span></a>
+<a class="qcard" href="#h3" data-tags="trace"><span class="qc-top"><span class="qc-n">שאלה 3</span></span><span class="qc-t">מעקב: מערכים והפניות</span><span class="qc-d">שלושה מערכים, החלפת חצים מול החלפת ערכים, ופעולה שמחזירה הפניה.</span><span class="qc-tags"><span class="chip trace">מה יודפס</span><span class="chip ">הפניות</span></span></a>
+<a class="qcard" href="#h4" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 4</span></span><span class="qc-t">משמרות עובדים</span><span class="qc-d">השוואת הפניות, מערך מונים לפי יום, וחיפוש התנגשויות.</span><span class="qc-tags"><span class="chip ">מערך מונים</span><span class="chip ">השוואת הפניות</span></span></a>
+<a class="qcard" href="#h5" data-tags="composite array"><span class="qc-top"><span class="qc-n">שאלה 5</span></span><span class="qc-t">טורניר כדורגל</span><span class="qc-d">עצם שמחזיק שני עצמים מאותו טיפוס, עדכון נקודות ושובר שוויון.</span><span class="qc-tags"><span class="chip ">עצם מורכב</span><span class="chip ">שובר שוויון</span></span></a>
+<a class="qcard" href="#h6" data-tags="array"><span class="qc-top"><span class="qc-n">שאלה 6</span></span><span class="qc-t">בנק</span><span class="qc-d">העברה בטוחה, שמות בלי כפילויות, ומיון מערך של עצמים למערך חדש.</span><span class="qc-tags"><span class="chip ">מיון מערך של עצמים</span><span class="chip ">בלי כפילויות</span></span></a>
 </div></section>
 <section id="questions"><h2>השאלות</h2>
 <div class="stage" id="h1" data-stage="1" data-title="חדר כושר" data-min="40" data-points="0" data-done="סיימתי את שאלה 1">
 <div class="stage-head"><span class="badge">1</span><h3>עצם מורכב: חדר כושר ותאריכים</h3><span class="time">כ-40 דקות</span></div>
-<span class="principle">רמה ★ · עצם מורכב · פעולה שמחזירה עצם חדש</span>
+<span class="principle">עצם מורכב · פעולה שמחזירה עצם חדש</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>המחלקה <code>Date</code> מייצגת תאריך. התכונות שלה הן <code>day</code>, <code>month</code> ו-<code>year</code> (שלמים), והממשק החלקי שלה:</p>
 <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th></tr></thead><tbody><tr><td><code>Date(int day, int month, int year)</code></td><td>פעולה בונה</td></tr><tr><td><code>int GetDay() / int GetMonth() / int GetYear()</code></td><td>פעולות מאחזרות</td></tr><tr><td><code>string ToString()</code></td><td>מחזירה את התאריך בצורה <code>08/11/2026</code></td></tr></tbody></table></div>
@@ -78,7 +78,7 @@ CountExpired(today)   -&gt; 1</pre></div>
 
 <div class="stage" id="h2" data-stage="2" data-title="רשימת השמעה" data-min="40" data-points="0" data-done="סיימתי את שאלה 2">
 <div class="stage-head"><span class="badge">2</span><h3>מערך של עצמים: רשימת השמעה</h3><span class="time">כ-40 דקות</span></div>
-<span class="principle">רמה ★★ · הזזת איברים במערך · מציאת באג</span>
+<span class="principle">הזזת איברים במערך · מציאת באג</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>המחלקה <code>Song</code> מוכרת לכם: <code>GetTitle()</code>, <code>GetArtist()</code>, <code>GetSeconds()</code>. המחלקה <code>Playlist</code> מייצגת רשימת השמעה:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Playlist</span></div>
@@ -133,7 +133,7 @@ RemoveArtist("Noa") -&gt; 4, list [C, F]</pre></div>
 
 <div class="stage" id="h3" data-stage="3" data-title="מעקב: מערכים" data-min="30" data-points="0" data-done="סיימתי את שאלה 3">
 <div class="stage-head"><span class="badge">3</span><h3>מעקב: מערכים של הפניות</h3><span class="time">כ-30 דקות</span></div>
-<span class="principle">רמה ★★ · מעקב · העתקת מערך מול העתקת עצמים</span>
+<span class="principle">מעקב · העתקת מערך מול העתקת עצמים</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co1-summary.pdf" target="_blank" rel="noopener">תקציר: מחלקה ועצם (PDF)</a><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>לפניכם המחלקה <code>Box</code> וארבע פעולות חיצוניות:</p>
 <div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Box</span></div>
@@ -216,7 +216,7 @@ Console.WriteLine(sum);                                                   // lin
 
 <div class="stage" id="h4" data-stage="4" data-title="משמרות עובדים" data-min="45" data-points="0" data-done="סיימתי את שאלה 4">
 <div class="stage-head"><span class="badge">4</span><h3>עצם מורכב ומערך מונים: משמרות</h3><span class="time">כ-45 דקות</span></div>
-<span class="principle">רמה ★★★ · השוואת הפניות · מערך מונים</span>
+<span class="principle">השוואת הפניות · מערך מונים</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a></div>
 <p>חברה מנהלת את משמרות העובדים. הממשקים:</p>
 <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th></tr></thead><tbody><tr><td><code>Worker(string name, double wage)</code></td><td>עובד ושכר לשעה</td></tr><tr><td><code>string GetName() / double GetWage()</code></td><td>פעולות מאחזרות</td></tr></tbody></table></div>
@@ -259,7 +259,7 @@ after adding (Omer, day 5, 3h):  HasConflict() -&gt; true   TopEarner() -&gt; Om
 
 <div class="stage" id="h5" data-stage="5" data-title="טורניר" data-min="45" data-points="0" data-done="סיימתי את שאלה 5">
 <div class="stage-head"><span class="badge">5</span><h3>עצם מורכב: טורניר כדורגל</h3><span class="time">כ-45 דקות</span></div>
-<span class="principle">רמה ★★★ · עצם מורכב · עדכון עצמים משותפים</span>
+<span class="principle">עצם מורכב · עדכון עצמים משותפים</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a><a class="ref pdf" href="../../files/co3-summary.pdf" target="_blank" rel="noopener">תקציר: עצם מורכב (PDF)</a></div>
 <p>טורניר כדורגל. הממשק של <code>Team</code>:</p>
 <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th></tr></thead><tbody><tr><td><code>Team(string name)</code></td><td>קבוצה חדשה, עם 0 נקודות</td></tr><tr><td><code>string GetName() / int GetPoints()</code></td><td>פעולות מאחזרות</td></tr><tr><td><code>void AddPoints(int p)</code></td><td>מוסיפה p נקודות</td></tr></tbody></table></div>
@@ -308,7 +308,7 @@ Leader() -&gt; Eagles      MatchesOf(Lions) -&gt; 3</pre></div>
 
 <div class="stage" id="h6" data-stage="6" data-title="בנק" data-min="50" data-points="0" data-done="סיימתי את שאלה 6">
 <div class="stage-head"><span class="badge">6</span><h3>מערך של עצמים: בנק</h3><span class="time">כ-50 דקות</span></div>
-<span class="principle">רמה ★★★★ · מיון מערך של עצמים · העתקה רדודה</span>
+<span class="principle">מיון מערך של עצמים · העתקה רדודה</span>
 <div class="refs"><span class="lbl">צריכים תזכורת?</span><a class="ref pdf" href="../../files/co2-summary.pdf" target="_blank" rel="noopener">תקציר: מערך של עצמים (PDF)</a></div>
 <p>בנק מנהל חשבונות. הממשק של <code>Account</code>:</p>
 <div class="tbl"><table class="map"><thead><tr><th>פעולה</th><th>תיאור</th></tr></thead><tbody><tr><td><code>Account(int id, string owner, double balance)</code></td><td>פעולה בונה</td></tr><tr><td><code>int GetId() / string GetOwner() / double GetBalance()</code></td><td>פעולות מאחזרות</td></tr><tr><td><code>void Deposit(double amount)</code></td><td>מוסיפה ליתרה</td></tr><tr><td><code>bool Withdraw(double amount)</code></td><td>אם יש מספיק כסף, מורידה מהיתרה ומחזירה true. אחרת לא משנה ומחזירה false</td></tr></tbody></table></div>
