@@ -304,3 +304,4 @@ a.qcard.done::after{content:"✓ בוצע";position:absolute;left:12px;bottom:10
 .sol-q{border-top:2px solid var(--navy);padding-top:20px;margin-top:34px;scroll-margin-top:16px}
 .sol-q .stage-head h3{margin:0;flex:1 1 auto}
 .sol-q:target{animation:flash 1.6s ease-out 1}
+a.qcard .chip.lvl{background:#FEF3E2;color:#92400E;font-weight:bold;letter-spacing:1px}

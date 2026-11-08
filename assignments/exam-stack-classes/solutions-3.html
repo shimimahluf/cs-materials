@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>פתרונות, חלק 3: מחלקות ועצמים, שאלות קשות</title>
+<link rel="stylesheet" href="../assets/assignment.css">
+</head>
+<body data-part="s3">
+<script type="application/json" id="series">{"id": "exam-stack-classes", "title": "תרגול למבחן: מחסנית ומחלקות", "parts": [{"title": "מחסנית", "href": "part-1.html"}, {"title": "מחלקות ועצמים", "href": "part-2.html"}, {"title": "מחלקות: שאלות קשות", "href": "part-3.html"}]}</script>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="crumbs"><a href="part-3.html">חזרה לדף השאלות</a></p>
+    <h1>פתרונות, חלק 3: מחלקות ועצמים, שאלות קשות</h1>
+    <p class="lead">פתרונות מלאים לשאלות הקשות על מחלקות ועצמים, עם רשימת בדיקה עצמית לכל שאלה.</p>
+  </div>
+</header>
+
+<div class="wrap sol-wrap">
+<main>
+<div class="note"><b>לפני שפותחים:</b> כתבו את התשובה במחברת. פתחו את הפתרון של שאלה רק אחרי שסיימתם אותה, ואז סמנו ברשימת הבדיקה העצמית מה עשיתם נכון.</div>
+<div class="refs"><span class="lbl">מעבר לשאלה:</span><a class="ref" href="#sol-h1">שאלה 1</a><a class="ref" href="#sol-h2">שאלה 2</a><a class="ref" href="#sol-h3">שאלה 3</a><a class="ref" href="#sol-h4">שאלה 4</a><a class="ref" href="#sol-h5">שאלה 5</a><a class="ref" href="#sol-h6">שאלה 6</a></div>
+<div class="sol-q" id="sol-h1">
+<div class="stage-head"><span class="badge">1</span><h3>עצם מורכב: חדר כושר ותאריכים</h3><span class="q-score" data-score-for="h1"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h1">לשאלה 1</a></p>
+<details><summary>הצגת הפתרון לשאלה 1</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">// in Date
+public bool IsBefore(Date other)
+{
+    if (year != other.year)
+        return year &lt; other.year;
+    if (month != other.month)
+        return month &lt; other.month;
+    return day &lt; other.day;
+}
+
+public Date AddMonths(int months)
+{
+    int total = (month - 1) + months;          // months counted from January = 0
+    return new Date(day, total % 12 + 1, year + total / 12);
+}
+
+// in Gym
+public int CountExpired(Date today)
+{
+    int c = 0;
+    for (int i = 0; i &lt; count; i++)
+        if (members[i].GetExpiry().IsBefore(today))
+            c++;
+    return c;
+}
+
+public Member[] ExpiredMembers(Date today)
+{
+    Member[] result = new Member[CountExpired(today)];
+    int k = 0;
+    for (int i = 0; i &lt; count; i++)
+    {
+        if (members[i].GetExpiry().IsBefore(today))
+        {
+            result[k] = members[i];
+            k++;
+        }
+    }
+    return result;
+}
+
+public bool Renew(string name, int months)
+{
+    for (int i = 0; i &lt; count; i++)
+    {
+        if (members[i].GetName() == name)
+        {
+            members[i].SetExpiry(members[i].GetExpiry().AddMonths(months));
+            return true;
+        }
+    }
+    return false;
+}</code></pre></div>
+<p><b>א.</b> בתוך <code>Date</code> מותר לגשת לתכונות של <code>other</code> ישירות (<code>other.year</code>), כי הן מאותה מחלקה.</p><p><b>ו.</b> לשני החברים יש הפניה <b>לאותו</b> עצם <code>Date</code>. אם <code>AddMonths</code> משנה את העצם עצמו, ההארכה של Tal תאריך גם את המנוי של Gal, בלי שהוא שילם. כש-<code>AddMonths</code> מחזירה עצם חדש, <code>SetExpiry</code> של Tal מפנה אותו לעצם החדש, והעצם הישן נשאר אצל Gal ללא שינוי.</p><div class="rubric" data-key="h1"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: השוואה לפי שנה, חודש, יום בסדר הנכון</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: תאריך זהה מחזיר false</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: חישוב חודש ושנה נכון (כולל מעבר שנה)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מחזירה עצם חדש, לא משנה את הנוכחי</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: לולאה עד count + שימוש ב-IsBefore</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: מערך בגודל CountExpired + מילוי עם אינדקס נפרד</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: חיפוש לפי שם, SetExpiry עם AddMonths, ערכי החזרה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ו: הסבר: שני החברים חולקים את אותו עצם</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-h2">
+<div class="stage-head"><span class="badge">2</span><h3>מערך של עצמים: רשימת השמעה</h3><span class="q-score" data-score-for="h2"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h2">לשאלה 2</a></p>
+<details><summary>הצגת הפתרון לשאלה 2</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public bool InsertAt(int index, Song s)
+{
+    if (count == songs.Length || index &lt; 0 || index &gt; count)
+        return false;
+    for (int i = count; i &gt; index; i--)        // from the end, so nothing is overwritten
+        songs[i] = songs[i - 1];
+    songs[index] = s;
+    count++;
+    return true;
+}
+
+public Song RemoveAt(int index)
+{
+    if (index &lt; 0 || index &gt;= count)
+        return null;
+    Song removed = songs[index];
+    for (int i = index; i &lt; count - 1; i++)
+        songs[i] = songs[i + 1];
+    songs[count - 1] = null;
+    count--;
+    return removed;
+}
+
+public int RemoveArtist(string artist)
+{
+    int removed = 0;
+    int i = 0;
+    while (i &lt; count)
+    {
+        if (songs[i].GetArtist() == artist)
+        {
+            RemoveAt(i);          // the next song moved into cell i: don't advance
+            removed++;
+        }
+        else
+            i++;
+    }
+    return removed;
+}
+
+public void MoveToFront(string title)
+{
+    for (int i = 0; i &lt; count; i++)
+    {
+        if (songs[i].GetTitle() == title)
+        {
+            Song s = RemoveAt(i);
+            InsertAt(0, s);
+            return;
+        }
+    }
+}</code></pre></div>
+<p><b>ה.</b> מחזירה <code>2</code>, והרשימה <code>[B, C, E, F]</code>. כש-<code>i = 0</code> נמחק A, ו-B זז לתא 0, אבל הלולאה ממשיכה ל-<code>i = 1</code> ומדלגת עליו. כך גם E מדלג אחרי שנמחק D. התיקון: לקדם את <code>i</code> רק כשלא מחקנו (כמו בפתרון של סעיף ג).</p><div class="rubric" data-key="h2"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: בדיקת מלא ואינדקס חוקי</span></label>
+<label><input type="checkbox" data-pts="1"><span>א: הזזה מהסוף, הכנסה וקידום count</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שמירת השיר, הזזה שמאלה, null בתא האחרון ו-count--</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: null לאינדקס לא חוקי</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: לא מקדמים את i אחרי מחיקה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שימוש ב-RemoveAt וספירה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: RemoveAt ואז InsertAt(0, ...), רק השיר הראשון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: התשובה נכונה + הסבר הדילוג</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-h3">
+<div class="stage-head"><span class="badge">3</span><h3>מעקב: מערכים של הפניות</h3><span class="q-score" data-score-for="h3"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h3">לשאלה 3</a></p>
+<details><summary>הצגת הפתרון לשאלה 3</summary><div class="inner">
+<p><b>א.</b></p><div class="code console"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">Output</span></div>
+<pre>1 4 1
+7 4
+0
+True
+9 0
+8</pre></div>
+<ul><li>שורה 1: <code>Swap</code> החליפה רק בתוך המערך <code>a</code>, ו-<code>c</code> הוא אותו מערך. <code>b</code> הוא מערך נפרד שעדיין <code>[B4, B7, B1]</code>: <code>1 4 1</code>.</li><li>שורה 2: <code>SwapValues(B4, B7)</code> החליפה את הערכים שבתוך העצמים. <code>a[2]</code> הוא B4 (עכשיו 7), <code>a[1]</code> הוא B7 (עכשיו 4): <code>7 4</code>.</li><li>שורה 3: <code>Bigger(B1, B7)</code>: 1 מול 4, מוחזר B7, והערך שלו נקבע ל-0. <code>b[1]</code> הוא B7: <code>0</code>.</li><li>שורה 4: <code>a[2]</code> ו-<code>b[0]</code> שניהם B4, ו-7 &gt;= 7 מחזיר את <code>a</code> שהוא B4: <code>True</code>.</li><li>שורה 5: <code>c[1] = new Box(9)</code> משנה תא במערך <code>a</code> (אותו מערך), לא ב-<code>b</code>: <code>9 0</code>.</li><li>שורה 6: <code>b = [B4, B7, B1]</code> עם הערכים 7, 0, 1: <code>8</code>.</li></ul><p><b>ב.</b> 4 עצמי <code>Box</code> (שלושה במערך ההתחלתי ועוד <code>new Box(9)</code>), ו-2 מערכים (<code>a</code>, והמערך שנוצר בתוך <code>Copy</code>).</p><p><b>ג.</b> <code>a</code> ו-<code>c</code> מפנים לאותו מערך. אין עצם שאיבד את כל ההפניות: B7 כבר לא נמצא ב-<code>a</code>, אבל <code>b[1]</code> עדיין מפנה אליו.</p><div class="rubric" data-key="h3"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>שורה 1</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 2</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 3</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 4</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 5</span></label>
+<label><input type="checkbox" data-pts="1"><span>שורה 6</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: 4 עצמים ו-2 מערכים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: a ו-c, ו-B7 עדיין נגיש דרך b</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-h4">
+<div class="stage-head"><span class="badge">4</span><h3>עצם מורכב ומערך מונים: משמרות</h3><span class="q-score" data-score-for="h4"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h4">לשאלה 4</a></p>
+<details><summary>הצגת הפתרון לשאלה 4</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public double Salary(Worker w)
+{
+    int hours = 0;
+    for (int i = 0; i &lt; count; i++)
+        if (shifts[i].GetWorker() == w)          // the same object
+            hours += shifts[i].GetHours();
+    return hours * w.GetWage();
+}
+
+public int[] HoursPerDay()
+{
+    int[] h = new int[7];
+    for (int i = 0; i &lt; count; i++)
+        h[shifts[i].GetDay() - 1] += shifts[i].GetHours();
+    return h;
+}
+
+public int BusiestDay()
+{
+    int[] h = HoursPerDay();
+    int best = 0;
+    for (int d = 1; d &lt; 7; d++)
+        if (h[d] &gt; h[best])                      // &gt; keeps the earlier day on a tie
+            best = d;
+    return best + 1;
+}
+
+public bool HasConflict()
+{
+    for (int i = 0; i &lt; count; i++)
+        for (int j = i + 1; j &lt; count; j++)
+            if (shifts[i].GetWorker() == shifts[j].GetWorker() &amp;&amp;
+                shifts[i].GetDay() == shifts[j].GetDay())
+                return true;
+    return false;
+}
+
+public Worker TopEarner()
+{
+    Worker best = shifts[0].GetWorker();
+    for (int i = 1; i &lt; count; i++)
+        if (Salary(shifts[i].GetWorker()) &gt; Salary(best))
+            best = shifts[i].GetWorker();
+    return best;
+}</code></pre></div>
+<p><b>ג.</b> היום הוא האינדקס ועוד 1. בדוגמה ימים 1 ו-3 שניהם 14 שעות, ו-<code>&gt;</code> (ולא <code>&gt;=</code>) משאיר את יום 1.</p><div class="rubric" data-key="h4"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: השוואת הפניות + סכימת שעות כפול שכר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: מערך בגודל 7 ומעבר אחד עם האינדקס GetDay() - 1</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שימוש ב-HoursPerDay, החזרת אינדקס + 1, המוקדם בשוויון</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: לולאה כפולה מ-i+1</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: אותו עובד (הפניה) וגם אותו יום</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: מעבר על המשמרות ושימוש ב-Salary</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: החזרת העובד (לא השכר)</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-h5">
+<div class="stage-head"><span class="badge">5</span><h3>עצם מורכב: טורניר כדורגל</h3><span class="q-score" data-score-for="h5"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h5">לשאלה 5</a></p>
+<details><summary>הצגת הפתרון לשאלה 5</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">// in Match
+public Team Winner()
+{
+    if (homeGoals &gt; awayGoals) return home;
+    if (awayGoals &gt; homeGoals) return away;
+    return null;
+}
+
+public bool Involves(Team t)
+{
+    return home == t || away == t;
+}
+
+// in Tournament
+public void AddMatch(Match m)
+{
+    matches[count] = m;
+    count++;
+    Team w = m.Winner();
+    if (w != null)
+        w.AddPoints(3);
+    else
+    {
+        m.GetHome().AddPoints(1);
+        m.GetAway().AddPoints(1);
+    }
+}
+
+public int GoalsFor(Team t)
+{
+    int goals = 0;
+    for (int i = 0; i &lt; count; i++)
+    {
+        if (matches[i].GetHome() == t)
+            goals += matches[i].GetHomeGoals();
+        else if (matches[i].GetAway() == t)
+            goals += matches[i].GetAwayGoals();
+    }
+    return goals;
+}
+
+public Team Leader()
+{
+    Team best = teams[0];
+    for (int i = 1; i &lt; teams.Length; i++)
+    {
+        Team t = teams[i];
+        if (t.GetPoints() &gt; best.GetPoints() ||
+            (t.GetPoints() == best.GetPoints() &amp;&amp; GoalsFor(t) &gt; GoalsFor(best)))
+            best = t;
+    }
+    return best;
+}
+
+public int MatchesOf(Team t)
+{
+    int c = 0;
+    for (int i = 0; i &lt; count; i++)
+        if (matches[i].Involves(t))
+            c++;
+    return c;
+}</code></pre></div>
+<p><b>ג.</b> הנקודות נשמרות בתוך עצמי <code>Team</code>. הקבוצה שבמשחק והקבוצה שבמערך <code>teams</code> הן אותו עצם, ולכן <code>AddPoints</code> מעדכנת גם את הטבלה.</p><div class="rubric" data-key="h5"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: שלושת המקרים, null בתיקו</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: השוואת הפניות לשתי הקבוצות</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: הוספה למערך וקידום count</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שימוש ב-Winner, 3 לניצחון ו-1 לכל קבוצה בתיקו</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: שערים של הצד הנכון (בית או חוץ)</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: תנאי נכון: יותר נקודות, או שוויון ויותר שערים</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: שימוש ב-GoalsFor</span></label>
+<label><input type="checkbox" data-pts="1"><span>ו: ספירה עם Involves</span></label>
+</div>
+
+</div></details>
+</div>
+<div class="sol-q" id="sol-h6">
+<div class="stage-head"><span class="badge">6</span><h3>מערך של עצמים: בנק</h3><span class="q-score" data-score-for="h6"></span></div>
+<p class="refs"><a class="ref" href="part-3.html#h6">לשאלה 6</a></p>
+<details><summary>הצגת הפתרון לשאלה 6</summary><div class="inner">
+<div class="code"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fname">פתרון</span></div>
+<pre><code class="cs">public Account Find(int id)
+{
+    for (int i = 0; i &lt; accounts.Length; i++)
+        if (accounts[i].GetId() == id)
+            return accounts[i];
+    return null;
+}
+
+public bool Transfer(int fromId, int toId, double amount)
+{
+    Account from = Find(fromId);
+    Account to = Find(toId);
+    if (from == null || to == null || from == to)
+        return false;
+    if (!from.Withdraw(amount))
+        return false;
+    to.Deposit(amount);
+    return true;
+}
+
+public string[] Owners()
+{
+    int distinct = 0;
+    for (int i = 0; i &lt; accounts.Length; i++)
+        if (IsFirst(i))
+            distinct++;
+    string[] result = new string[distinct];
+    int k = 0;
+    for (int i = 0; i &lt; accounts.Length; i++)
+    {
+        if (IsFirst(i))
+        {
+            result[k] = accounts[i].GetOwner();
+            k++;
+        }
+    }
+    return result;
+}
+
+// true if the owner of accounts[i] does not appear in an earlier cell
+private bool IsFirst(int i)
+{
+    for (int j = 0; j &lt; i; j++)
+        if (accounts[j].GetOwner() == accounts[i].GetOwner())
+            return false;
+    return true;
+}
+
+public Account[] SortedByBalance()
+{
+    Account[] sorted = new Account[accounts.Length];
+    for (int i = 0; i &lt; accounts.Length; i++)
+        sorted[i] = accounts[i];                     // copy the references
+    for (int i = 0; i &lt; sorted.Length - 1; i++)      // selection sort, largest first
+    {
+        int max = i;
+        for (int j = i + 1; j &lt; sorted.Length; j++)
+            if (sorted[j].GetBalance() &gt; sorted[max].GetBalance())
+                max = j;
+        Account t = sorted[i];
+        sorted[i] = sorted[max];
+        sorted[max] = t;
+    }
+    return sorted;
+}</code></pre></div>
+<p><b>ה.</b> היתרה של חשבון 12 בבנק <b>השתנתה</b> (1000 ל-1100): <code>s[0]</code> מפנה לאותו עצם <code>Account</code> שנמצא במערך של הבנק. הסדר במערך <code>accounts</code> <b>לא השתנה</b>: מיינו מערך אחר, והחלפנו רק את החצים בו. מערך חדש עם אותם עצמים הוא העתקה רדודה.</p><div class="rubric" data-key="h6"><h5>בדיקה עצמית: סמנו את מה שעשיתם נכון</h5>
+<label><input type="checkbox" data-pts="1"><span>א: Find עם null כשלא נמצא</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: שימוש ב-Find ובדיקת null וחשבון זהה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ב: Withdraw לפני Deposit, רק אחרי כל הבדיקות</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: שם נספר רק בהופעה הראשונה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ג: מערך בגודל מדויק ומילוי לפי הסדר</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: העתקת ההפניות למערך חדש</span></label>
+<label><input type="checkbox" data-pts="1"><span>ד: מיון נכון מהגדול לקטן, accounts לא משתנה</span></label>
+<label><input type="checkbox" data-pts="1"><span>ה: היתרה השתנתה, הסדר לא + הסבר</span></label>
+</div>
+
+</div></details>
+</div>
+
+</main>
+</div>
+
+<footer>מבני נתונים: תרגול למבחן, מחסנית ומחלקות | מדעי המחשב</footer>
+<script src="../assets/assignment.js"></script>
+</body>
+</html>
