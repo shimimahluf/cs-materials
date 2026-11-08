@@ -13,7 +13,7 @@ window.CATALOG = [
     parts: [
       { title: "מחסנית", href: "exam-stack-classes/part-1.html", min: 75, stages: 8 },
       { title: "מחלקות ועצמים", href: "exam-stack-classes/part-2.html", min: 75, stages: 6 },
-      { title: "מחלקות: שאלות קשות", href: "exam-stack-classes/part-3.html", min: 90, stages: 6 }
+      { title: "מחלקות ועצמים, המשך", href: "exam-stack-classes/part-3.html", min: 90, stages: 6 }
     ]
   },
   {
